@@ -9,7 +9,7 @@ from pathlib import Path
 from lxml import etree
 
 
-def seperate_earnings_call(string: str) -> dict:
+def separate_earnings_call(string: str) -> dict:
     """Separates the earnings call into its parts and returns them as a dictionary.:
         - Corporate Participants
         - Conference Call Participants
@@ -141,7 +141,7 @@ def extract_info_from_earnings_call_part(
     into speakers and texts and then combined into a list, that holds for each
     part:
         - the speaker's appearance number (from 1 to n)
-        - the speaker's name (+ position)
+        - the speaker's name (+ position in company)
         - if the speaker is the operator, a corporate or conference call
           participant (or unknown)
         - the speaker's text
@@ -203,10 +203,10 @@ def extract_info_from_earnings_call_part(
     ]
 
     speakers_ordered = [
-        [
-            el[0],
-            el[1],
-            "operator"
+        {
+            "n": el[0],
+            "name": el[1],
+            "position": "operator"
             if el[1] == "Operator"
             else "editor"
             if el[1] == "Editor"
@@ -217,7 +217,7 @@ def extract_info_from_earnings_call_part(
             else el[1]
             if corp_participants != [] and conf_participants != []
             else "unknown",
-        ]
+        }
         for el in speakers_ordered
     ]
 
@@ -241,12 +241,12 @@ def extract_info_from_earnings_call_part(
                 speakers.append([last_speaker + i, "unknown", "unknown"])
             print("Warning: presentation_speakers was extended with unknown speakers")
     part_ordered = [
-        [
-            speakers_ordered[i][0],
-            speakers_ordered[i][1],
-            speakers_ordered[i][2],
-            texts[i],
-        ]
+        {
+            "n": speakers_ordered[i]["n"],
+            "name": speakers_ordered[i]["name"],
+            "position": speakers_ordered[i]["position"],
+            "text": texts[i],
+        }
         for i in range(len(speakers))
     ]
     return part_ordered
@@ -321,7 +321,7 @@ def extract_info_from_earnings_call_body(body: str) -> dict:
         - the presentation/transcript
         - the Q&A
 
-    This function is a wrapper for the function seperate_earnings_call and
+    This function is a wrapper for the function separate_earnings_call and
     extract_info_from_earnings_call_sep.
 
     Args:
@@ -331,7 +331,7 @@ def extract_info_from_earnings_call_body(body: str) -> dict:
         dict: Dictionary containing the extracted information from the
         earnings.
     """
-    conference_call_sep_raw = seperate_earnings_call(body)
+    conference_call_sep_raw = separate_earnings_call(body)
     output = extract_info_from_earnings_call_sep(conference_call_sep_raw)
     return output
 
@@ -390,8 +390,28 @@ def load_files_xml(files: list) -> list:
                     event["conf_participants_colapsed"] = body[
                         "conf_participants_colapsed"
                     ]
-                    event["presentation"] = body["presentation"]
-                    event["qa"] = body["qa"]
+
+                    presentation = body["presentation"]
+                    event["presentation"] = presentation
+                    if presentation:
+                        event["presentation_colapsed"] = " ".join(
+                            [
+                                el["text"]
+                                for el in presentation
+                                if el["position"] == "cooperation"
+                            ]
+                        )
+                    else:
+                        event["presentation_colapsed"] = ""
+
+                    qa = body["qa"]
+                    event["qa"] = qa
+                    if qa:
+                        event["qa_colapsed"] = " ".join(
+                            [el["text"] for el in qa if el["position"] == "cooperation"]
+                        )
+                    else:
+                        event["qa_colapsed"] = ""
 
                 if tag == "EventStory":
                     event["action"] = elem.attrib["action"]
