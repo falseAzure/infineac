@@ -2,11 +2,38 @@
 Module for importing and preprocessing the earnings calls data.
 """
 
+import logging
 import re
+import warnings
 from datetime import datetime
 from pathlib import Path
 
 from lxml import etree
+
+# logging.basicConfig(
+#     filename="load_files_from_xml.log",
+#     level=logging.DEBUG,
+#     format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
+# )
+
+load_logger = logging.getLogger("load_files_from_xml")
+
+# Set the logging level (optional)
+load_logger.setLevel(logging.DEBUG)
+
+# Create a file handler and set the logging level for the handler (optional)
+load_handler = logging.FileHandler("load_files.log")
+load_handler.setLevel(logging.DEBUG)
+
+# Create a formatter and add it to the handler (optional)
+formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(name)s - %(message)s")
+load_handler.setFormatter(formatter)
+
+# Add the handler to the logger
+load_logger.addHandler(load_handler)
+
+
+# ToDo: add logging
 
 
 def separate_earnings_call(string: str) -> dict:
@@ -164,7 +191,7 @@ def extract_info_from_earnings_call_part(
         "--------------------------------------------\r\n"
     )
     part_split = part.split(split_symbol)
-    part_split = [el.strip() for el in part_split]  # if el.strip()
+    part_split = [el.strip() for el in part_split]
     # removes the double spaces between speaker and his position
     # presentation=[re.sub(' +', ' ', el.strip()) for el in presentation if el.strip()]
 
@@ -172,7 +199,7 @@ def extract_info_from_earnings_call_part(
     speakers = [
         el
         for el in part_split
-        if re.match(".+\s{2,}\[\d+\]", el) or (re.match("\[\d+\]", el) and len(el) <= 5)
+        if re.match(".+  \[\d+\]", el) or (re.match("\[\d+\]", el) and len(el) <= 5)
     ]
 
     texts = [el for el in part_split if el not in speakers]
@@ -182,10 +209,14 @@ def extract_info_from_earnings_call_part(
 
     # Note: if no speaker or no text is found, the presentation is not included
     if n_speakers == 0:
-        print("Warning: No speakers present at " + type)
+        warning_message = f"No speakers present at {type}"
+        load_logger.warning(warning_message)
+        warnings.warn(warning_message)
         return None
     if n_texts == 0:
-        print("Warning: No texts present " + type)
+        warning_message = f"No texts present at {type}"
+        load_logger.warning(warning_message)
+        warnings.warn(warning_message)
         return None
 
     regex_pattern = r"(.*)\s{2,}\[(\d+)\]$"
@@ -222,24 +253,27 @@ def extract_info_from_earnings_call_part(
     ]
 
     if len(speakers) != len(texts):
-        print(
-            "Warning: presentation_speakers (",
-            n_speakers,
-            ") and presentation_texts (",
-            n_texts,
-            ") have different lengths",
-            sep="",
+        warning_message = (
+            f"presentation_speakers ({n_speakers})"
+            "and presentation_texts ({n_texts}) have different lengths"
         )
+        load_logger.warning(warning_message)
+        warnings.warn(warning_message)
+
         if n_speakers > n_texts:
             missing = n_speakers - n_texts
             texts = texts + [""] * missing
-            print("Warning: presentation_texts was extended with empty strings")
+            warning_message = "presentation_texts was extended with empty strings"
+            load_logger.warning(warning_message)
+            warnings.warn(warning_message)
         if n_speakers < n_texts:
             missing = n_texts - n_speakers
             last_speaker = speakers_ordered[-1][0]
             for i in range(missing):
                 speakers.append([last_speaker + i, "unknown", "unknown"])
-            print("Warning: presentation_speakers was extended with unknown speakers")
+            warning_message = "presentation_speakers was extended with unknown speakers"
+            load_logger.warning(warning_message)
+            warnings.warn(warning_message)
     part_ordered = [
         {
             "n": speakers_ordered[i]["n"],
@@ -255,8 +289,8 @@ def extract_info_from_earnings_call_part(
 def extract_info_from_earnings_call_sep(conference_call_sep_dict: dict) -> dict:
     """Extracts information from an earnings call.
     This information includes:
-        - the corporate participants
-        - the conference call participants
+        - the corporate participants (name and position)
+        - the conference call participants (name)
         - the presentation/transcript
         - the Q&A
 
@@ -316,8 +350,8 @@ def extract_info_from_earnings_call_sep(conference_call_sep_dict: dict) -> dict:
 def extract_info_from_earnings_call_body(body: str) -> dict:
     """Extracts information from the body of a conference call.
     This information includes:
-        - the corporate participants
-        - the conference call participants
+        - the corporate participants (name and position)
+        - the conference call participants (name)
         - the presentation/transcript
         - the Q&A
 
@@ -336,7 +370,114 @@ def extract_info_from_earnings_call_body(body: str) -> dict:
     return output
 
 
-def load_files_xml(files: list) -> list:
+def create_blank_event() -> dict:
+    """
+    Creates a blank event with the keys that are expected in the final output.
+    A list of these keys can be found in the documentation of the function:
+    load_files_from_xml.
+
+    Returns:
+        dict: Dictionary containing the blank event.
+    """
+    event = {}
+    event["file"] = ""
+    event["year_upload"] = ""
+    event["body_orig"] = ""
+    event["corp_participants"] = []
+    event["corp_participants_colapsed"] = []
+    event["conf_participants"] = []
+    event["conf_participants_colapsed"] = []
+    event["presentation"] = []
+    event["presentation_colapsed"] = ""
+    event["qa"] = []
+    event["qa_colapsed"] = ""
+    event["action"] = "unknown"
+    event["story_type"] = "unknown"
+    event["version"] = "unknown"
+    event["title"] = "unknown"
+    event["city"] = "unknown"
+    event["company_name"] = "unknown"
+    event["company_ticker"] = "unknown"
+    event["date"] = datetime(1900, 1, 1)
+    event["id"] = int(-1)
+    event["last_update"] = datetime(1900, 1, 1)
+    event["event_type_id"] = int(-1)
+    event["event_type_name"] = "unknown"
+
+    return event
+
+
+def add_info_to_event(event: dict, elem) -> dict:
+    """Adds information to an event based on the element of an xml file.
+
+    Args:
+        event (dict): Event to which the information should be added.
+        elem (lxml.etree.Element): Element of an xml file.
+
+    Returns:
+        dict: Dictionary containing the event with the added information.
+    """
+    tag = elem.tag
+    if tag is not None:
+        text = elem.text
+        if tag == "Body":
+            event["body_orig"] = text
+
+            body = extract_info_from_earnings_call_body(text)
+
+            event["corp_participants"] = body["corp_participants"]
+            event["corp_participants_colapsed"] = body["corp_participants_colapsed"]
+            event["conf_participants"] = body["conf_participants"]
+            event["conf_participants_colapsed"] = body["conf_participants_colapsed"]
+
+            presentation = body["presentation"]
+            event["presentation"] = presentation
+            if presentation:
+                event["presentation_colapsed"] = " ".join(
+                    [
+                        el["text"]
+                        for el in presentation
+                        if el["position"] == "cooperation"
+                    ]
+                )
+            else:
+                event["presentation_colapsed"] = ""
+
+            qa = body["qa"]
+            event["qa"] = qa
+            if qa:
+                event["qa_colapsed"] = " ".join(
+                    [el["text"] for el in qa if el["position"] == "cooperation"]
+                )
+            else:
+                event["qa_colapsed"] = ""
+
+        if tag == "EventStory":
+            event["action"] = elem.attrib["action"]
+            event["story_type"] = elem.attrib["storyType"]
+            event["version"] = elem.attrib["version"]
+        if tag == "eventTitle":
+            event["title"] = text
+        if tag == "city":
+            event["city"] = text
+        if tag == "companyName":
+            event["company_name"] = text
+        if tag == "companyTicker":
+            event["company_ticker"] = text
+        if tag == "startDate":
+            event["date"] = datetime.strptime(text, "%d-%b-%y %I:%M%p %Z")
+        if tag == "Event":
+            event["id"] = int(elem.attrib["Id"])
+            event["last_update"] = datetime.strptime(
+                elem.attrib["lastUpdate"], "%A, %B %d, %Y at %I:%M:%S%p %Z"
+            )
+            event["event_type_id"] = int(elem.attrib["eventTypeId"])
+            event["event_type_name"] = elem.attrib["eventTypeName"]
+
+    return event
+
+
+def load_files_from_xml(files: list) -> list:
     """Parses the xml files and extracts the information from the earnings calls.
 
     Args:
@@ -368,72 +509,30 @@ def load_files_xml(files: list) -> list:
             - the event type id (event_type_id: int)
             - the event type name (event_type_name: string)
     """
+    load_logger.info("Start loading files from xml")
+    load_logger.info("Number of files: " + str(len(files)))
+    load_logger.info("Start processing files")
+
     events = []
+    i = 1
     for file in files:
-        event = {}
+        load_logger.info(
+            "Processing file: " + str(i) + "/" + str(len(files)) + ": " + str(file)
+        )
+        print(i, "/", len(files), " - Processing file: ", file, end="\r")
+        event = create_blank_event()
         event["file"] = Path(file).stem
-        event["year_upload"] = int(Path(file).parts[2])
-        # print(file)
+        event["year_upload"] = int(Path(file).parts[3])
+
         for _, elem in etree.iterparse(file):
-            tag = elem.tag
-            if tag is not None:
-                text = elem.text
-                if tag == "Body":
-                    event["body_orig"] = text
+            with warnings.catch_warnings(record=True) as caught_warnings:
+                event = add_info_to_event(event, elem)
 
-                    body = extract_info_from_earnings_call_body(text)
-                    event["corp_participants"] = body["corp_participants"]
-                    event["corp_participants_colapsed"] = body[
-                        "corp_participants_colapsed"
-                    ]
-                    event["conf_participants"] = body["conf_participants"]
-                    event["conf_participants_colapsed"] = body[
-                        "conf_participants_colapsed"
-                    ]
+            if caught_warnings:
+                for warning in caught_warnings:
+                    print(f"Warning occurred in {file}: {warning.message}")
 
-                    presentation = body["presentation"]
-                    event["presentation"] = presentation
-                    if presentation:
-                        event["presentation_colapsed"] = " ".join(
-                            [
-                                el["text"]
-                                for el in presentation
-                                if el["position"] == "cooperation"
-                            ]
-                        )
-                    else:
-                        event["presentation_colapsed"] = ""
-
-                    qa = body["qa"]
-                    event["qa"] = qa
-                    if qa:
-                        event["qa_colapsed"] = " ".join(
-                            [el["text"] for el in qa if el["position"] == "cooperation"]
-                        )
-                    else:
-                        event["qa_colapsed"] = ""
-
-                if tag == "EventStory":
-                    event["action"] = elem.attrib["action"]
-                    event["story_type"] = elem.attrib["storyType"]
-                    event["version"] = elem.attrib["version"]
-                if tag == "eventTitle":
-                    event["title"] = text
-                if tag == "city":
-                    event["city"] = text
-                if tag == "companyName":
-                    event["company_name"] = text
-                if tag == "companyTicker":
-                    event["company_ticker"] = text
-                if tag == "startDate":
-                    event["date"] = datetime.strptime(text, "%d-%b-%y %I:%M%p %Z")
-                if tag == "Event":
-                    event["id"] = int(elem.attrib["Id"])
-                    event["last_update"] = datetime.strptime(
-                        elem.attrib["lastUpdate"], "%A, %B %d, %Y at %I:%M:%S%p %Z"
-                    )
-                    event["event_type_id"] = int(elem.attrib["eventTypeId"])
-                    event["event_type_name"] = elem.attrib["eventTypeName"]
         events.append(event)
+        i += 1
 
     return events
