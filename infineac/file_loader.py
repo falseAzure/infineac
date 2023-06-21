@@ -17,23 +17,27 @@ from lxml import etree
 # )
 
 load_logger = logging.getLogger("load_files_from_xml")
+load_warnings_logger = logging.getLogger("load_files_from_xml_warnings")
 
 # Set the logging level (optional)
 load_logger.setLevel(logging.DEBUG)
+load_warnings_logger.setLevel(logging.WARNING)
 
 # Create a file handler and set the logging level for the handler (optional)
 load_handler = logging.FileHandler("load_files.log")
 load_handler.setLevel(logging.DEBUG)
 
+load_warnings_handler = logging.FileHandler("load_files_warnings.log")
+load_warnings_handler.setLevel(logging.WARNING)
+
 # Create a formatter and add it to the handler (optional)
 formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(name)s - %(message)s")
 load_handler.setFormatter(formatter)
+load_warnings_handler.setFormatter(formatter)
 
 # Add the handler to the logger
 load_logger.addHandler(load_handler)
-
-
-# ToDo: add logging
+load_warnings_logger.addHandler(load_warnings_handler)
 
 
 def separate_earnings_call(string: str) -> dict:
@@ -530,7 +534,9 @@ def load_files_from_xml(files: list) -> list:
 
             if caught_warnings:
                 for warning in caught_warnings:
-                    print(f"Warning occurred in {file}: {warning.message}")
+                    warning_message = f"{file}: {warning.message}"
+                    load_warnings_logger.warning(warning_message)
+                    # print(f"Warning occurred in {file}: {warning.message}", end="\n")
 
         events.append(event)
         i += 1
