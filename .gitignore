@@ -164,3 +164,5 @@ output/
 
 .DS_Store
 .Rproj.user
+.Rhistory
+.Rproj
