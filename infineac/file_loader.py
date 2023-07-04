@@ -24,10 +24,10 @@ load_logger.setLevel(logging.DEBUG)
 load_warnings_logger.setLevel(logging.WARNING)
 
 # Create a file handler and set the logging level for the handler (optional)
-load_handler = logging.FileHandler("load_files.log")
+load_handler = logging.FileHandler("../logging/load_files.log")
 load_handler.setLevel(logging.DEBUG)
 
-load_warnings_handler = logging.FileHandler("load_files_warnings.log")
+load_warnings_handler = logging.FileHandler("../logging/load_files_warnings.log")
 load_warnings_handler.setLevel(logging.WARNING)
 
 # Create a formatter and add it to the handler (optional)
