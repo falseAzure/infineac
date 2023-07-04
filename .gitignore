@@ -161,8 +161,10 @@ cython_debug/
 
 data/
 output/
+orbis_overview_files/
 
 .DS_Store
 .Rproj.user
 .Rhistory
-.Rproj
+.vscode/settings.json
+*.Rproj
