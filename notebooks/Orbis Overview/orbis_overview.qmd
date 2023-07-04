@@ -1,0 +1,77 @@
+---
+title: "Orbis Overview"
+format:
+  html:
+    code-fold: true
+engine: knitr
+---
+
+## R
+
+```{r, load_packages}
+library(data.table)
+library(readxl)
+library(stringi)
+```
+
+
+Load earnings calls and preprocess them.
+
+```{r, earnings calls}
+data.earnings_calls <- fread("../../output/data/overview.csv")
+data.earnings_calls[, comp := stri_replace_all(tolower(company), replacement = "", regex = "\\.")]
+data.earnings_calls[, end_ticker := stri_locate(data.earnings_calls$ticker, regex = "\\.")[, 1] - 1]
+data.earnings_calls[is.na(end_ticker), end_ticker := nchar(end_ticker)]
+data.earnings_calls[, tic := stri_sub(str = ticker, 1, end_ticker)]
+head(data.earnings_calls)
+```
+
+Load Orbis data.
+
+```{r, orbis data}
+data.orbis <- data.table(read_xlsx("../../data/orbis/Company Info OrbisCrossBorder.xlsx"))
+data.orbis[, comp := stri_replace_all(tolower(companyname), replacement = "", regex = "\\.")]
+```
+
+
+Percentage of companies in the Orbis Data, that can be merged to an earnings call.
+
+```{r, merge}
+data.merged.orbis <- unique(
+    rbindlist(
+        list(
+            merge(unique(data.earnings_calls[, .(comp, company, tic)]),
+                data.orbis[, .(comp, companyname)],
+                by = "comp"
+            ),
+            merge(unique(data.earnings_calls[, .(comp, company, tic)]),
+                unique(data.orbis[, .(companyname, tic)]),
+                by = "tic"
+            )
+        ),
+        use.names = T
+    )
+)
+nrow(data.merged.orbis) / nrow(data.orbis) * 100
+```
+
+
+Percentage of companies that can be merged to an entry in the Orbis Dataset 
+
+```{r, percentage orbis}
+data.merged.ec <-
+    unique(rbindlist(
+        list(
+            merge(data.earnings_calls,
+                data.orbis[, .(comp, companyname)],
+                by = "comp"
+            ),
+            merge(data.earnings_calls,
+                unique(data.orbis[, .(companyname, tic)]),
+                by = "tic"
+            )
+        ),
+        use.names = T
+    ))
+nrow(data.merged.ec) / nrow(data.earnings_calls) * 100
+```
