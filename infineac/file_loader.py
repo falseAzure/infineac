@@ -525,7 +525,8 @@ def load_files_from_xml(files: list) -> list:
         )
         print(i, "/", len(files), " - Processing file: ", file, end="\r")
         event = create_blank_event()
-        event["file"] = Path(file).stem
+        # event["file"] = Path(file).stem
+        event["file"] = file
         event["year_upload"] = int(Path(file).parts[3])
 
         for _, elem in etree.iterparse(file):
