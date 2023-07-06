@@ -1,0 +1,60 @@
+[project]
+name = "infineac"
+authors = [{ name = "Fabian Gabelberger", email = "falseazure@proton.me" }]
+version = "0.0.1"
+readme = "README.md"
+keywords = [
+    "finance",
+    "business intelligence",
+    "fintech",
+    "earnings call",
+    "earnings call transcript",
+    "earnings call transcript analysis",
+    "machine learning",
+    "neural networks",
+    "NLP",
+    "deep learning",
+]
+description = "Infineac: Extracting Financial Insights from Earnings Calls using NLP"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+dependencies = [
+    "numpy==1.24.4",
+    "scipy==1.10.1",
+
+    "pandas==1.5.3",
+    "polars==0.18.5",
+    "seaborn==0.12.2",
+
+    "torch==2.0.1",
+    "pytorch-lightning==2.0.3",
+    "transformers==4.30.2",
+    "numba==0.57.0",
+    "bertopic==0.15.0",
+
+    "wandb==0.15.5",
+    "tensorboard==2.12.1",
+
+    "lxml==4.9.3",
+
+    "dill==0.3.6",
+    "black==23.3.0",
+    "flake8==6.0.0",
+    "jupyterlab==3.6.3",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+]
+
+[tool.setuptools]
+packages = ["infineac"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra --showlocals"
+testpaths = ["tests"]
