@@ -314,7 +314,7 @@ def extract_info_from_earnings_call_sep(conference_call_sep_dict: dict) -> dict:
         for pair in corp_participants
         if pair.strip()
     ]
-    corp_participants_colapsed = [",  ".join(pair) for pair in corp_participants]
+    corp_participants_collapsed = [",  ".join(pair) for pair in corp_participants]
 
     # Conference Call Participants
     conf_participants = conference_call_sep_dict["conf_participants"].split("*")
@@ -323,28 +323,28 @@ def extract_info_from_earnings_call_sep(conference_call_sep_dict: dict) -> dict:
         for pair in conf_participants
         if pair.strip()
     ]
-    conf_participants_colapsed = [",  ".join(pair) for pair in conf_participants]
+    conf_participants_collapsed = [",  ".join(pair) for pair in conf_participants]
 
     # Presentation
     presentation = extract_info_from_earnings_call_part(
         conference_call_sep_dict["presentation"],
-        corp_participants_colapsed,
-        conf_participants_colapsed,
+        corp_participants_collapsed,
+        conf_participants_collapsed,
         type="presentation",
     )
     # Q&A
     qa = extract_info_from_earnings_call_part(
         conference_call_sep_dict["qa"],
-        corp_participants_colapsed,
-        conf_participants_colapsed,
+        corp_participants_collapsed,
+        conf_participants_collapsed,
         type="qa",
     )
 
     output = {
         "corp_participants": corp_participants,
-        "corp_participants_colapsed": corp_participants_colapsed,
+        "corp_participants_collapsed": corp_participants_collapsed,
         "conf_participants": conf_participants,
-        "conf_participants_colapsed": conf_participants_colapsed,
+        "conf_participants_collapsed": conf_participants_collapsed,
         "presentation": presentation,
         "qa": qa,
     }
@@ -388,13 +388,13 @@ def create_blank_event() -> dict:
     event["year_upload"] = ""
     event["body_orig"] = ""
     event["corp_participants"] = []
-    event["corp_participants_colapsed"] = []
+    event["corp_participants_collapsed"] = []
     event["conf_participants"] = []
-    event["conf_participants_colapsed"] = []
+    event["conf_participants_collapsed"] = []
     event["presentation"] = []
-    event["presentation_colapsed"] = ""
+    event["presentation_collapsed"] = ""
     event["qa"] = []
-    event["qa_colapsed"] = ""
+    event["qa_collapsed"] = ""
     event["action"] = "unknown"
     event["story_type"] = "unknown"
     event["version"] = "unknown"
@@ -430,14 +430,14 @@ def add_info_to_event(event: dict, elem) -> dict:
             body = extract_info_from_earnings_call_body(text)
 
             event["corp_participants"] = body["corp_participants"]
-            event["corp_participants_colapsed"] = body["corp_participants_colapsed"]
+            event["corp_participants_collapsed"] = body["corp_participants_collapsed"]
             event["conf_participants"] = body["conf_participants"]
-            event["conf_participants_colapsed"] = body["conf_participants_colapsed"]
+            event["conf_participants_collapsed"] = body["conf_participants_collapsed"]
 
             presentation = body["presentation"]
             event["presentation"] = presentation
             if presentation:
-                event["presentation_colapsed"] = " ".join(
+                event["presentation_collapsed"] = " ".join(
                     [
                         el["text"]
                         for el in presentation
@@ -445,16 +445,16 @@ def add_info_to_event(event: dict, elem) -> dict:
                     ]
                 )
             else:
-                event["presentation_colapsed"] = ""
+                event["presentation_collapsed"] = ""
 
             qa = body["qa"]
             event["qa"] = qa
             if qa:
-                event["qa_colapsed"] = " ".join(
+                event["qa_collapsed"] = " ".join(
                     [el["text"] for el in qa if el["position"] == "cooperation"]
                 )
             else:
-                event["qa_colapsed"] = ""
+                event["qa_collapsed"] = ""
 
         if tag == "EventStory":
             event["action"] = elem.attrib["action"]
@@ -495,9 +495,9 @@ def load_files_from_xml(files: list) -> list:
             - the year of the upload (year_upload: integer)
             - the original body of the earnings call (body_orig string)
             - the corporate participants (corp_participants: list of lists and
-              corp_participants_colapsed: colapsed list)
+              corp_participants_collapsed: collapsed list)
             - the conference call participants (conf_participants: list of lists and
-              conf_participants_colapsed: colapsed list)
+              conf_participants_collapsed: collapsed list)
             - the presentation (presentation list of lists)
             - the Q&A (Q&A list of lists)
             - the action (e.g. publish) (action: string)
