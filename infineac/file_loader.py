@@ -10,6 +10,10 @@ from pathlib import Path
 
 from lxml import etree
 
+# main directory
+main_dir = Path(__file__).resolve().parents[1]
+logging_dir = main_dir / "logging"
+
 # logging.basicConfig(
 #     filename="load_files_from_xml.log",
 #     level=logging.DEBUG,
@@ -24,6 +28,9 @@ load_logger.setLevel(logging.DEBUG)
 load_warnings_logger.setLevel(logging.WARNING)
 
 # Create a file handler and set the logging level for the handler (optional)
+if not logging_dir.exists():
+    logging_dir.mkdir(parents=True, exist_ok=True)
+
 load_handler = logging.FileHandler("../logging/load_files.log")
 load_handler.setLevel(logging.DEBUG)
 
