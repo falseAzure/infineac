@@ -2,51 +2,46 @@
 This file contains helper functions for the infineac package.
 """
 
-import re
+from pathlib import Path
+
+import file_loader as fl
+from bertopic import BERTopic
+from bertopic.representation import KeyBERTInspired
 
 
-def get_russia_and_sanction(string: str) -> str:
-    """
-    Evaluates a string if it contains the words "russia" and "sanction" and
-    returns a string accordingly.
-
-    Args:
-        string (str): String to be evaluated.
-
-    Returns:
-        str: Returns "russia & sanction" if the string contains both words,
-        "russia" if it contains only "russia", "sanction" if it contains only
-        "sanction" and "none" if it contains neither.
-    """
-    string_lower = string.lower()
-    if re.search(r"russia", string_lower):
-        if re.search(r"sanctions", string_lower):
-            return "russia & sanction"
-        else:
-            return "russia"
-    if re.search(r"sanction", string_lower):
-        return "sanction"
-    else:
-        return "none"
+def bert_basic(docs):
+    topic_model = BERTopic(verbose=False)
+    topics, probs = topic_model.fit_transform(docs)
+    return topics, probs
 
 
-def get_elections(string: str) -> str:
-    """
-    Evaluates a string if it contains the words "election" and "presidential
-    election" and returns a string accordingly.
+def bert_inspired(docs):
+    # Fine-tune your topic representations
+    representation_model = KeyBERTInspired()
+    topic_model = BERTopic(representation_model=representation_model, verbose=False)
+    topics, probs = topic_model.fit_transform(docs)
+    return topics, probs
 
-    Args:
-        string (str): String to be evaluated.
 
-    Returns:
-        str: Returns "presidential election" if the string contains both words,
-        "election" if it contains only "election", "none" if it contains
-        neither.
-    """
-    string_lower = string.lower()
-    if re.search(r"presidential election", string_lower):
-        return "presidential election"
-    if re.search(r" election", string_lower):
-        return "election"
-    else:
-        return "none"
+def run(path):
+    files = list(Path(path).rglob("*.xml"))
+    events = fl.load_files_from_xml(files)
+    events_filt = [
+        event
+        for event in events
+        if "date" in event.keys()
+        and event["action"] == "publish"
+        and event["date"].year >= 2022
+        and event["version"] == "Final"
+    ]
+    events_russia = [
+        event
+        for event in events_filt
+        if event["body_orig"].lower().count("russia") >= 1
+    ]
+    docs = [
+        event["presentation_collapsed"] + "\n" + event["qa_collapsed"]
+        for event in events_russia
+    ]
+    topics, probs = bert_basic(docs[0:500])
+    return topics, probs
