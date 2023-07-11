@@ -3,15 +3,18 @@ Module for importing and preprocessing the earnings calls data.
 """
 
 import logging
+import os
 import re
 import warnings
 from datetime import datetime
 from pathlib import Path
 
 from lxml import etree
+from rapidfuzz import fuzz
 
 # main directory
 main_dir = Path(__file__).resolve().parents[1]
+print(main_dir)
 logging_dir = main_dir / "logging"
 
 # logging.basicConfig(
@@ -31,10 +34,10 @@ load_warnings_logger.setLevel(logging.WARNING)
 if not logging_dir.exists():
     logging_dir.mkdir(parents=True, exist_ok=True)
 
-load_handler = logging.FileHandler("../logging/load_files.log")
+load_handler = logging.FileHandler(logging_dir / "load_files.log")
 load_handler.setLevel(logging.DEBUG)
 
-load_warnings_handler = logging.FileHandler("../logging/load_files_warnings.log")
+load_warnings_handler = logging.FileHandler(logging_dir / "load_files_warnings.log")
 load_warnings_handler.setLevel(logging.WARNING)
 
 # Create a formatter and add it to the handler (optional)
@@ -48,7 +51,8 @@ load_warnings_logger.addHandler(load_warnings_handler)
 
 
 def separate_earnings_call(string: str) -> dict:
-    """Separates the earnings call into its parts and returns them as a dictionary.:
+    """
+    Separates the earnings call into its parts and returns them as a dictionary.:
         - Corporate Participants
         - Conference Call Participants
         - Presentation/Transcript
@@ -57,12 +61,14 @@ def separate_earnings_call(string: str) -> dict:
     If a part is not present, the corresponding string is empty.
     Each part starts and ends with a specific string, that surrounds the part.
 
+    Concerning the speakers: Between the speaker and the position is double space.
+
     Args:
         string (str): The earnings call (body) as a string.
 
     Returns:
         dict: A dictionary with the four parts as keys and the corresponding
-        text as values.
+        text (string) as values.
     """
 
     start_word_corp_participants = (
@@ -105,6 +111,8 @@ def separate_earnings_call(string: str) -> dict:
         "========================================"
         "========================================"
     )
+
+    string = string.replace("&amp;", "&")  # replace html ampersand
 
     if start_word_corp_participants in string:
         start_index_corp_participants = string.find(start_word_corp_participants) + len(
@@ -174,7 +182,8 @@ def extract_info_from_earnings_call_part(
     conf_participants: list,
     type: str = "presentation",
 ) -> list:
-    """Extracts information from earnings call part.
+    """
+    Extracts information from earnings call part.
     This part is either the presentation/transcript or Q&A. The part is split
     into speakers and texts and then combined into a list, that holds for each
     part:
@@ -201,19 +210,20 @@ def extract_info_from_earnings_call_part(
         "------------------------------------"
         "--------------------------------------------\r\n"
     )
-    part_split = part.split(split_symbol)
-    part_split = [el.strip() for el in part_split]
+    parts_split = part.split(split_symbol)
+    parts_split = [part.strip() for part in parts_split]
     # removes the double spaces between speaker and his position
     # presentation=[re.sub(' +', ' ', el.strip()) for el in presentation if el.strip()]
 
-    # Split presentation into speakers and texts
+    # Split part into speakers and texts
     speakers = [
-        el
-        for el in part_split
-        if re.match(".+  \[\d+\]", el) or (re.match("\[\d+\]", el) and len(el) <= 5)
+        part
+        for part in parts_split
+        if re.match(".+  \[\d+\]", part)
+        or (re.match("\[\d+\]", part) and len(part) <= 5)
     ]
 
-    texts = [el for el in part_split if el not in speakers]
+    texts = [part for part in parts_split if part not in speakers]
 
     n_speakers = len(speakers)
     n_texts = len(texts)
@@ -232,35 +242,62 @@ def extract_info_from_earnings_call_part(
 
     regex_pattern = r"(.*)\s{2,}\[(\d+)\]$"
     speakers_ordered = [
-        [
-            int(re.search(regex_pattern, el).group(2)),
-            re.search(regex_pattern, el).group(1).strip(),
-        ]
-        if not re.match("\[\d+\]", el)
-        else [
-            int(re.search(r"\[(\d+)\]", el).group(1)),
-            "unknown",
-        ]  # if the speaker is not mentioned
-        for el in speakers
+        {
+            "n": int(re.search(regex_pattern, speaker).group(2)),
+            "name": re.search(regex_pattern, speaker).group(1).strip(),
+        }
+        if not re.match("\[\d+\]", speaker)
+        else {
+            "n": int(re.search(r"\[(\d+)\]", speaker).group(1)),
+            "name": "unknown speaker",
+        }  # if the speaker is not mentioned
+        for speaker in speakers
     ]
+
+    speakers_not_listed = [
+        speaker
+        for speaker in speakers_ordered
+        if speaker["name"]
+        not in corp_participants + conf_participants + ["editor", "operator"]
+        and not speaker["name"].lower().startswith("unidentified")
+    ]
+
+    for speaker in speakers_not_listed:
+        # some speakers are listed with a comma at the end
+        if speaker["name"].endswith(","):
+            speaker["name"] = speaker["name"][:-1]
+        # some speakers are listed as "unknown ..."
+        if speaker["name"].lower().startswith("unknown"):
+            speaker["name"] = "unknown speaker"
+        # some operators are listed as "operator ..."
+        if speaker["name"].lower().startswith("operator"):
+            speaker["name"] = "Operator"
+        speaker["name"] = re.sub(r"\s{2,}", "  ", speaker["name"])
+        # check if a similar name is in the list of participants
+        # (ph) is added to some of the participants' names
+        for participant in corp_participants + conf_participants:
+            if fuzz.ratio(speaker["name"], participant.replace("(ph)", "")) >= 85:
+                speaker["name"] = participant
 
     speakers_ordered = [
         {
-            "n": el[0],
-            "name": el[1],
+            "n": speaker["n"],
+            "name": speaker["name"],
             "position": "operator"
-            if el[1] == "Operator"
+            if speaker["name"].lower() == "operator"
             else "editor"
-            if el[1] == "Editor"
+            if speaker["name"].lower() == "editor"
+            else "moderator"
+            if speaker["name"].lower() == "moderator"
             else "cooperation"
-            if el[1] in corp_participants
+            if speaker["name"] in corp_participants
             else "conference"
-            if el[1] in conf_participants
-            else el[1]
+            if speaker["name"] in conf_participants
+            else speaker["name"]
             if corp_participants != [] and conf_participants != []
-            else "unknown",
+            else "unknown speaker",
         }
-        for el in speakers_ordered
+        for speaker in speakers_ordered
     ]
 
     if len(speakers) != len(texts):
@@ -298,7 +335,8 @@ def extract_info_from_earnings_call_part(
 
 
 def extract_info_from_earnings_call_sep(conference_call_sep_dict: dict) -> dict:
-    """Extracts information from an earnings call.
+    """
+    Extracts information from an earnings call.
     This information includes:
         - the corporate participants (name and position)
         - the conference call participants (name)
@@ -314,8 +352,12 @@ def extract_info_from_earnings_call_sep(conference_call_sep_dict: dict) -> dict:
     """
 
     # Participants
+    # is listed with a '  *' at the beginning of each participant
     # Corporation Participants
-    corp_participants = conference_call_sep_dict["corp_participants"].split("*")
+    corp_participants = re.split(
+        "\s{1,}\\*", conference_call_sep_dict["corp_participants"]
+    )
+    # corp_participants = conference_call_sep_dict["corp_participants"].split("\s*")
     corp_participants = [
         [el.strip() for el in pair.split("\r\n") if el.strip()]
         for pair in corp_participants
@@ -324,7 +366,10 @@ def extract_info_from_earnings_call_sep(conference_call_sep_dict: dict) -> dict:
     corp_participants_collapsed = [",  ".join(pair) for pair in corp_participants]
 
     # Conference Call Participants
-    conf_participants = conference_call_sep_dict["conf_participants"].split("*")
+    conf_participants = re.split(
+        "\s{1,}\\*", conference_call_sep_dict["conf_participants"]
+    )
+    # conf_participants = conference_call_sep_dict["conf_participants"].split("*")
     conf_participants = [
         [el.strip() for el in pair.split("\r\n") if el.strip()]
         for pair in conf_participants
@@ -359,7 +404,8 @@ def extract_info_from_earnings_call_sep(conference_call_sep_dict: dict) -> dict:
 
 
 def extract_info_from_earnings_call_body(body: str) -> dict:
-    """Extracts information from the body of a conference call.
+    """
+    Extracts information from the body of a conference call.
     This information includes:
         - the corporate participants (name and position)
         - the conference call participants (name)
@@ -393,7 +439,7 @@ def create_blank_event() -> dict:
     event = {}
     event["file"] = ""
     event["year_upload"] = ""
-    event["body_orig"] = ""
+    # event["body_orig"] = ""
     event["corp_participants"] = []
     event["corp_participants_collapsed"] = []
     event["conf_participants"] = []
@@ -432,7 +478,7 @@ def add_info_to_event(event: dict, elem) -> dict:
     if tag is not None:
         text = elem.text
         if tag == "Body":
-            event["body_orig"] = text
+            # event["body_orig"] = text
 
             body = extract_info_from_earnings_call_body(text)
 
@@ -498,27 +544,28 @@ def load_files_from_xml(files: list) -> list:
         list: List of dictionaries containing the extracted information from
         the earnings calls. For each file there is one dictionary, that
         contains the following information:
-            - the file name (file: string)
-            - the year of the upload (year_upload: integer)
-            - the original body of the earnings call (body_orig string)
-            - the corporate participants (corp_participants: list of lists and
-              corp_participants_collapsed: collapsed list)
-            - the conference call participants (conf_participants: list of lists and
-              conf_participants_collapsed: collapsed list)
-            - the presentation (presentation list of lists)
-            - the Q&A (Q&A list of lists)
-            - the action (e.g. publish) (action: string)
-            - the story type (e.g. transcript) (story_type string)
-            - the version of the publication (e.g. final) (version: string)
-            - the title of the earnings call (title: string)
-            - the city of the earnings call (city: string)
-            - the company of the earnings call (company_name: string)
-            - the company ticker of the earnings call (company_ticker: string)
-            - the date of the earnings call (date: date)
-            - the id of the publication (id: int)
-            - the last update of the publication (last_update: date)
-            - the event type id (event_type_id: int)
-            - the event type name (event_type_name: string)
+            - file (string): the file name
+            - year_upload (integer): the year of the upload
+            - corp_participants (list of lists): the corporate participants
+            - corp_participants_collapsed (list): collapsed list
+            - conf_participants (list of lists): the conference call participants
+            - conf_participants_collapsed (list): collapsed list
+            - presentation (list of dicts): the presentation part
+            - presentation_collapsed (list): collapsed list
+            - qa (list of dicts): the Q&A part
+            - qa_collapsed (list): collapsed list
+            - action (string): the action (e.g. publish)
+            - story_type (string): the story type (e.g. transcript)
+            - version (string): the version of the publication (e.g. final)
+            - title (string): the title of the earnings call
+            - city (string): the city of the earnings call
+            - company_name (string): the company of the earnings call
+            - company_ticker (string): the company ticker of the earnings call
+            - date (date): the date of the earnings call
+            - id (int): the id of the publication
+            - last_update (date): the last update of the publication
+            - event_type_id (int): the event type id
+            - event_type_name (string): the event type name
     """
     load_logger.info("Start loading files from xml")
     load_logger.info("Number of files: " + str(len(files)))
@@ -534,7 +581,7 @@ def load_files_from_xml(files: list) -> list:
         event = create_blank_event()
         # event["file"] = Path(file).stem
         event["file"] = file
-        event["year_upload"] = int(Path(file).parts[3])
+        event["year_upload"] = int(os.path.basename(os.path.dirname(file)))
 
         for _, elem in etree.iterparse(file):
             with warnings.catch_warnings(record=True) as caught_warnings:
