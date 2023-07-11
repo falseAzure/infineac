@@ -60,4 +60,7 @@ if "__main__" == __name__:
 
     print("Writing topics to output.txt\n")
     with open("output.txt", "w") as f:
-        f.write(topics + "\n\n\n" + probs)
+        f.write("Topics:\n")
+        f.write(topics)
+        f.write("\n\n\nProbabilities:\n")
+        f.write(probs)
