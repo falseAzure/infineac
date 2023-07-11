@@ -17,7 +17,7 @@ keywords = [
 ]
 description = "Infineac: Extracting Financial Insights from Earnings Calls using NLP"
 license = { text = "MIT" }
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 dependencies = [
     "numpy==1.24.4",
     "scipy==1.10.1",
@@ -25,7 +25,7 @@ dependencies = [
     "lxml==4.9.3",
 
     "pandas==1.5.3",
-    "polars==0.18.5",
+    "polars==0.18.6",
     "seaborn==0.12.2",
 
     "torch==2.0.1",
