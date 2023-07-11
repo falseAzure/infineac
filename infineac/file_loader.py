@@ -14,7 +14,6 @@ from rapidfuzz import fuzz
 
 # main directory
 main_dir = Path(__file__).resolve().parents[1]
-print(main_dir)
 logging_dir = main_dir / "logging"
 
 # logging.basicConfig(
