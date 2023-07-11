@@ -25,4 +25,4 @@ def bert_inspired(docs):
         calculate_probabilities=False,
     )
     topics, probs = topic_model.fit_transform(docs)
-    return topics, probs
+    return topic_model, topics, probs
