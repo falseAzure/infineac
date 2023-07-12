@@ -29,52 +29,9 @@ An event is a dictionary with the following keys:
 
 import re
 
+from tqdm import tqdm
 
-def get_russia_and_sanction(string: str) -> str:
-    """
-    Evaluates a string if it contains the words "russia" and "sanction" and
-    returns a string accordingly.
-
-    Args:
-        string (str): String to be evaluated.
-
-    Returns:
-        str: Returns "russia & sanction" if the string contains both words,
-        "russia" if it contains only "russia", "sanction" if it contains only
-        "sanction" and "none" if it contains neither.
-    """
-    string_lower = string.lower()
-    if re.search(r"russia", string_lower):
-        if re.search(r"sanctions", string_lower):
-            return "russia & sanction"
-        else:
-            return "russia"
-    if re.search(r"sanction", string_lower):
-        return "sanction"
-    else:
-        return "none"
-
-
-def get_elections(string: str) -> str:
-    """
-    Evaluates a string if it contains the words "election" and "presidential
-    election" and returns a string accordingly.
-
-    Args:
-        string (str): String to be evaluated.
-
-    Returns:
-        str: Returns "presidential election" if the string contains both words,
-        "election" if it contains only "election", "none" if it contains
-        neither.
-    """
-    string_lower = string.lower()
-    if re.search(r"presidential election", string_lower):
-        return "presidential election"
-    if re.search(r" election", string_lower):
-        return "election"
-    else:
-        return "none"
+import infineac.process_text as process_text
 
 
 def extract_parts_from_presentation(presentation: list, keywords: list) -> str:
@@ -133,7 +90,7 @@ def extract_parts_from_qa(qa: list, keywords: list) -> str:
     return whole_text
 
 
-def extract_doc_from_event(event: dict, keywords: list) -> str:
+def extract_text_from_event(event: dict, keywords: list) -> str:
     doc = (
         extract_parts_from_presentation(event["presentation"], keywords)
         + "\n"
@@ -142,30 +99,26 @@ def extract_doc_from_event(event: dict, keywords: list) -> str:
     return doc
 
 
-def extract_docs_from_events(events: list, keywords: list) -> list:
-    docs = [extract_doc_from_event(event, keywords) for event in events]
+def extract_texts_from_events(events: list, keywords: list) -> list:
+    print("Extracting texts from events")
+    docs = [
+        extract_text_from_event(event, keywords)
+        for event in tqdm(events, desc="Events", total=len(events))
+    ]
     return docs
 
 
 def check_keywords_in_event(event: dict, keywords: dict = {}) -> bool:
-    if keywords == {}:
-        return True
-
-    for key, value in keywords.items():
-        if (
-            str(event["qa_collapsed"] + event["presentation_collapsed"])
-            .lower()
-            .count(key)
-            >= value
-        ):
-            return True
-
-    return False
+    return process_text.check_keywords_in_string(
+        string=str(event["qa_collapsed"] + event["presentation_collapsed"]),
+        keywords=keywords,
+    )
 
 
 def filter_events(events: list, year: int = 2022, keywords: dict = {}) -> list:
+    print("Filtering events")
     events_filtered = []
-    for event in events:
+    for event in tqdm(events, desc="Events", total=len(events)):
         if not (
             "date" in event.keys()
             and event["date"].year >= year
@@ -178,12 +131,5 @@ def filter_events(events: list, year: int = 2022, keywords: dict = {}) -> list:
             continue
 
         events_filtered.append(event)
-    # if not (
-    #     str(event["qa_collapsed"] + event["presentation_collapsed"])
-    #     .lower()
-    #     .count("russia")
-    #     >= 1
-    # ):
-    #     continue
 
     return events_filtered
