@@ -50,7 +50,9 @@ if "__main__" == __name__:
     )
 
     print(f"Parsing {len(events_russia)} events")
-    docs = process_event.extract_docs_from_events(events_russia, ["russia", "ukraine"])
+    docs = process_event.extract_textss_from_events(
+        events_russia, ["russia", "ukraine"]
+    )
 
     print(f"Extracting topics from {len(docs)} documents")
     if args.type == "inspired":
