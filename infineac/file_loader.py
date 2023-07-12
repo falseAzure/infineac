@@ -11,6 +11,7 @@ from pathlib import Path
 
 from lxml import etree
 from rapidfuzz import fuzz
+from tqdm import tqdm
 
 # main directory
 main_dir = Path(__file__).resolve().parents[1]
@@ -572,11 +573,11 @@ def load_files_from_xml(files: list) -> list:
 
     events = []
     i = 1
-    for file in files:
+    for file in tqdm(files, desc="Files", total=len(files)):
         load_logger.info(
             "Processing file: " + str(i) + "/" + str(len(files)) + ": " + str(file)
         )
-        print(i, "/", len(files), " - Processing file: ", file, end="\r")
+        # print(i, "/", len(files), " - Processing file: ", file, end="\r")
         event = create_blank_event()
         # event["file"] = Path(file).stem
         event["file"] = file
