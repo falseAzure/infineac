@@ -162,6 +162,7 @@ cython_debug/
 data/
 output/
 orbis_overview_files/
+infineac_coref/neuralcoref/
 
 .DS_Store
 .Rproj.user
