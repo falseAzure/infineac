@@ -169,3 +169,4 @@ infineac_coref/neuralcoref/
 .Rhistory
 .vscode/settings.json
 *.Rproj
+ideas.md
