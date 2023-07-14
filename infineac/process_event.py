@@ -34,7 +34,7 @@ from tqdm import tqdm
 import infineac.process_text as process_text
 
 
-def extract_paragraphs_from_presentation(presentation: list, keywords: list) -> str:
+def extract_paragraphs_from_presentation(presentation: list, keywords: dict) -> str:
     """
     Method to extract important paragraphs from
     the presentation part of an event.
@@ -44,7 +44,7 @@ def extract_paragraphs_from_presentation(presentation: list, keywords: list) -> 
 
     Args:
         presentation (list): List of dicts containing the presentation part.
-        keywords (list): List of keywords to determine importance.
+        keywords (dict): List of keywords to determine importance.
 
     Returns:
         str: The extracted parts as a concatenated string.
@@ -69,19 +69,56 @@ def extract_paragraphs_from_presentation(presentation: list, keywords: list) -> 
     return whole_text
 
 
-def extract_paragraphs_from_qa(qa: list, keywords: list) -> str:
+def extract_parts_from_presentation(presentation: list, keywords: dict) -> str:
     """
-    Method to extract important paragraphs from the Q&A part of an event.
+    Method to extract important paragraphs from
+    the presentation part of an event.
     Importance of a paragraph is determined by the presence of a keyword.
     If a keyword is present in a paragraph the whole paragraph
     as well as the subsequent one is extracted.
 
     Args:
-        qa (list): List of dicts containing the Q&A part.
-        keywords (list): List of keywords to determine importance.
+        presentation (list): List of dicts containing the presentation part.
+        keywords (dict): List of keywords to determine importance.
 
     Returns:
         str: The extracted parts as a concatenated string.
+    """
+    whole_text = ""
+    if presentation is None:
+        return whole_text
+    previous_paragraph_keyword = False
+    for part in presentation:
+        if part["name"] == "Operator" or part["position"] == "operator":
+            continue
+        else:
+            paragraphs = re.split("\n", part["text"])
+            for paragraph in paragraphs:
+                if any(keyword in paragraph.lower() for keyword in keywords):
+                    whole_text += paragraph + "\n"
+                    previous_paragraph_keyword = True
+                elif previous_paragraph_keyword:
+                    whole_text += paragraph + "\n"
+                    previous_paragraph_keyword = False
+
+    return whole_text
+
+
+def extract_paragraphs_from_qa(qa: list, keywords: dict) -> list:
+    """
+    Method to extract important paragraphs from the Q&A part of an event.
+    Importance of a paragraph is determined by the presence of a keyword.
+    If a keyword is present in a question the entire answer referring to that
+    question is extracted.
+    If a keyword is present in an answer (without being posed in the question)
+    the entire paragraph as well as the subsequent one is extracted.
+
+    Args:
+        qa (list): List of dicts containing the Q&A part.
+        keywords (dict): List of keywords to determine importance.
+
+    Returns:
+        str: The extracted parts as a list of strings.
     """
     whole_text = ""
     if qa is None:
@@ -111,6 +148,97 @@ def extract_paragraphs_from_qa(qa: list, keywords: list) -> str:
                 previous_paragraph_keyword = False
 
     return whole_text
+
+
+def extract_parts_from_qa(qa: list, keywords: dict, nlp=None) -> list:
+    """
+    Method to extract important parts from the Q&A part of an event.
+    Importance of a part is determined by the presence of a keyword.
+    If a keyword is present in a question the entire answer referring to that
+    question is extracted.
+    If a keyword is present in an answer (without being posed in the question)
+    the entire answer beginning with the sentence it was found is extracted.
+
+    Args:
+        qa (list): List of dicts containing the Q&A part.
+        keywords (dict): List of keywords to determine importance.
+
+    Returns:
+        list: The extracted parts as a list of strings.
+    """
+    parts = []
+    if qa is None:
+        return parts
+    previous_question_keyword = False
+    previous_paragraph_keyword = False
+    for part in qa:
+        # conference participants and others (operator, unidentified, unknown etc.)
+        if part["position"] != "cooperation":
+            previous_question_keyword = False
+            if any(keyword in part["text"].lower() for keyword in keywords):
+                previous_question_keyword = True
+            continue
+
+        # cooperation
+        if previous_question_keyword:
+            parts.append(part["text"])
+            continue
+
+        paragraphs = re.split("\n", part["text"])
+        for paragraph in paragraphs:
+            if any(keyword in paragraph.lower() for keyword in keywords):
+                parts.append(get_sentences_after_keywords(paragraph, keywords, nlp))
+                previous_paragraph_keyword = True
+            elif previous_paragraph_keyword:
+                parts.append(paragraph)
+                previous_paragraph_keyword = False
+
+    return parts
+
+
+def get_sentences_after_keywords(text: str, keywords: dict = {}, nlp=None) -> list:
+    if nlp is None:
+        return None
+    if str == "":
+        return ""
+    if not any(keyword in text.lower() for keyword in keywords):
+        return ""
+
+    doc = nlp(text)
+    sentences = list(doc.sents)
+    for idx, sent in enumerate(sentences):
+        if any(keyword in sent.text.lower() for keyword in keywords):
+            start_idx = idx
+            break
+    matching_sentences = sentences[start_idx:]
+    part = " ".join([sentence.text for sentence in matching_sentences])
+    return part
+
+
+def check_if_keyword_align_qa(qa: list, keywords: dict) -> list:
+    n_only_qa_uses_keyword = 0
+    if qa is None:
+        return n_only_qa_uses_keyword
+    previous_question_keyword = False
+    question_and_answer_use_keyword = True
+    for part in qa:
+        # conference participants and others (operator, unidentified, unknown etc.)
+        if part["position"] != "cooperation":
+            # previous_question = part["text"]
+            if not question_and_answer_use_keyword:
+                # print(previous_question)
+                n_only_qa_uses_keyword = +1
+            if any(keyword in part["text"].lower() for keyword in keywords):
+                previous_question_keyword = True
+                question_and_answer_use_keyword = False
+            continue
+
+        # cooperation
+        if previous_question_keyword:
+            if any(keyword in part["text"].lower() for keyword in keywords):
+                question_and_answer_use_keyword = True
+
+    return n_only_qa_uses_keyword
 
 
 def extract_paragraphs_from_event(event: dict, keywords: list) -> str:
@@ -189,8 +317,6 @@ def filter_events(events: list, year: int = 2022, keywords: dict = {}) -> list:
         list: List of filtered events.
     """
     print("Filtering events")
-    filtered_events = [e for e in events if e["type"] == "PushEvent"]
-    print("Filtered to {} events".format(len(filtered_events)))
     events_filtered = []
     for event in tqdm(events, desc="Events", total=len(events)):
         if not (
