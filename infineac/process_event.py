@@ -62,14 +62,15 @@ def extract_paragraphs_from_presentation(
             paragraphs = re.split("\n", part["text"])
             for paragraph in paragraphs:
                 if any(keyword in paragraph.lower() for keyword in keywords):
-                    whole_text += paragraph + "\n"
                     keyword_n_paragraphs_above = 0
+                    whole_text += paragraph + "\n"
                 elif (
                     keyword_n_paragraphs_above >= 0
-                    and keyword_n_paragraphs_above < subsequent_paragraphs
+                    and keyword_n_paragraphs_above <= subsequent_paragraphs
                 ):
                     whole_text += paragraph + "\n"
-                keyword_n_paragraphs_above += 1
+                if keyword_n_paragraphs_above != -1:
+                    keyword_n_paragraphs_above += 1
 
     return whole_text
 
@@ -133,11 +134,16 @@ def extract_paragraphs_from_qa(
     previous_question_has_keyword = False
     keyword_n_paragraphs_above = -1
     for part in qa:
-        # conference participants and others (operator, unidentified, unknown etc.)
+        if part["position"] in ["operator", "editor"]:
+            continue
+
+        # conference participants and others (unidentified, unknown
+        # etc.)
         if part["position"] != "cooperation":
             previous_question_has_keyword = False
             if any(keyword in part["text"].lower() for keyword in keywords):
                 previous_question_has_keyword = True
+            keyword_n_paragraphs_above = -1
             continue
 
         # cooperation
@@ -152,15 +158,18 @@ def extract_paragraphs_from_qa(
                 keyword_n_paragraphs_above = 0
             elif (
                 keyword_n_paragraphs_above >= 0
-                and keyword_n_paragraphs_above < subsequent_paragraphs
+                and keyword_n_paragraphs_above <= subsequent_paragraphs
             ):
                 whole_text += paragraph + "\n"
-            keyword_n_paragraphs_above += 1
+            if keyword_n_paragraphs_above != -1:
+                keyword_n_paragraphs_above += 1
 
     return whole_text
 
 
-def extract_parts_from_qa(qa: list, keywords: dict, nlp=None) -> list:
+def extract_parts_from_qa(
+    qa: list, keywords: dict, subsequent_paragraphs: int = 0, nlp=None
+) -> list:
     """
     Method to extract important parts from the Q&A part of an event.
     Importance of a part is determined by the presence of a keyword.
@@ -180,13 +189,18 @@ def extract_parts_from_qa(qa: list, keywords: dict, nlp=None) -> list:
     if qa is None:
         return parts
     previous_question_has_keyword = False
-    previous_paragraph_keyword = False
+    keyword_n_paragraphs_above = -1
     for part in qa:
-        # conference participants and others (operator, unidentified, unknown etc.)
+        if part["position"] in ["operator", "editor"]:
+            continue
+
+        # conference participants and others (unidentified, unknown
+        # etc.)
         if part["position"] != "cooperation":
             previous_question_has_keyword = False
             if any(keyword in part["text"].lower() for keyword in keywords):
                 previous_question_has_keyword = True
+            keyword_n_paragraphs_above = -1
             continue
 
         # cooperation
@@ -198,10 +212,14 @@ def extract_parts_from_qa(qa: list, keywords: dict, nlp=None) -> list:
         for paragraph in paragraphs:
             if any(keyword in paragraph.lower() for keyword in keywords):
                 parts.append(get_sentences_after_keywords(paragraph, keywords, nlp))
-                previous_paragraph_keyword = True
-            elif previous_paragraph_keyword:
+                keyword_n_paragraphs_above = 0
+            elif (
+                keyword_n_paragraphs_above >= 0
+                and keyword_n_paragraphs_above < subsequent_paragraphs
+            ):
                 parts.append(paragraph)
-                previous_paragraph_keyword = False
+            if keyword_n_paragraphs_above != -1:
+                keyword_n_paragraphs_above += 1
 
     return parts
 
