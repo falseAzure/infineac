@@ -178,8 +178,8 @@ def extract_parts_from_qa(
     """
     Method to extract important parts from the Q&A section of an event.
     Importance of a paragraph/part is determined by the presence
-    of a keyword. If a keyword is present in a question the entire answer referring to that
-    question is extracted. If a keyword occurs in an answer (without being
+    of a keyword. If a keyword is present in a question the entire answer referring to
+    that question is extracted. If a keyword occurs in an answer (without being
     posed in the question), either the entire paragraph or the part beginning
     with the sentence in which the keyword was found is extracted.
     Additionally, n subsequent paragraphs are extracted.
@@ -317,7 +317,7 @@ def check_if_keyword_align_qa(qa: list, keywords: dict) -> int:
     return n_only_qa_uses_keyword
 
 
-def extract_paragraphs_from_event(
+def extract_parts_from_event(
     event: dict,
     keywords: dict,
     subsequent_paragraphs: int = 0,
@@ -357,11 +357,11 @@ def extract_paragraphs_from_event(
     if output_type == "str":
         doc = presentation_extracted + "/n" + qa_extracted
     elif output_type == "list":
-        doc = presentation_extracted + qa_extracted
+        doc = [presentation_extracted, qa_extracted]
     return doc
 
 
-def extract_paragraphs_from_events(
+def extract_parts_from_events(
     events: list,
     keywords: dict,
     subsequent_paragraphs: int = 0,
@@ -388,7 +388,9 @@ def extract_paragraphs_from_events(
     """
     print("Extracting paragraphs from events")
     docs = [
-        extract_paragraphs_from_event(event, keywords)
+        extract_parts_from_event(
+            event, keywords, subsequent_paragraphs, output_type, part_type, nlp
+        )
         for event in tqdm(events, desc="Events", total=len(events))
     ]
     return docs
