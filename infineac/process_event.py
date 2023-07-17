@@ -387,12 +387,18 @@ def extract_parts_from_events(
         list: The extracted parts as a list of strings or list.
     """
     print("Extracting paragraphs from events")
-    docs = [
-        extract_parts_from_event(
-            event, keywords, subsequent_paragraphs, output_type, part_type, nlp
+    docs = []
+    for event in tqdm(events, desc="Events", total=len(events)):
+        docs.append(
+            extract_parts_from_event(
+                event,
+                keywords,
+                subsequent_paragraphs,
+                output_type,
+                part_type,
+                nlp,
+            )
         )
-        for event in tqdm(events, desc="Events", total=len(events))
-    ]
     return docs
 
 
