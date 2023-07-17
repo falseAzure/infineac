@@ -34,7 +34,9 @@ from tqdm import tqdm
 import infineac.process_text as process_text
 
 
-def extract_paragraphs_from_presentation(presentation: list, keywords: dict) -> str:
+def extract_paragraphs_from_presentation(
+    presentation: list, keywords: dict, subsequent_paragraphs: int = 0
+) -> str:
     """
     Method to extract important paragraphs from
     the presentation part of an event.
@@ -52,7 +54,7 @@ def extract_paragraphs_from_presentation(presentation: list, keywords: dict) -> 
     whole_text = ""
     if presentation is None:
         return whole_text
-    previous_paragraph_keyword = False
+    keyword_n_paragraphs_above = -1
     for part in presentation:
         if part["name"] == "Operator" or part["position"] == "operator":
             continue
@@ -61,10 +63,13 @@ def extract_paragraphs_from_presentation(presentation: list, keywords: dict) -> 
             for paragraph in paragraphs:
                 if any(keyword in paragraph.lower() for keyword in keywords):
                     whole_text += paragraph + "\n"
-                    previous_paragraph_keyword = True
-                elif previous_paragraph_keyword:
+                    keyword_n_paragraphs_above = 0
+                elif (
+                    keyword_n_paragraphs_above >= 0
+                    and keyword_n_paragraphs_above < subsequent_paragraphs
+                ):
                     whole_text += paragraph + "\n"
-                    previous_paragraph_keyword = False
+                keyword_n_paragraphs_above += 1
 
     return whole_text
 
@@ -104,7 +109,9 @@ def extract_parts_from_presentation(presentation: list, keywords: dict) -> str:
     return whole_text
 
 
-def extract_paragraphs_from_qa(qa: list, keywords: dict) -> list:
+def extract_paragraphs_from_qa(
+    qa: list, keywords: dict, subsequent_paragraphs: int = 0
+) -> list:
     """
     Method to extract important paragraphs from the Q&A part of an event.
     Importance of a paragraph is determined by the presence of a keyword.
@@ -123,18 +130,18 @@ def extract_paragraphs_from_qa(qa: list, keywords: dict) -> list:
     whole_text = ""
     if qa is None:
         return whole_text
-    previous_question_keyword = False
-    previous_paragraph_keyword = False
+    previous_question_has_keyword = False
+    keyword_n_paragraphs_above = -1
     for part in qa:
         # conference participants and others (operator, unidentified, unknown etc.)
         if part["position"] != "cooperation":
-            previous_question_keyword = False
+            previous_question_has_keyword = False
             if any(keyword in part["text"].lower() for keyword in keywords):
-                previous_question_keyword = True
+                previous_question_has_keyword = True
             continue
 
         # cooperation
-        if previous_question_keyword:
+        if previous_question_has_keyword:
             whole_text += part["text"] + "\n"
             continue
 
@@ -142,10 +149,13 @@ def extract_paragraphs_from_qa(qa: list, keywords: dict) -> list:
         for paragraph in paragraphs:
             if any(keyword in paragraph.lower() for keyword in keywords):
                 whole_text += paragraph + "\n"
-                previous_paragraph_keyword = True
-            elif previous_paragraph_keyword:
+                keyword_n_paragraphs_above = 0
+            elif (
+                keyword_n_paragraphs_above >= 0
+                and keyword_n_paragraphs_above < subsequent_paragraphs
+            ):
                 whole_text += paragraph + "\n"
-                previous_paragraph_keyword = False
+            keyword_n_paragraphs_above += 1
 
     return whole_text
 
@@ -169,18 +179,18 @@ def extract_parts_from_qa(qa: list, keywords: dict, nlp=None) -> list:
     parts = []
     if qa is None:
         return parts
-    previous_question_keyword = False
+    previous_question_has_keyword = False
     previous_paragraph_keyword = False
     for part in qa:
         # conference participants and others (operator, unidentified, unknown etc.)
         if part["position"] != "cooperation":
-            previous_question_keyword = False
+            previous_question_has_keyword = False
             if any(keyword in part["text"].lower() for keyword in keywords):
-                previous_question_keyword = True
+                previous_question_has_keyword = True
             continue
 
         # cooperation
-        if previous_question_keyword:
+        if previous_question_has_keyword:
             parts.append(part["text"])
             continue
 
