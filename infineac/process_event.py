@@ -53,13 +53,15 @@ def loop_through_paragraphs(
     Args:
         paragraphs (list): List of paragraphs to loop through.
         keywords (dict): List of keywords to determine importance.
-        subsequent_paragraphs (int): Number of subsequent paragraphs to
-        extract.
-        output_type (str): Type of output. Either "str" or "list".
-        part_type (str): Type of part to extract. Either "paragraph" or "part".
-        key_n_paragraphs_above (int): Number of paragraphs above the current paragraph
-        where the keyword was found.
-        nlp(spacy.lang): Spacy language model.
+        subsequent_paragraphs (int, optional): Number of subsequent paragraphs to
+        extract. Defaults to 0.
+        output_type (str): Type of output. Either "str" or "list". Defaults to
+        "list".
+        part_type (str, optional): Type of part to extract. Either "paragraph"
+        or "part". Defaults to "paragraph".
+        key_n_paragraphs_above (int): Number of paragraphs above the current
+        paragraph. Defaults to -1.
+        nlp(spacy.lang, optional): Spacy language model. Defaults to None.
 
     Raises:
         ValueError: If output_type is not "str" or "list".
@@ -113,7 +115,7 @@ def extract_parts_from_presentation(
     nlp=None,
 ) -> str | list:
     """
-    Method to extract important paragraphs or parts from the presentation part
+    Method to extract important paragraphs or parts from the presentation section
     of an event. Importance of a paragraph/part is determined by the presence
     of a keyword. If a keyword occurs in a paragraph, either the entire
     paragraph or the part beginning with the sentence in which the keyword was
@@ -122,11 +124,13 @@ def extract_parts_from_presentation(
     Args:
         presentation (list): List of dicts containing the presentation part.
         keywords (dict): List of keywords to determine importance.
-        subsequent_paragraphs (int): Number of subsequent paragraphs to
-        extract.
-        output_type (str): Type of output. Either "str" or "list".
-        part_type (str): Type of part to extract. Either "paragraph" or "part".
-        nlp(spacy.lang): Spacy language model.
+        subsequent_paragraphs (int, optional): Number of subsequent paragraphs to
+        extract. Defaults to 0.
+        output_type (str): Type of output. Either "str" or "list". Defaults to
+        "list".
+        part_type (str, optional): Type of part to extract. Either "paragraph"
+        or "part". Defaults to "paragraph".
+        nlp(spacy.lang, optional): Spacy language model. Defaults to None.
 
     Returns:
         str | list: The extracted parts as a concatenated string or list of
@@ -163,60 +167,6 @@ def extract_parts_from_presentation(
     return parts
 
 
-def extract_paragraphs_from_qa(
-    qa: list, keywords: dict, subsequent_paragraphs: int = 0
-) -> list:
-    """
-    Method to extract important paragraphs from the Q&A part of an event.
-    Importance of a paragraph is determined by the presence of a keyword.
-    If a keyword is present in a question the entire answer referring to that
-    question is extracted.
-    If a keyword is present in an answer (without being posed in the question)
-    the entire paragraph as well as the subsequent one is extracted.
-
-    Args:
-        qa (list): List of dicts containing the Q&A part.
-        keywords (dict): List of keywords to determine importance.
-        subsequent_paragraphs (int): Number of subsequent paragraphs to extract.
-
-    Returns:
-        str: The extracted paragraphs as a list of strings.
-    """
-    whole_text = ""
-    if qa is None:
-        return whole_text
-    previous_question_has_keyword = False
-    keyword_n_paragraphs_above = -1
-    for part in qa:
-        if part["position"] in ["operator", "editor"]:
-            continue
-
-        # conference participants and others (unidentified, unknown
-        # etc.)
-        if part["position"] != "cooperation":
-            previous_question_has_keyword = False
-            if any(keyword in part["text"].lower() for keyword in keywords):
-                previous_question_has_keyword = True
-            keyword_n_paragraphs_above = -1
-            continue
-
-        # cooperation
-        if previous_question_has_keyword:
-            whole_text += part["text"] + "\n"
-            continue
-
-        paragraphs = re.split("\n", part["text"])
-        whole_text += loop_through_paragraphs(
-            paragraphs,
-            keywords,
-            subsequent_paragraphs,
-            "str",
-            keyword_n_paragraphs_above,
-        )
-
-    return whole_text
-
-
 def extract_parts_from_qa(
     qa: list,
     keywords: dict,
@@ -226,20 +176,29 @@ def extract_parts_from_qa(
     nlp=None,
 ) -> str | list:
     """
-    Method to extract important parts from the Q&A part of an event.
-    Importance of a part is determined by the presence of a keyword.
-    If a keyword is present in a question the entire answer referring to that
-    question is extracted.
-    If a keyword is present in an answer (without being posed in the question)
-    the entire answer beginning with the sentence it was found is extracted.
+    Method to extract important parts from the Q&A section of an event.
+    Importance of a paragraph/part is determined by the presence
+    of a keyword. If a keyword is present in a question the entire answer referring to that
+    question is extracted. If a keyword occurs in an answer (without being
+    posed in the question), either the entire paragraph or the part beginning
+    with the sentence in which the keyword was found is extracted.
+    Additionally, n subsequent paragraphs are extracted.
+
 
     Args:
-        qa (list): List of dicts containing the Q&A part.
+        presentation (list): List of dicts containing the presentation part.
         keywords (dict): List of keywords to determine importance.
-        subsequent_paragraphs (int): Number of subsequent paragraphs to extract.
+        subsequent_paragraphs (int, optional): Number of subsequent paragraphs to
+        extract. Defaults to 0.
+        output_type (str): Type of output. Either "str" or "list". Defaults to
+        "list".
+        part_type (str, optional): Type of part to extract. Either "paragraph"
+        or "part". Defaults to "paragraph".
+        nlp(spacy.lang, optional): Spacy language model. Defaults to None.
 
     Returns:
-        list: The extracted parts as a list of strings.
+        str | list: The extracted parts as a concatenated string or list of
+        strings.
     """
     if output_type == "str":
         parts = ""
@@ -290,7 +249,19 @@ def extract_parts_from_qa(
     return parts
 
 
-def get_sentences_after_keywords(text: str, keywords: dict = {}, nlp=None) -> list:
+def get_sentences_after_keywords(text: str, keywords: dict = {}, nlp=None) -> str:
+    """
+    Method to extract the sentences after a keyword in a text.
+
+    Args:
+        text (str): The text to extract the sentences from.
+        keywords (dict, optional): The keywords starting from which the
+        sentences are extracted. Defaults to {}.
+        nlp (Spacy.lang, optional): NLP model. Defaults to None.
+
+    Returns:
+        str: The extracted sentences.
+    """
     if nlp is None:
         return None
     if str == "":
@@ -309,7 +280,18 @@ def get_sentences_after_keywords(text: str, keywords: dict = {}, nlp=None) -> li
     return part
 
 
-def check_if_keyword_align_qa(qa: list, keywords: dict) -> list:
+def check_if_keyword_align_qa(qa: list, keywords: dict) -> int:
+    """
+    Function to check if a keyword occurs in a question and the answer to that.
+
+    Args:
+        qa (list): Q&A section of an event.
+        keywords (dict): Keywords to check for.
+
+    Returns:
+        int: Number of times a keyword occurs in a question and NOT the answer
+        to that.
+    """
     n_only_qa_uses_keyword = 0
     if qa is None:
         return n_only_qa_uses_keyword
@@ -335,35 +317,74 @@ def check_if_keyword_align_qa(qa: list, keywords: dict) -> list:
     return n_only_qa_uses_keyword
 
 
-def extract_paragraphs_from_event(event: dict, keywords: list) -> str:
+def extract_paragraphs_from_event(
+    event: dict,
+    keywords: dict,
+    subsequent_paragraphs: int = 0,
+    output_type: str = "list",
+    part_type: str = "paragraph",
+    nlp=None,
+) -> str | list:
     """
-    Method to extract important paragraphs from an event.
+    Wrapper function to extract important paragraphs from an event.
 
     Args:
-        event (dict): Dict containing the event.
-        keywords (list): List of keywords to determine importance.
+        presentation (list): List of dicts containing the presentation part.
+        keywords (dict): List of keywords to determine importance.
+        subsequent_paragraphs (int, optional): Number of subsequent paragraphs to
+        extract. Defaults to 0.
+        output_type (str): Type of output. Either "str" or "list". Defaults to
+        "list".
+        part_type (str, optional): Type of part to extract. Either "paragraph"
+        or "part". Defaults to "paragraph".
+        nlp(spacy.lang, optional): Spacy language model. Defaults to None.
 
     Returns:
-        str: The extracted parts as a concatenated string.
+        str | list: The extracted parts as a concatenated string or list of
+        strings.
     """
-    doc = (
-        extract_parts_from_presentation(event["presentation"], keywords)
-        + "\n"
-        + extract_paragraphs_from_qa(event["qa"], keywords)
+    presentation_extracted = extract_parts_from_presentation(
+        event["presentation"],
+        keywords,
+        subsequent_paragraphs,
+        output_type,
+        part_type,
+        nlp,
     )
+    qa_extracted = extract_parts_from_qa(
+        event["qa"], keywords, subsequent_paragraphs, output_type, part_type, nlp
+    )
+    if output_type == "str":
+        doc = presentation_extracted + "/n" + qa_extracted
+    elif output_type == "list":
+        doc = presentation_extracted + qa_extracted
     return doc
 
 
-def extract_paragraphs_from_events(events: list, keywords: list) -> list:
+def extract_paragraphs_from_events(
+    events: list,
+    keywords: dict,
+    subsequent_paragraphs: int = 0,
+    output_type: str = "list",
+    part_type: str = "paragraph",
+    nlp=None,
+) -> list:
     """
-    Method to extract important paragraphs from a list of events.
+    Wrapper function to extract important paragraphs from a list of events.
 
     Args:
         events (list): List of dicts containing the events.
-        keywords (list): List of keywords to determine importance.
+        keywords (dict): List of keywords to determine importance.
+        subsequent_paragraphs (int, optional): Number of subsequent paragraphs to
+        extract. Defaults to 0.
+        output_type (str): Type of output. Either "str" or "list". Defaults to
+        "list".
+        part_type (str, optional): Type of part to extract. Either "paragraph"
+        or "part". Defaults to "paragraph".
+        nlp(spacy.lang, optional): Spacy language model. Defaults to None.
 
     Returns:
-        list: The extracted paragraphs as a list of concatenated strings.
+        list: The extracted parts as a list of strings or list.
     """
     print("Extracting paragraphs from events")
     docs = [
@@ -375,7 +396,7 @@ def extract_paragraphs_from_events(events: list, keywords: list) -> list:
 
 def check_keywords_in_event(event: dict, keywords: dict = {}) -> bool:
     """
-    Method to check if keywords are present in the presentation or
+    Function to check if keywords are present in the presentation or
     Q&A part of an event.
 
     Args:
