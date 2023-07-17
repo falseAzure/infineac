@@ -34,6 +34,41 @@ from tqdm import tqdm
 import infineac.process_text as process_text
 
 
+def loop_through_paragraphs(
+    paragraphs: list,
+    keywords: dict,
+    subsequent_paragraphs: int,
+    type: str = "str",
+    keyword_n_paragraphs_above: int = -1,
+    nlp=None,
+):
+    if type == "str":
+        parts_out = ""
+    elif type == "list":
+        parts_out = []
+    else:
+        return False
+
+    for paragraph in paragraphs:
+        if any(keyword in paragraph.lower() for keyword in keywords):
+            keyword_n_paragraphs_above = 0
+            if type == "list":
+                parts_out.append(get_sentences_after_keywords(paragraph, keywords, nlp))
+            elif type == "str":
+                parts_out += paragraph + "\n"
+        elif (
+            keyword_n_paragraphs_above >= 0
+            and keyword_n_paragraphs_above <= subsequent_paragraphs
+        ):
+            if type == "list":
+                parts_out.append(paragraph)
+            elif type == "str":
+                parts_out += paragraph + "\n"
+        if keyword_n_paragraphs_above != -1:
+            keyword_n_paragraphs_above += 1
+    return parts_out
+
+
 def extract_paragraphs_from_presentation(
     presentation: list, keywords: dict, subsequent_paragraphs: int = 0
 ) -> str:
@@ -47,35 +82,45 @@ def extract_paragraphs_from_presentation(
     Args:
         presentation (list): List of dicts containing the presentation part.
         keywords (dict): List of keywords to determine importance.
+        subsequent_paragraphs (int): Number of subsequent paragraphs to extract.
 
     Returns:
-        str: The extracted parts as a concatenated string.
+        str: The extracted paragraphs as a concatenated string.
     """
     whole_text = ""
     if presentation is None:
         return whole_text
-    keyword_n_paragraphs_above = -1
     for part in presentation:
-        if part["name"] == "Operator" or part["position"] == "operator":
+        keyword_n_paragraphs_above = -1
+        if part["position"] != "cooperation":
             continue
         else:
             paragraphs = re.split("\n", part["text"])
-            for paragraph in paragraphs:
-                if any(keyword in paragraph.lower() for keyword in keywords):
-                    keyword_n_paragraphs_above = 0
-                    whole_text += paragraph + "\n"
-                elif (
-                    keyword_n_paragraphs_above >= 0
-                    and keyword_n_paragraphs_above <= subsequent_paragraphs
-                ):
-                    whole_text += paragraph + "\n"
-                if keyword_n_paragraphs_above != -1:
-                    keyword_n_paragraphs_above += 1
+            whole_text += loop_through_paragraphs(
+                paragraphs,
+                keywords,
+                subsequent_paragraphs,
+                "str",
+                keyword_n_paragraphs_above,
+            )
+            # for paragraph in paragraphs:
+            #     if any(keyword in paragraph.lower() for keyword in keywords):
+            #         keyword_n_paragraphs_above = 0
+            #         whole_text += paragraph + "\n"
+            #     elif (
+            #         keyword_n_paragraphs_above >= 0
+            #         and keyword_n_paragraphs_above <= subsequent_paragraphs
+            #     ):
+            #         whole_text += paragraph + "\n"
+            #     if keyword_n_paragraphs_above != -1:
+            #         keyword_n_paragraphs_above += 1
 
     return whole_text
 
 
-def extract_parts_from_presentation(presentation: list, keywords: dict) -> str:
+def extract_parts_from_presentation(
+    presentation: list, keywords: dict, subsequent_paragraphs: int = 0, nlp=None
+) -> str:
     """
     Method to extract important paragraphs from
     the presentation part of an event.
@@ -86,28 +131,32 @@ def extract_parts_from_presentation(presentation: list, keywords: dict) -> str:
     Args:
         presentation (list): List of dicts containing the presentation part.
         keywords (dict): List of keywords to determine importance.
+        subsequent_paragraphs (int): Number of subsequent paragraphs to extract.
 
     Returns:
-        str: The extracted parts as a concatenated string.
+        list: The extracted parts as a list of strings.
     """
-    whole_text = ""
+    parts = []
     if presentation is None:
-        return whole_text
-    previous_paragraph_keyword = False
+        return parts
+    keyword_n_paragraphs_above = -1
     for part in presentation:
-        if part["name"] == "Operator" or part["position"] == "operator":
+        if part["position"] != "cooperation":
             continue
         else:
             paragraphs = re.split("\n", part["text"])
-            for paragraph in paragraphs:
-                if any(keyword in paragraph.lower() for keyword in keywords):
-                    whole_text += paragraph + "\n"
-                    previous_paragraph_keyword = True
-                elif previous_paragraph_keyword:
-                    whole_text += paragraph + "\n"
-                    previous_paragraph_keyword = False
+            new_parts = loop_through_paragraphs(
+                paragraphs,
+                keywords,
+                subsequent_paragraphs,
+                "list",
+                keyword_n_paragraphs_above,
+                nlp,
+            )
+            if new_parts:
+                parts += new_parts
 
-    return whole_text
+    return parts
 
 
 def extract_paragraphs_from_qa(
@@ -124,9 +173,10 @@ def extract_paragraphs_from_qa(
     Args:
         qa (list): List of dicts containing the Q&A part.
         keywords (dict): List of keywords to determine importance.
+        subsequent_paragraphs (int): Number of subsequent paragraphs to extract.
 
     Returns:
-        str: The extracted parts as a list of strings.
+        str: The extracted paragraphs as a list of strings.
     """
     whole_text = ""
     if qa is None:
@@ -152,17 +202,13 @@ def extract_paragraphs_from_qa(
             continue
 
         paragraphs = re.split("\n", part["text"])
-        for paragraph in paragraphs:
-            if any(keyword in paragraph.lower() for keyword in keywords):
-                whole_text += paragraph + "\n"
-                keyword_n_paragraphs_above = 0
-            elif (
-                keyword_n_paragraphs_above >= 0
-                and keyword_n_paragraphs_above <= subsequent_paragraphs
-            ):
-                whole_text += paragraph + "\n"
-            if keyword_n_paragraphs_above != -1:
-                keyword_n_paragraphs_above += 1
+        whole_text += loop_through_paragraphs(
+            paragraphs,
+            keywords,
+            subsequent_paragraphs,
+            "str",
+            keyword_n_paragraphs_above,
+        )
 
     return whole_text
 
@@ -181,6 +227,7 @@ def extract_parts_from_qa(
     Args:
         qa (list): List of dicts containing the Q&A part.
         keywords (dict): List of keywords to determine importance.
+        subsequent_paragraphs (int): Number of subsequent paragraphs to extract.
 
     Returns:
         list: The extracted parts as a list of strings.
@@ -209,17 +256,16 @@ def extract_parts_from_qa(
             continue
 
         paragraphs = re.split("\n", part["text"])
-        for paragraph in paragraphs:
-            if any(keyword in paragraph.lower() for keyword in keywords):
-                parts.append(get_sentences_after_keywords(paragraph, keywords, nlp))
-                keyword_n_paragraphs_above = 0
-            elif (
-                keyword_n_paragraphs_above >= 0
-                and keyword_n_paragraphs_above < subsequent_paragraphs
-            ):
-                parts.append(paragraph)
-            if keyword_n_paragraphs_above != -1:
-                keyword_n_paragraphs_above += 1
+        new_parts = loop_through_paragraphs(
+            paragraphs,
+            keywords,
+            subsequent_paragraphs,
+            "list",
+            keyword_n_paragraphs_above,
+            nlp,
+        )
+        if new_parts:
+            parts += new_parts
 
     return parts
 
