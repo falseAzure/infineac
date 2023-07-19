@@ -108,7 +108,7 @@ def loop_through_paragraphs(
 
 def extract_parts_from_presentation(
     presentation: list,
-    keywords: dict,
+    keywords: list,
     subsequent_paragraphs: int = 0,
     output_type: str = "list",
     part_type: str = "paragraph",
@@ -123,7 +123,7 @@ def extract_parts_from_presentation(
 
     Args:
         presentation (list): List of dicts containing the presentation part.
-        keywords (dict): List of keywords to determine importance.
+        keywords (list): List of keywords to determine importance.
         subsequent_paragraphs (int, optional): Number of subsequent paragraphs to
         extract. Defaults to 0.
         output_type (str): Type of output. Either "str" or "list". Defaults to
@@ -169,7 +169,7 @@ def extract_parts_from_presentation(
 
 def extract_parts_from_qa(
     qa: list,
-    keywords: dict,
+    keywords: list,
     subsequent_paragraphs: int = 0,
     output_type: str = "list",
     part_type: str = "paragraph",
@@ -187,7 +187,7 @@ def extract_parts_from_qa(
 
     Args:
         presentation (list): List of dicts containing the presentation part.
-        keywords (dict): List of keywords to determine importance.
+        keywords (list): List of keywords to determine importance.
         subsequent_paragraphs (int, optional): Number of subsequent paragraphs to
         extract. Defaults to 0.
         output_type (str): Type of output. Either "str" or "list". Defaults to
