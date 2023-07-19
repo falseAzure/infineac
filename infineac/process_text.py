@@ -61,6 +61,28 @@ def check_keywords_in_string(string: str, keywords: dict = {}) -> bool:
     return False
 
 
+def search_keywords_in_string_exclude(
+    text,
+    keywords,
+    filter_words=[
+        "excluding",
+        "omitting",
+        "except",
+        "not including",
+        "leaving out",
+        "disregarding",
+        "ignoring",
+    ],
+):
+    negative_lookbehind = "".join([r"\b(?<!" + word + "\s)" for word in filter_words])
+    keyword_pattern = "(" + "|".join(keywords) + ")"
+    combined_pattern = negative_lookbehind + keyword_pattern
+
+    match = re.search(combined_pattern, text.lower(), re.IGNORECASE)
+
+    return bool(match)
+
+
 def process_text_nlp(
     text_nlp: str,
     lemmatize: bool = True,
