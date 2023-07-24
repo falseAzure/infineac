@@ -2,6 +2,16 @@ import re
 
 from tqdm import tqdm
 
+FILTER_WORDS = [
+    "excluding",
+    "omitting",
+    "except",
+    "not including",
+    "leaving out",
+    "disregarding",
+    "ignoring",
+]
+
 
 def get_russia_and_sanction(string: str) -> str:
     """
@@ -50,37 +60,84 @@ def get_elections(string: str) -> str:
         return "none"
 
 
-def check_keywords_in_string(string: str, keywords: dict = {}) -> bool:
-    if keywords == {}:
-        return True
+# def keyword_search_threshold(string: str, keywords: dict = {}) -> bool:
+#     if keywords == {}:
+#         return True
 
+#     for key, value in keywords.items():
+#         if string.lower().count(key) >= value:
+#             return True
+
+#     return False
+
+
+def keyword_search_exclude_threshold(
+    string: str,
+    keywords: dict | list = {},
+    filter_words: list = FILTER_WORDS,
+):
+    """
+    Method to check if a text contains a keyword and does not contain a filter
+    word preceding the keyword.
+
+    Args:
+        string (str): The text to be searched.
+        keywords (dict | list, optional): Dictionary or list of keywords. If
+        keywords is a dictionary, the key is the keyword and the value is the
+        minimum number of occurrences of the keyword in the text. Defaults to {}.
+        filter_words (list, optional): List of filter words, which must not
+        precede the keyword. Defaults to FILTER_WORDS.
+
+    Returns:
+        _type_: _description_
+    """
+    if type(keywords) == "list":
+        keywords_orig = keywords
+        keywords = {}
+        for keyword in keywords_orig:
+            keywords[keyword] = 1
+
+    negative_lookbehind = "".join([r"\b(?<!" + word + "\s)" for word in filter_words])
     for key, value in keywords.items():
-        if string.lower().count(key) >= value:
+        keyword_pattern = "(" + key + ")"
+        combined_pattern = negative_lookbehind + keyword_pattern
+        found = len(re.findall(combined_pattern, string.lower(), re.IGNORECASE))
+        if found >= value:
             return True
 
     return False
 
 
-def search_keywords_in_string_exclude(
-    text,
-    keywords,
-    filter_words=[
-        "excluding",
-        "omitting",
-        "except",
-        "not including",
-        "leaving out",
-        "disregarding",
-        "ignoring",
-    ],
-):
-    negative_lookbehind = "".join([r"\b(?<!" + word + "\s)" for word in filter_words])
-    keyword_pattern = "(" + "|".join(keywords) + ")"
-    combined_pattern = negative_lookbehind + keyword_pattern
+def get_sentences_after_keywords(text: str, keywords: list = [], nlp=None) -> str:
+    """
+    Method to extract the sentences after a keyword as well as the sentence
+    the keyword was found.
 
-    match = re.search(combined_pattern, text.lower(), re.IGNORECASE)
+    Args:
+        text (str): The text to extract the sentences from.
+        keywords (list, optional): The keywords starting from which the
+        sentences are extracted. Defaults to {}.
+        nlp (Spacy.lang, optional): NLP model. Defaults to None.
 
-    return bool(match)
+    Returns:
+        str: The extracted sentences.
+    """
+    if nlp is None:
+        return None
+    if str == "":
+        return ""
+    if not any(keyword in text.lower() for keyword in keywords):
+        return ""
+
+    doc = nlp(text)
+    sentences = list(doc.sents)
+    for idx, sent in enumerate(sentences):
+        if any(keyword in sent.text.lower() for keyword in keywords):
+            start_idx = idx
+            break
+    matching_sentences = sentences[start_idx:]
+    part = " ".join([sentence.text for sentence in matching_sentences])
+    return part
 
 
 def process_text_nlp(
@@ -93,6 +150,31 @@ def process_text_nlp(
     remove_currency: bool = True,
     remove_space: bool = True,
 ) -> list:
+    """
+    Method to process a spaCy document. According to the parameters, the
+    document is lemmatized, lowercased and stopwords, punctuation, numeric,
+    currency and space tokens are removed.
+
+    Args:
+        text_nlp (str): The spaCy document to be processed.
+        lemmatize (bool, optional): If document should be lemmatized.
+        Defaults to True.
+        lowercase (bool, optional): If document should be lowercased.
+        Defaults to True.
+        remove_stopwords (bool, optional): If stopwords should be removed from
+        document. Defaults to True.
+        remove_punctuation (bool, optional): If punctuation should be removed from
+        document. Defaults to True.
+        remove_numeric (bool, optional): If numerics should be removed from
+        document. Defaults to False.
+        remove_currency (bool, optional): If currency symbols should be removed
+        from document. Defaults to True.
+        remove_space (bool, optional): If spaces should be removed from
+        document. Defaults to True.
+
+    Returns:
+        list: The processed document as a list of tokens.
+    """
     doc = []
     for word in text_nlp:
         if remove_stopwords and word.is_stop:
@@ -127,6 +209,32 @@ def process_text(
     remove_currency: bool = True,
     remove_space: bool = True,
 ) -> list:
+    """
+    Method to process a text with spaCy and an NLP model. According to the
+    parameters, the document is lemmatized, lowercased and stopwords,
+    punctuation, numeric, currency and space tokens are removed.
+
+    Args:
+        text (str): The text to be processed.
+        nlp (spacy.lang): spaCy language model.
+        lemmatize (bool, optional): If document should be lemmatized.
+        Defaults to True.
+        lowercase (bool, optional): If document should be lowercased.
+        Defaults to True.
+        remove_stopwords (bool, optional): If stopwords should be removed from
+        document. Defaults to True.
+        remove_punctuation (bool, optional): If punctuation should be removed from
+        document. Defaults to True.
+        remove_numeric (bool, optional): If numerics should be removed from
+        document. Defaults to False.
+        remove_currency (bool, optional): If currency symbols should be removed
+        from document. Defaults to True.
+        remove_space (bool, optional): If spaces should be removed from
+        document. Defaults to True.
+
+    Returns:
+        list: The processed document as a list of tokens.
+    """
     text_nlp = nlp(text)
 
     return process_text_nlp(
@@ -152,6 +260,32 @@ def process_corpus(
     remove_currency: bool = True,
     remove_space: bool = True,
 ) -> list:
+    """
+    Method to process a corpus (list of documents/texts) with spaCy and an NLP
+    model. According to the parameters, the document is lemmatized, lowercased
+    and stopwords, punctuation, numeric, currency and space tokens are removed.
+
+    Args:
+        corpus (list): List of texts to be processed.
+        nlp (spacy.lang): spaCy language model.
+        lemmatize (bool, optional): If document should be lemmatized.
+        Defaults to True.
+        lowercase (bool, optional): If document should be lowercased.
+        Defaults to True.
+        remove_stopwords (bool, optional): If stopwords should be removed from
+        document. Defaults to True.
+        remove_punctuation (bool, optional): If punctuation should be removed from
+        document. Defaults to True.
+        remove_numeric (bool, optional): If numerics should be removed from
+        document. Defaults to False.
+        remove_currency (bool, optional): If currency symbols should be removed
+        from document. Defaults to True.
+        remove_space (bool, optional): If spaces should be removed from
+        document. Defaults to True.
+
+    Returns:
+        list: The processed corpus as a list of lists of tokens.
+    """
     print("Processing corpus with spaCy-pipeline")
     # corpus_nlp = list(nlp.pipe(corpus, batch_size=128))
     docs = []
