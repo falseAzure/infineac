@@ -36,7 +36,7 @@ import infineac.process_text as process_text
 
 def loop_through_paragraphs(
     paragraphs: list,
-    keywords: dict,
+    keywords: list,
     subsequent_paragraphs: int,
     output_type: str = "str",
     part_type: str = "paragraph",
@@ -52,7 +52,7 @@ def loop_through_paragraphs(
 
     Args:
         paragraphs (list): List of paragraphs to loop through.
-        keywords (dict): List of keywords to determine importance.
+        keywords (list): List of keywords to determine importance.
         subsequent_paragraphs (int, optional): Number of subsequent paragraphs to
         extract. Defaults to 0.
         output_type (str): Type of output. Either "str" or "list". Defaults to
@@ -82,12 +82,15 @@ def loop_through_paragraphs(
         parts_out = []
 
     for paragraph in paragraphs:
+        # if process_text.search_keywords_in_string_exclude():
         if any(keyword in paragraph.lower() for keyword in keywords):
             keyword_n_paragraphs_above = 0
             if part_type == "paragraph":
                 part = paragraph
             elif part_type == "part":
-                part = get_sentences_after_keywords(paragraph, keywords, nlp)
+                part = process_text.get_sentences_after_keywords(
+                    paragraph, keywords, nlp
+                )
 
             if output_type == "list":
                 parts_out.append(part)
@@ -249,37 +252,6 @@ def extract_parts_from_qa(
     return parts
 
 
-def get_sentences_after_keywords(text: str, keywords: dict = {}, nlp=None) -> str:
-    """
-    Method to extract the sentences after a keyword in a text.
-
-    Args:
-        text (str): The text to extract the sentences from.
-        keywords (dict, optional): The keywords starting from which the
-        sentences are extracted. Defaults to {}.
-        nlp (Spacy.lang, optional): NLP model. Defaults to None.
-
-    Returns:
-        str: The extracted sentences.
-    """
-    if nlp is None:
-        return None
-    if str == "":
-        return ""
-    if not any(keyword in text.lower() for keyword in keywords):
-        return ""
-
-    doc = nlp(text)
-    sentences = list(doc.sents)
-    for idx, sent in enumerate(sentences):
-        if any(keyword in sent.text.lower() for keyword in keywords):
-            start_idx = idx
-            break
-    matching_sentences = sentences[start_idx:]
-    part = " ".join([sentence.text for sentence in matching_sentences])
-    return part
-
-
 def check_if_keyword_align_qa(qa: list, keywords: dict) -> int:
     """
     Function to check if a keyword occurs in a question and the answer to that.
@@ -416,7 +388,7 @@ def check_keywords_in_event(event: dict, keywords: dict = {}) -> bool:
     Returns:
         bool: True if keywords are present, False otherwise.
     """
-    return process_text.check_keywords_in_string(
+    return process_text.keyword_search_exclude_threshold(
         string=str(event["qa_collapsed"] + event["presentation_collapsed"]),
         keywords=keywords,
     )
