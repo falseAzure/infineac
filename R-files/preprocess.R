@@ -40,7 +40,7 @@ length(unique(data.orbis$companyname))
 # Anteil der Earnings Calls, die in Orbis vorhanden sind
 nrow(data.merged.orbis)/nrow(data.orbis)
 
-fwrite(data.merged.orbis, "orbis_merged.csv")
+fwrite(data.merged.orbis, "../output/data/orbis_merged.csv")
 
 
 
