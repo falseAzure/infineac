@@ -69,31 +69,31 @@ Directory structure and the architecture of the project
     ┗ 📜tox.ini
 
 
-* `docs`: Contains the documentation of the project.
+* ``docs``: Contains the documentation of the project.
   
-* `notebooks/infineac.ipynb`: This notebook contains the execution process and
+* ``notebooks/infineac.ipynb``: This notebook contains the execution process and
   insights gained throughout the project.
 
-* `infineac`: Contains the code of the project. This is a python
+* ``infineac``: Contains the code of the project. This is a python
   package that is installed in the conda environment. This package is used to import
-  the code in our scripts and notebooks. The `project.toml` file contains
+  the code in our scripts and notebooks. The ``project.toml`` file contains
   the necessary information for the installation of this repository. The structure
   of this folder is the following:
 
-  * `__init__.py`: Initialize the `infineac` package. 
-  * `file_loader`: Contains the functions for loading and initially
+  * ``__init__.py``: Initialize the ``infineac`` package. 
+  * ``file_loader``: Contains the functions for loading and initially
     preprocessing the earnings calls from the xml-files-
-  * `process_event.py`: Contains all the necessary functions for processing the
+  * ``process_event.py``: Contains all the necessary functions for processing the
     earnings calls events.
-  * `process_text.py`: Contains all the necessary functions for the processing
-    of text, which are used by `process_event.py`.
-  * `topic_extractor.py`: Contains the functions for extracting the topics from
+  * ``process_text.py``: Contains all the necessary functions for the processing
+    of text, which are used by ``process_event.py``.
+  * ``topic_extractor.py``: Contains the functions for extracting the topics from
     the earnings calls.
 
-* `scripts`: This folder contains the scripts that are used to extract the
+* ``scripts``: This folder contains the scripts that are used to extract the
   topics of the earnings calls.
-* `tests`: Contains the unit tests for our code.
-* `project.tom`: Contains all the information about the installation of this
+* ``tests``: Contains the unit tests for our code.
+* ``project.tom``: Contains all the information about the installation of this
   repository. You can use this file to install this repository as a package in
   your conda environment.
 
