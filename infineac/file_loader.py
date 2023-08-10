@@ -191,6 +191,97 @@ def structure_earnings_call(string: str) -> dict:
     return output
 
 
+def transform_unlisted_participants(
+    participant: dict, corp_participants: list[str], conf_participants: list[str]
+) -> dict:
+    """
+    Transforms the unlisted participants name so that it can be either
+    identified among the listed participants (corp_participants or
+    conf_participants), the generic participants(operator, editor, moderator)
+    or be added as an unknown participant.
+
+    Parameters
+    ----------
+    participant : dict
+        Participant to be transformed. Only uses the key "name".
+    corp_participants : list[str]
+        List of corporate participants.
+    conf_participants : list[str]
+        List of conference call participants.
+
+    Returns
+    -------
+    dict
+        The transformed participant.
+    """
+    # some participants are listed with a comma at the end
+    if participant["name"].endswith(","):
+        participant["name"] = participant["name"][:-1]
+    # some participants are listed as "unknown ..."
+    # if participant["name"].lower().startswith("unknown") or participant[
+    #     "name"
+    # ].lower().startswith("unidentified"):
+    #     participant["name"] = "unknown participant"
+    #     return participant
+    # some operators / moderators are listed as "operator ..."
+    if participant["name"].lower().startswith("operator"):
+        participant["name"] = "Operator"
+        return participant
+    if participant["name"].lower().startswith("moderator"):
+        participant["name"] = "Moderator"
+        return participant
+    participant["name"] = re.sub(r"\s{2,}", "  ", participant["name"])
+    # (ph) is added to some of the participants' names
+    # check if a similar name is in the list of participants
+    for participant_ in corp_participants + conf_participants:
+        if fuzz.ratio(participant["name"], participant_.replace("(ph)", "")) >= 80:
+            participant["name"] = participant_
+            return participant
+    participant["name"] = re.sub(r"^[^A-Za-z]*", "", participant["name"])
+
+    return participant
+
+
+def get_participants_position(
+    participant: dict, corp_participants: list[str], conf_participants: list[str]
+) -> str:
+    """
+    Returns the position of the participant based on the lists of corporate and
+    conference call participants.
+
+    Parameters
+    ----------
+    participant : dict
+        Participant to be transformed. Only uses the key "name".
+    corp_participants : list[str]
+        List of corporate participants.
+    conf_participants : list[str]
+        List of conference call participants.
+
+    Returns
+    -------
+    str
+        The position of the participant.
+    """
+    if participant["name"].lower() == "operator":
+        return "operator"
+    if participant["name"].lower() == "editor":
+        return "operator"
+    if participant["name"].lower() == "moderator":
+        return "operator"
+    if participant["name"] in corp_participants:
+        return "cooperation"
+    if participant["name"] in conf_participants:
+        return "conference"
+    if participant["name"].lower().startswith("unidentified") or participant[
+        "name"
+    ].lower().startswith("unknown"):
+        return "unknown participant"
+    if corp_participants != [] and conf_participants != []:
+        return participant["name"]
+    return "unknown participant"
+
+
 def extract_info_from_earnings_call_part(
     part: str,
     corp_participants: list,
@@ -198,15 +289,14 @@ def extract_info_from_earnings_call_part(
     type: str = "presentation",
 ) -> list[dict]:
     """
-    Extracts information from an earnings call `part`. This `part` is either the
-    presentation/transcript or Q&A.
-    The extracted information contains the speaker's number of appearance, the
-    the name of the speaker, the speaker's position and the speaker's text. The
-    position of the speaker can be either 'corporate', 'conference',
-    'operator', 'editor', 'moderator' or 'unknown'.
-    The information is returned as a list of dictionaries, where each
-    dictionary holds the information of the individual speakers and their
-    corresponding texts.
+    Extracts information from an earnings call `part`. This `part` is either
+    the presentation/transcript or Q&A. The extracted information contains the
+    participant's number of appearance, the the name of the participant, the
+    participant's position and the participant's text. The position of the
+    participant can be either 'corporate', 'conference', 'operator', 'editor',
+    'moderator' or 'unknown'. The information is returned as a list of
+    dictionaries, where each dictionary holds the information of the individual
+    participants and their corresponding texts.
 
 
     Parameters
@@ -224,14 +314,14 @@ def extract_info_from_earnings_call_part(
     -------
     list[dict]
         List of dictionaries, where each dictionary holds the information of
-        the individual speakers and their corresponding texts within the given
+        the individual participants and their corresponding texts within the given
         given part of the earning call.
         The dictionary key-value pairs are:
 
-            - 'n': int - the speaker's appearance number
-            - 'name': str - the speaker's name
-            - 'position': str - The speaker's position
-            - 'text': str - the speaker's text
+            - 'n': int - the participant's appearance number
+            - 'name': str - the participant's name
+            - 'position': str - The participant's position
+            - 'text': str - the participant's text
     """
     # Split presentation into slides
     split_symbol = (
@@ -240,25 +330,25 @@ def extract_info_from_earnings_call_part(
     )
     parts_split = part.split(split_symbol)
     parts_split = [part.strip() for part in parts_split]
-    # removes the double spaces between speaker and his position
+    # removes the double spaces between participant and his position
     # presentation=[re.sub(' +', ' ', el.strip()) for el in presentation if el.strip()]
 
-    # Split part into speakers and texts
-    speakers = [
+    # Split part into participants and texts
+    participants = [
         part
         for part in parts_split
         if re.match(".+  \[\d+\]", part)
         or (re.match("\[\d+\]", part) and len(part) <= 5)
     ]
 
-    texts = [part for part in parts_split if part not in speakers]
+    texts = [part for part in parts_split if part not in participants]
 
-    n_speakers = len(speakers)
+    n_participants = len(participants)
     n_texts = len(texts)
 
-    # Note: if no speaker or no text is found, the presentation is not included
-    if n_speakers == 0:
-        warning_message = f"No speakers present at {type}"
+    # Note: if no participant or no text is found, the presentation is not included
+    if n_participants == 0:
+        warning_message = f"No participants present at {type}"
         load_logger.warning(warning_message)
         warnings.warn(warning_message)
         return None
@@ -269,96 +359,81 @@ def extract_info_from_earnings_call_part(
         return None
 
     regex_pattern = r"(.*)\s{2,}\[(\d+)\]$"
-    speakers_ordered = [
+    participants_ordered = [
         {
-            "n": int(re.search(regex_pattern, speaker).group(2)),
-            "name": re.search(regex_pattern, speaker).group(1).strip(),
+            "n": int(re.search(regex_pattern, participant).group(2)),
+            "name": re.search(regex_pattern, participant).group(1).strip(),
         }
-        if not re.match("\[\d+\]", speaker)
+        if not re.match("\[\d+\]", participant)
         else {
-            "n": int(re.search(r"\[(\d+)\]", speaker).group(1)),
-            "name": "unknown speaker",
-        }  # if the speaker is not mentioned
-        for speaker in speakers
+            "n": int(re.search(r"\[(\d+)\]", participant).group(1)),
+            "name": "unknown participant",
+        }  # if the participant is not mentioned
+        for participant in participants
     ]
 
-    speakers_not_listed = [
-        speaker
-        for speaker in speakers_ordered
-        if speaker["name"]
-        not in corp_participants + conf_participants + ["editor", "operator"]
-        and not speaker["name"].lower().startswith("unidentified")
+    participants_not_listed = [
+        participant
+        for participant in participants_ordered
+        if participant["name"]
+        not in corp_participants
+        + conf_participants
+        + ["editor", "operator", "moderator"]
+        and not participant["name"].lower().startswith("unidentified")
     ]
 
-    for speaker in speakers_not_listed:
-        # some speakers are listed with a comma at the end
-        if speaker["name"].endswith(","):
-            speaker["name"] = speaker["name"][:-1]
-        # some speakers are listed as "unknown ..."
-        if speaker["name"].lower().startswith("unknown"):
-            speaker["name"] = "unknown speaker"
-        # some operators are listed as "operator ..."
-        if speaker["name"].lower().startswith("operator"):
-            speaker["name"] = "Operator"
-        speaker["name"] = re.sub(r"\s{2,}", "  ", speaker["name"])
-        # check if a similar name is in the list of participants
-        # (ph) is added to some of the participants' names
-        for participant in corp_participants + conf_participants:
-            if fuzz.ratio(speaker["name"], participant.replace("(ph)", "")) >= 85:
-                speaker["name"] = participant
+    for participant in participants_not_listed:
+        participant = transform_unlisted_participants(
+            participant, corp_participants, conf_participants
+        )
 
-    speakers_ordered = [
+    participants_ordered = [
         {
-            "n": speaker["n"],
-            "name": speaker["name"],
-            "position": "operator"
-            if speaker["name"].lower() == "operator"
-            else "editor"
-            if speaker["name"].lower() == "editor"
-            else "moderator"
-            if speaker["name"].lower() == "moderator"
-            else "cooperation"
-            if speaker["name"] in corp_participants
-            else "conference"
-            if speaker["name"] in conf_participants
-            else speaker["name"]
-            if corp_participants != [] and conf_participants != []
-            else "unknown speaker",
+            "n": participant["n"],
+            "name": participant["name"],
+            "position": get_participants_position(
+                participant, corp_participants, conf_participants
+            ),
         }
-        for speaker in speakers_ordered
+        for participant in participants_ordered
     ]
 
-    if len(speakers) != len(texts):
+    if len(participants) != len(texts):
         warning_message = (
-            f"presentation_speakers ({n_speakers})"
+            f"presentation_participants ({n_participants})"
             "and presentation_texts ({n_texts}) have different lengths"
         )
         load_logger.warning(warning_message)
         warnings.warn(warning_message)
 
-        if n_speakers > n_texts:
-            missing = n_speakers - n_texts
+        # Extend the shorter list with empty strings
+        if n_participants > n_texts:
+            missing = n_participants - n_texts
             texts = texts + [""] * missing
             warning_message = "presentation_texts was extended with empty strings"
             load_logger.warning(warning_message)
             warnings.warn(warning_message)
-        if n_speakers < n_texts:
-            missing = n_texts - n_speakers
-            last_speaker = speakers_ordered[-1][0]
+        if n_participants < n_texts:
+            missing = n_texts - n_participants
+            last_participant = participants_ordered[-1][0]
             for i in range(missing):
-                speakers.append([last_speaker + i, "unknown", "unknown"])
-            warning_message = "presentation_speakers was extended with unknown speakers"
+                participants.append(
+                    [last_participant + i, "unknown participant", "unknown participant"]
+                )
+            warning_message = (
+                "presentation_participants was extended with unknown participants"
+            )
             load_logger.warning(warning_message)
             warnings.warn(warning_message)
 
     part_ordered = [
         {
-            "n": speakers_ordered[i]["n"],
-            "name": speakers_ordered[i]["name"],
-            "position": speakers_ordered[i]["position"],
+            "n": participants_ordered[i]["n"],
+            "name": participants_ordered[i]["name"],
+            "position": participants_ordered[i]["position"],
             "text": texts[i],
         }
-        for i in range(len(speakers))
+        for i in range(len(participants))
     ]
     return part_ordered
 
