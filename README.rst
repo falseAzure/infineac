@@ -10,11 +10,6 @@ InFineac
 
 .. contents::
 
-.. toctree::
-    :maxdepth: 2
-
-    docs/index
-
 
 Overview
 ********
@@ -24,6 +19,87 @@ calls using NLP. Earnings calls are a rich source of information for investors,
 that are held quarterly by publicly traded companies. 
 It uses the spaCy_ library for NLP
 
+Install and Quick Start
+***********************
+
+First create a new conda environment with python 3.10 and activate it:
+
+.. code-block:: bash
+
+    conda create -n infineac python=3.10
+    conda activate infineac
+
+
+Then install this repository as a package, the ``-e`` flag installs the package
+in editable mode, so you can make changes to the code and they will be
+reflected in the package.
+
+.. code-block:: bash
+
+    pip install -e .
+
+All the requirements are specified in the ``projcet.toml`` file with the needed
+versions.
+
+Directory structure and the architecture of the project
+*******************************************************
+
+
+.. code-block:: bash
+
+    📦project-2022WS
+    ┣ 📂docs
+    ┣ 📂notebooks
+    ┃ ┗ 📜infineac.ipynb
+    ┣ 📂infineac
+    ┃ ┣ 📜__init__.py
+    ┃ ┣ 📜file_loader.py
+    ┃ ┣ 📜helper.py
+    ┃ ┣ 📜process_event.py
+    ┃ ┣ 📜process_text.py
+    ┃ ┗ 📜topic_extractor.py
+    ┣ 📂scripts
+    ┃ ┗ 📜extract_topics.py
+    ┣ 📂tests
+    ┃ ┗ 📜test.py
+    ┣ 📜.gitignore
+    ┣ 📜LICENSE
+    ┣ 📜project.toml
+    ┣ 📜README.rst
+    ┗ 📜tox.ini
+
+
+* `docs`: Contains the documentation of the project.
+  
+* `notebooks/infineac.ipynb`: This notebook contains the execution process and
+  insights gained throughout the project.
+
+* `infineac`: Contains the code of the project. This is a python
+  package that is installed in the conda environment. This package is used to import
+  the code in our scripts and notebooks. The `project.toml` file contains
+  the necessary information for the installation of this repository. The structure
+  of this folder is the following:
+
+  * `__init__.py`: Initialize the `infineac` package. 
+  * `file_loader`: Contains the functions for loading and initially
+    preprocessing the earnings calls from the xml-files-
+  * `process_event.py`: Contains all the necessary functions for processing the
+    earnings calls events.
+  * `process_text.py`: Contains all the necessary functions for the processing
+    of text, which are used by `process_event.py`.
+  * `topic_extractor.py`: Contains the functions for extracting the topics from
+    the earnings calls.
+
+* `scripts`: This folder contains the scripts that are used to extract the
+  topics of the earnings calls.
+* `tests`: Contains the unit tests for our code.
+* `project.tom`: Contains all the information about the installation of this
+  repository. You can use this file to install this repository as a package in
+  your conda environment.
+
+
+Detailed Description
+********************
 
 Earnings Calls
 ==============
