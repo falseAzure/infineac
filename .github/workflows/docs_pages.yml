@@ -34,35 +34,22 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/doc_source/requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/pyproject.toml') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
       - name: Install dependencies
-        run: python3 -m pip install -r ./doc_source/requirements.txt
+        run: pip install -e .
 
       - name: make the sphinx documentation 
         run: |
-          rm -rf ./docs
           make -C ./doc_source html
-          cp -a ./doc_source/_build/html/. ./docs
-          rm -rf ./doc_source/_build
-
-
-      - name: Init new repo in dist folder and commit generated files
-        run: |
-          cd ./docs/
-          git init
-          touch .nojekyll
-          git add -A
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git commit -m 'deploy'
           
-      - name: Force push to destination branch
-        uses: ad-m/github-push-action@master
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         with:
+          publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages
-          force: true
-          directory: ./docs
+          publish_dir: _build/
+          force_orphan: true
