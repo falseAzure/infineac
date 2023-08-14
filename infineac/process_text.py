@@ -104,7 +104,7 @@ def keyword_search_exclude_threshold(
 
 def extract_keyword_sentences_window(
     text: str,
-    keywords: list[str] = [],
+    keywords: list[str] | dict = [],
     filter_words: list[str] = FILTER_WORDS,
     context_window_sentence: list[int] | int = 0,
     return_type: str = "list",
@@ -118,9 +118,9 @@ def extract_keyword_sentences_window(
     ----------
     text : str
         The text to extract the sentences from.
-    keywords : list[str], default: []
+    keywords : list[str] | dict, default: []
         List of `keywords` to be searched for in the text and to extract the
-        sentences.
+        sentences. If `keywords` is a dictionary, the keys are the keywords.
     filter_words : list[str], default: FILTER_WORDS
         List of filter words, which must not precede the keyword.
     context_window_sentence : list[int] | int, default: 0
@@ -160,6 +160,8 @@ def extract_keyword_sentences_window(
     if not any(keyword in text.lower() for keyword in keywords):
         print("No keyword found in text.")
         return ""
+    if type(keywords) == dict:
+        keywords = list(keywords.keys())
     if type(context_window_sentence) == int:
         context_window_sentence = [context_window_sentence, context_window_sentence]
     elif type(context_window_sentence) != list or len(context_window_sentence) != 2:
@@ -191,7 +193,7 @@ def extract_keyword_sentences_window(
 
 def extract_parts_from_paragraphs(
     paragraphs: list[str],
-    keywords: list[str],
+    keywords: list[str] | dict,
     filter_words: list[str] = FILTER_WORDS,
     context_window_sentence: list[int] | int = 0,
     subsequent_paragraphs: int = 0,
@@ -210,8 +212,9 @@ def extract_parts_from_paragraphs(
     ----------
     paragraphs : list[str]
         List of `paragraphs` to loop through.
-    keywords : list[str]
-        List of `keywords` to search for in the paragraphs.
+    keywords : list[str] | dict
+        List of `keywords` to search for in the paragraphs. If `keywords` is a
+        dictionary, the keys are the keywords.
     filter_words : list[str], default: FILTER_WORDS
         List of filter words, which must not precede the keyword.
     context_window_sentence : list[int] | int, default: 0
