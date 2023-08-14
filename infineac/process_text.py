@@ -77,7 +77,7 @@ def keyword_search_exclude_threshold(
         the keyword and the value is the minimum number of occurrences of the
         keyword in the text.
     filter_words : list[str], default: FILTER_WORDS
-        List of filter words, which must not precede the keyword
+        List of filter words, which must not precede the keyword.
 
     Returns
     -------
