@@ -51,7 +51,7 @@ jobs:
 
       - name: Init new repo in dist folder and commit generated files
         run: |
-          cd docs/
+          cd ./docs/
           git init
           touch .nojekyll
           git add -A
@@ -63,6 +63,6 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
+          branch: gh-pages
           force: true
           directory: ./docs
