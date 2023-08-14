@@ -45,13 +45,13 @@ if "__main__" == __name__:
     events = file_loader.load_files_from_xml(files[0:500])
 
     print("\nFilter events")
-    events_russia = process_event.filter_events(
+    events_filtered = process_event.filter_events(
         events, year=2022, keywords={"russia": 1, "ukraine": 1}
     )
 
-    print(f"Parsing {len(events_russia)} events")
-    docs = process_event.extract_textss_from_events(
-        events_russia, ["russia", "ukraine"]
+    print(f"Parsing {len(events_filtered)} events")
+    docs = process_event.extract_parts_from_events(
+        events_filtered, ["russia", "ukraine"]
     )
 
     print(f"Extracting topics from {len(docs)} documents")
