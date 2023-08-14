@@ -34,12 +34,12 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/docs/requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/doc_source/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
       - name: Install dependencies
-        run: python3 -m pip install -r ./docs/requirements.txt
+        run: python3 -m pip install -r ./doc_source/requirements.txt
 
       - run: mkdocs build
 
