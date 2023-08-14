@@ -8,19 +8,31 @@ InFineac
 
 .. end short_desc
 
+
 .. contents::
 
 
+User Guide
+**********
+
+.. start overview
+
 Overview
-********
+========
+
+.. start overview_wo
 
 InFineac is a Python package that extracts financial insights from earnings
 calls using NLP. Earnings calls are a rich source of information for investors,
 that are held quarterly by publicly traded companies. 
 It uses the spaCy_ library for NLP
 
-Install and Quick Start
-***********************
+.. end overview
+
+.. start install
+
+Install
+=======
 
 First create a new conda environment with python 3.10 and activate it:
 
@@ -41,8 +53,49 @@ reflected in the package.
 All the requirements are specified in the ``projcet.toml`` file with the needed
 versions.
 
-Directory structure and the architecture of the project
-*******************************************************
+.. end install
+
+
+.. start quickstart
+
+Quickstart
+==========
+
+The ``scripts`` folder contains the scripts to load the data and extract the
+topics.
+
+Load the data
+-------------
+
+The ``load_data.py`` script loads the data from the xml-files and saves it as a
+(compressed) pickle.
+
+.. code-block:: bash
+
+    python scripts/load_save_data.py
+
+-p PATH       Path to directory of earnings calls transcripts
+-c False      Whether to compress the pickle file
+
+
+Extract Topics
+--------------
+
+The ``extract_topics.py`` script extracts the topics from the earnings calls
+and saves them as a csv-file.
+
+.. code-block:: bash
+
+    python scripts/extract_topics.py
+
+-p PATH       Path to directory of earnings calls transcripts
+
+.. end quickstart
+
+.. start file_structure
+
+File structure
+==============
 
 
 .. code-block:: bash
@@ -80,7 +133,7 @@ Directory structure and the architecture of the project
   the necessary information for the installation of this repository. The structure
   of this folder is the following:
 
-  * ``__init__.py``: Initialize the ``infineac`` package. 
+  * ``__init__.py``: Initializes the ``infineac`` package. 
   * ``file_loader``: Contains the functions for loading and initially
     preprocessing the earnings calls from the xml-files-
   * ``process_event.py``: Contains all the necessary functions for processing the
@@ -92,14 +145,20 @@ Directory structure and the architecture of the project
 
 * ``scripts``: This folder contains the scripts that are used to extract the
   topics of the earnings calls.
-* ``tests``: Contains the unit tests for our code.
-* ``project.tom``: Contains all the information about the installation of this
+* ``tests``: Contains the unit tests for the code.
+* ``project.toml``: Contains all the information about the installation of this
   repository. You can use this file to install this repository as a package in
   your conda environment.
 
+.. end file_structure
+
+
+.. start detailed_description
 
 Detailed Description
 ********************
+
+.. start detailed_description_wo
 
 Earnings Calls
 ==============
@@ -147,10 +206,13 @@ presentation is held by the corporate participants. In the Q&A session, the
 corporate participants answer questions from the conference call participants.
 An operator moderates the presentation as well as the Q&A session.
 
+.. end detailed_description
 
 
+.. start references
 
 .. _Refinitiv: https://www.refinitiv.com/en
 .. _Refinitiv Events: https://www.refinitiv.com/en/financial-data/company-data/events/earnings-transcripts-briefs
 .. _spaCy: https://spacy.io/
 
+.. end references
