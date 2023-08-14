@@ -1,5 +1,5 @@
 """
-This file contains helper functions for the infineac package.
+This module contains helper functions for the infineac package.
 """
 
 from bertopic import BERTopic
