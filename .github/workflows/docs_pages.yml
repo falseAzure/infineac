@@ -43,13 +43,26 @@ jobs:
 
       - name: make the sphinx documentation 
         run: |
-          make -C ./doc_source html
+          rm -rf ./docs
+          make -C ./docs_source html
+          cp -a ./docs_source/_build/html/. ./docs
+          rm -rf ./docs_source/_build
+
+      - name: Init new repo in dist folder and commit generated files
+        run: |
+          cd docs/
+          git init
+          touch .nojekyll
+          git add -A
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m 'deploy'
           
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+      - name: Force push to destination branch
+        uses: ad-m/github-push-action@vmaster
         with:
-          publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: _build/
-          force_orphan: true
+          branch: gh-pages
+          force: true
+          directory: .
+          
