@@ -3,6 +3,10 @@ This module contains helper functions for the infineac package.
 """
 
 import copy
+import lzma
+
+import dill as pickle
+import lz4.frame
 
 
 def add_context_integers(
@@ -115,3 +119,30 @@ def fill_list(lst: list, min: int, max: int):
         if i not in lst_:
             lst_.append(i)
     return sorted(lst_)
+
+
+def save_data(data: dict, name: str = "events", compression: str | bool = False):
+    """Method to save data. Compression can be lzma, lz4 or False."""
+    if compression == "lzma":
+        with lzma.open(name + ".xz", "wb") as f:
+            pickle.dump(data, f)
+    if compression == "lz4" or compression:
+        with lz4.frame.open(name + ".lz4", "wb") as f:
+            pickle.dump(data, f)
+    else:
+        with open(name + ".pickle", "wb") as f:
+            pickle.dump(data, f)
+
+
+def load_data(name: str = "events", compression: str | bool = False):
+    """Method to load data. Compression can be lzma, lz4 or False."""
+    if compression == "lzma":
+        with lzma.open(name + ".xz", "rb") as f:
+            data = pickle.load(f)
+    if compression == "lz4" or compression:
+        with lz4.frame.open(name + ".lz4", "rb") as f:
+            data = pickle.load(f)
+    else:
+        with open(name + ".pickle", "rb") as f:
+            data = pickle.load(f)
+    return data
