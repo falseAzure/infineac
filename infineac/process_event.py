@@ -38,7 +38,7 @@ from infineac.process_text import FILTER_WORDS, extract_parts_from_paragraphs
 
 def extract_parts_from_presentation(
     presentation: list[dict],
-    keywords: list[str],
+    keywords: list[str] | dict,
     filter_words: list[str] = FILTER_WORDS,
     context_window_sentence: int = 0,
     subsequent_paragraphs: int = 0,
@@ -56,8 +56,10 @@ def extract_parts_from_presentation(
     ----------
     presentation : list[dict]
         Presentation part of an event.
-    keywords : list[str]
-        List of keywords the parts are extracted for.
+    keywords : list[str] | dict
+        List of `keywords` to search for in the presentation and extract the
+        corresponding parts. If `keywords` is a dictionary, the keys are the
+        keywords.
     filter_words : list[str], default: FILTER_WORDS
         List of filter words, which must not precede the keyword.
     context_window_sentence : list[int] | int, default: 0
@@ -118,7 +120,7 @@ def extract_parts_from_presentation(
 
 def extract_parts_from_qa(
     qa: list[dict],
-    keywords: list[str],
+    keywords: list[str] | dict,
     filter_words: list[str] = FILTER_WORDS,
     context_window_sentence: int = 0,
     subsequent_paragraphs: int = 0,
@@ -139,8 +141,10 @@ def extract_parts_from_qa(
     ----------
     qa : list[dict]
         Q&A part of an event.
-    keywords : list[str]
-        List of keywords the parts are extracted for.
+    keywords : list[str] | dict
+        List of `keywords` to search for in the Q&A and extract the
+        corresponding parts. If `keywords` is a dictionary, the keys are the
+        keywords.
     filter_words : list[str], default: FILTER_WORDS
         List of filter words, which must not precede the keyword.
     context_window_sentence : list[int] | int, default: 0
@@ -264,7 +268,7 @@ def check_if_keyword_align_qa(qa: list[dict], keywords: list[str]) -> int:
 
 def extract_parts_from_event(
     event: dict,
-    keywords: list[str],
+    keywords: list[str] | dict,
     filter_words: list[str] = FILTER_WORDS,
     context_window_sentence: int = 0,
     subsequent_paragraphs: int = 0,
@@ -278,8 +282,10 @@ def extract_parts_from_event(
 
     Parameters
     ----------
-    keywords : list[str]
-        List of keywords the parts are extracted for.
+    keywords : list[str] | dict
+        List of `keywords` to search for in the event and extract the
+        corresponding parts. If `keywords` is a dictionary, the keys are the
+        keywords.
     filter_words : list[str], default: FILTER_WORDS
         List of filter words, which must not precede the keyword.
     context_window_sentence : list[int] | int, default: 0
@@ -338,7 +344,7 @@ def extract_parts_from_event(
 
 def extract_parts_from_events(
     events: list[dict],
-    keywords: list[str],
+    keywords: list[str] | dict,
     filter_words: list[str] = FILTER_WORDS,
     context_window_sentence: int = 0,
     subsequent_paragraphs: int = 0,
@@ -352,8 +358,10 @@ def extract_parts_from_events(
 
     Parameters
     ----------
-    keywords : list[str]
-        List of keywords the parts are extracted for.
+    keywords : list[str] | dict
+        List of `keywords` to search for in the events and extract the
+        corresponding parts. If `keywords` is a dictionary, the keys are the
+        keywords.
     filter_words : list[str], default: FILTER_WORDS
         List of filter words, which must not precede the keyword.
     context_window_sentence : list[int] | int, default: 0
