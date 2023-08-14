@@ -50,6 +50,9 @@ dependencies = [
     "black==23.7.0",
     "flake8==6.0.0",
     "jupyterlab==4.0.2",
+    "sphinx==7.1.2",
+    "pydata-sphinx-theme=0.13.3",
+    "sphinx-copybutton=0.5.2",
 ]
 
 [tool.sphinx-pyproject]
