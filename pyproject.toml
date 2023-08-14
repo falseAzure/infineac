@@ -52,6 +52,8 @@ dependencies = [
     "jupyterlab==4.0.2",
     "sphinx==7.1.2",
     "pydata-sphinx-theme=0.13.3",
+    "sphinx-toolbox=3.5.0",
+    "sphinx-pyproject>=0.1.0",
     "sphinx-copybutton=0.5.2",
 ]
 
