@@ -50,7 +50,7 @@ if "__main__" == __name__:
     )
 
     print(f"Parsing {len(events_filtered)} events")
-    docs = process_event.extract_parts_from_events(
+    docs = process_event.extract_passages_from_events(
         events_filtered, ["russia", "ukraine"]
     )
 
