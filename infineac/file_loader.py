@@ -289,14 +289,15 @@ def extract_info_from_earnings_call_part(
     type: str = "presentation",
 ) -> list[dict]:
     """
-    Extracts information from an earnings call `part`. This `part` is either
-    the presentation/transcript or Q&A. The extracted information contains the
-    participant's number of appearance, the the name of the participant, the
-    participant's position and the participant's text. The position of the
-    participant can be either 'corporate', 'conference', 'operator', 'editor',
-    'moderator' or 'unknown'. The information is returned as a list of
-    dictionaries, where each dictionary holds the information of the individual
-    participants and their corresponding texts.
+    Extracts information from an earnings call `part`.
+
+    This `part` is either the presentation/transcript or Q&A. The extracted
+    information contains the participant's number of appearance, the the name
+    of the participant, the participant's position and the participant's text.
+    The position of the participant can be either 'corporate', 'conference',
+    'operator', 'editor', 'moderator' or 'unknown'. The information is returned
+    as a list of dictionaries, where each dictionary holds the information of
+    the individual participants and their corresponding texts.
 
 
     Parameters
@@ -646,7 +647,7 @@ def add_info_to_event(event: dict, element) -> dict:
     ----------
     event : dict
         Event to which the information should be added.
-    elem : lxml.etree.Element
+    element : lxml.etree.Element
         Element of an xml file.
 
     Returns
