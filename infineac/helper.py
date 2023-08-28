@@ -4,6 +4,7 @@ This module contains helper functions for the infineac package.
 
 import copy
 import lzma
+import re
 
 import dill as pickle
 import lz4.frame
@@ -17,7 +18,7 @@ def add_context_integers(
     max_int: int = -1,
 ) -> list[int]:
     """
-    Method that adds to a list of positive integers the n subsequent and m
+    Method that adds to a list of positive integers the `n` subsequent and `m`
     prior integers of each integer in the list. Only adds the integers if they
     are not already in the list.
 
@@ -134,15 +135,16 @@ def save_data(data: dict, name: str = "events", compression: str | bool = False)
             pickle.dump(data, f)
 
 
-def load_data(name: str = "events", compression: str | bool = False):
+def load_data(name: str):
     """Method to load data. Compression can be lzma, lz4 or False."""
+    compression = re.sub(r".*\.", "", name)
     if compression == "lzma":
-        with lzma.open(name + ".xz", "rb") as f:
+        with lzma.open(name, "rb") as f:
             data = pickle.load(f)
     if compression == "lz4" or compression:
-        with lz4.frame.open(name + ".lz4", "rb") as f:
+        with lz4.frame.open(name, "rb") as f:
             data = pickle.load(f)
-    else:
-        with open(name + ".pickle", "rb") as f:
+    if compression == "pickle" or not compression:
+        with open(name, "rb") as f:
             data = pickle.load(f)
     return data
