@@ -3,14 +3,14 @@ from pathlib import Path
 import infineac.file_loader as file_loader
 import infineac.process_event as process_event
 import infineac.topic_extractor as topic_extractor
-from infineac.process_text import FILTER_WORDS
+from infineac.process_text import MODIFIER_WORDS
 
 
 def pipeline(
     path,
     year=2022,
     keywords={"russia": 1, "ukraine": 1},
-    filter_words=FILTER_WORDS,
+    filter_words=MODIFIER_WORDS,
     context_window_sentence=0,
     subsequent_paragraphs=0,
     extract_answers=True,
@@ -25,7 +25,7 @@ def pipeline(
     events_filtered = process_event.filter_events(events, year=year, keywords=keywords)
 
     print(f"Parsing {len(events_filtered)} events")
-    docs = process_event.extract_parts_from_events(
+    docs = process_event.extract_passages_from_events(
         events_filtered,
         keywords=keywords,
         filter_words=filter_words,
