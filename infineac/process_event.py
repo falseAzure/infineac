@@ -559,10 +559,10 @@ def events_to_corpus(
     Converts a list of events to a corpus (list of texts).
 
     This is a wraper function that calls :func:`extract_passages_from_events`,
-    :func:corpus_list_to_dataframe` and :func:`process_text.process_corpus`.
-    This function is used to extract the corpus from the events and process it
-    with the :mod:`infineac.process_text` module according to the given
-    parameters.
+    :func:corpus_list_to_dataframe` and
+    :func:`infineac.process_text.process_corpus`. This function is used to
+    extract the corpus from the events and process it with the
+    :mod:`infineac.process_text` module according to the given parameters.
 
     Parameters
     ----------
@@ -593,9 +593,8 @@ def events_to_corpus(
     return_type : str, default: "list"
         The return type of the method. Either "str" or "list"
     nlp_model : spacy.lang, default: None
-        NLP model.
-        lemmatize : bool, default: True
-        If document should be lemmatized.
+        NLP model. lemmatize : bool, default: True If document should be
+        lemmatized.
     lowercase : bool, default: True
         If document should be lowercased.
     remove_stopwords : bool, default: True
