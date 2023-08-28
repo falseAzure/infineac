@@ -10,7 +10,7 @@ from tqdm import tqdm
 
 from infineac.helper import add_context_integers
 
-FILTER_WORDS = [
+MODIFIER_WORDS = [
     "excluding",
     "omitting",
     "except",
@@ -48,25 +48,31 @@ def get_elections(string: str) -> str:
         return "none"
 
 
-# def keyword_search_threshold(string: str, keywords: dict = {}) -> bool:
-#     if keywords == {}:
-#         return True
+def combine_adjacent_sentences(
+    sentence_ids: list[int], sentences: list[str]
+) -> list[str]:
+    """Joins `sentences` that are adjacent based on their `sentence_ids`."""
+    joined_sentences = []
+    current_sentence = sentences[sentence_ids[0]]
+    for i in range(1, len(sentence_ids)):
+        if sentence_ids[i] == sentence_ids[i - 1] + 1:
+            current_sentence += " " + sentences[sentence_ids[i]]
+        else:
+            joined_sentences.append(current_sentence)
+            current_sentence = sentences[sentence_ids[i]]
 
-#     for key, value in keywords.items():
-#         if string.lower().count(key) >= value:
-#             return True
-
-#     return False
+    joined_sentences.append(current_sentence)
+    return joined_sentences
 
 
 def keyword_search_exclude_threshold(
     string: str,
     keywords: dict[str, int] | list[str] = {},
-    filter_words: list[str] = FILTER_WORDS,
+    modifier_words: list[str] = MODIFIER_WORDS,
 ) -> bool:
     """
-    Method to check if a string contains one of the `keywords` and does not
-    contain a `filter_word` preceding the keyword.
+    Checks if a string contains one of the `keywords` and does not
+    contain a `modifier_word` preceding the keyword.
 
     Parameters
     ----------
@@ -76,8 +82,8 @@ def keyword_search_exclude_threshold(
         Dictionary or list of `keywords`. If `keywords` is a dictionary, the key is
         the keyword and the value is the minimum number of occurrences of the
         keyword in the text.
-    filter_words : list[str], default: FILTER_WORDS
-        List of filter words, which must not precede the keyword.
+    modifier_words : list[str], default: MODIFIER_WORDS
+        List of `modifier_words`, which must not precede the keyword.
 
     Returns
     -------
@@ -91,10 +97,13 @@ def keyword_search_exclude_threshold(
         for keyword in keywords_orig:
             keywords[keyword] = 1
 
-    negative_lookbehind = "".join([r"\b(?<!" + word + "\s)" for word in filter_words])
+    negative_lookbehind = "".join([r"\b(?<!" + word + "\s)" for word in modifier_words])
     for key, value in keywords.items():
         keyword_pattern = "(" + key + ")"
-        combined_pattern = negative_lookbehind + keyword_pattern
+        if len(modifier_words) > 0:
+            combined_pattern = negative_lookbehind + keyword_pattern
+        else:
+            combined_pattern = " " + keyword_pattern
         found = len(re.findall(combined_pattern, string.lower(), re.IGNORECASE))
         if found >= value:
             return True
@@ -105,14 +114,15 @@ def keyword_search_exclude_threshold(
 def extract_keyword_sentences_window(
     text: str,
     keywords: list[str] | dict = [],
-    filter_words: list[str] = FILTER_WORDS,
+    modifier_words: list[str] = MODIFIER_WORDS,
     context_window_sentence: list[int] | int = 0,
+    join_adjacent_sentences: bool = True,
     return_type: str = "list",
-    nlp=None,
+    nlp_model=None,
 ) -> str | list[str]:
     """
-    Method to extract sentences with specific `keywords` within a text as well as
-    the context surrounding this sentence.
+    Extracts sentences with specific `keywords` within a text as well as the
+    context surrounding this sentence.
 
     Parameter`
     ----------
@@ -121,8 +131,8 @@ def extract_keyword_sentences_window(
     keywords : list[str] | dict, default: []
         List of `keywords` to be searched for in the text and to extract the
         sentences. If `keywords` is a dictionary, the keys are the keywords.
-    filter_words : list[str], default: FILTER_WORDS
-        List of filter words, which must not precede the keyword.
+    modifier_words : list[str], default: MODIFIER_WORDS
+        List of `modifier_words`, which must not precede the keyword.
     context_window_sentence : list[int] | int, default: 0
         The context window of of the sentences to be extracted. Either an
         integer or a list of length 2. The first element of the list indicates
@@ -133,15 +143,18 @@ def extract_keyword_sentences_window(
         sentences before or after the keyword are extracted. So -1 can be used
         to extract all sentences before and after the keyword, e.g. the entire
         text.
+    join_adjacent_sentences : bool, default: True
+        If adjacent sentences should be joined or left as individual sentences.
+        If `context_window_sentence` > 0, this parameter is automatically set to `True`.
     return_type : str, default: "list"
         The return type of the method. Either "str" or "list"
-    nlp : spacy.lang, default: None
+    nlp_model : spacy.lang, default: None
         NLP model.
 
     Returns
     -------
     str | list[str]
-        The extracted sentences as a concatenated string or list of sentences
+        The extracted sentences as a concatenated string or list of passages
         (defined by `return_type`).
 
     Raises
@@ -150,9 +163,9 @@ def extract_keyword_sentences_window(
         - If `context_window_sentence` is neither an integer nor a list of
           length 2.
     ValueError
-        - If `nlp` is not a spaCy NLP model.
+        - If `nlp_model` is not a spaCy NLP model.
     """
-    if nlp is None:
+    if nlp_model is None:
         raise ValueError("No spaCy NLP model provided.")
     if str == "":
         print("Empty text.")
@@ -166,16 +179,18 @@ def extract_keyword_sentences_window(
         context_window_sentence = [context_window_sentence, context_window_sentence]
     elif type(context_window_sentence) != list or len(context_window_sentence) != 2:
         raise ValueError("Context window must be an integer or a list of length 2.")
-
-    doc = nlp(text)
+    if context_window_sentence[0] > 0 or context_window_sentence[1] > 0:
+        join_adjacent_sentences = True
+    doc = nlp_model(text)
     sentences = list(doc.sents)
     keyword_sent_idx = []
 
     for idx, sent in enumerate(sentences):
         # if any(keyword in sent.text.lower() for keyword in keywords):
-        if keyword_search_exclude_threshold(sent.text.lower(), keywords, filter_words):
+        if keyword_search_exclude_threshold(
+            sent.text.lower(), keywords, modifier_words
+        ):
             keyword_sent_idx.append(idx)
-
     keyword_sent_idx = add_context_integers(
         keyword_sent_idx,
         context_window_sentence[0],
@@ -183,7 +198,13 @@ def extract_keyword_sentences_window(
         0,
         len(sentences) - 1,
     )
-    matching_sentences = [sentences[i] for i in keyword_sent_idx]
+
+    sentences_str = [sentence.text for sentence in sentences]
+    if join_adjacent_sentences and len(keyword_sent_idx) > 1:
+        matching_sentences = combine_adjacent_sentences(keyword_sent_idx, sentences_str)
+    else:
+        matching_sentences = [sentences_str[i] for i in keyword_sent_idx]
+
     if return_type == "str":
         matching_sentences = " ".join(
             [sentence.text for sentence in matching_sentences]
@@ -191,22 +212,24 @@ def extract_keyword_sentences_window(
     return matching_sentences
 
 
-def extract_parts_from_paragraphs(
+def extract_passages_from_paragraphs(
     paragraphs: list[str],
     keywords: list[str] | dict,
-    filter_words: list[str] = FILTER_WORDS,
+    modifier_words: list[str] = MODIFIER_WORDS,
     context_window_sentence: list[int] | int = 0,
+    join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
     return_type: str = "list",
     keyword_n_paragraphs_above: int = -1,
-    nlp=None,
+    nlp_model=None,
 ) -> str | list[list[str]]:
     """
-    Function to loop through `paragraphs` and extract the sentences that
-    contain a keyword. If a keyword occurs in a paragraph, the sentence
-    containing it and the context surrounding it are extracted as well
-    (`context_window_sentence`). Additionally, `window_subsequent` paragraphs
-    are extracted.
+    Loops through `paragraphs` and extracts the sentences that contain a
+    keyword.
+
+    If a keyword occurs in a paragraph, the sentence containing it and the
+    context surrounding it are extracted as well (`context_window_sentence`).
+    Additionally, `window_subsequent` paragraphs are extracted.
 
     Parameters
     ----------
@@ -215,8 +238,8 @@ def extract_parts_from_paragraphs(
     keywords : list[str] | dict
         List of `keywords` to search for in the paragraphs. If `keywords` is a
         dictionary, the keys are the keywords.
-    filter_words : list[str], default: FILTER_WORDS
-        List of filter words, which must not precede the keyword.
+    modifier_words : list[str], default: MODIFIER_WORDS
+        List of `modifier_words`, which must not precede the keyword.
     context_window_sentence : list[int] | int, default: 0
         The context window of of the sentences to be extracted. Either an
         integer or a list of length 2. The first element of the list indicates
@@ -235,58 +258,57 @@ def extract_parts_from_paragraphs(
     keyword_n_paragraphs_above : int, default: -1
         Number of paragraphs above the current paragraph where the keyword is
         found.
-    nlp : spacy.lang, default: None
+    nlp_model : spacy.lang, default: None
         NLP model.
 
     Returns
     -------
     str | list[list[str]]
-        The extracted parts as a concatenated string or list of lists
-        (paragraphs) of str (sentences). (defined by `return_type`).
+        The extracted passages as a concatenated string or list of paragraphs
+        (lists) of passages (str). (defined by `return_type`).
 
     Raises
     ------
     ValueError
         If `return_type` is not "str" or "list".
-    ValueError
-        If `part_type` is not "paragraph" or "part".
     """
     if return_type not in ["str", "list"]:
         raise ValueError("output_type must be either str or list")
 
     if return_type == "str":
-        parts_out = ""
+        passages_out = ""
     elif return_type == "list":
-        parts_out = []
+        passages_out = []
 
     for paragraph in paragraphs:
         # if process_text.search_keywords_in_string_exclude():
         if any(keyword in paragraph.lower() for keyword in keywords):
             keyword_n_paragraphs_above = 0
-            part = extract_keyword_sentences_window(
+            passage = extract_keyword_sentences_window(
                 paragraph,
                 keywords,
-                filter_words,
+                modifier_words,
                 context_window_sentence,
+                join_adjacent_sentences,
                 return_type,
-                nlp,
+                nlp_model,
             )
 
             if return_type == "list":
-                parts_out.append(part)
+                passages_out.append(passage)
             elif return_type == "str":
-                parts_out += part + "\n"
+                passages_out += passage + "\n"
         elif (
-            keyword_n_paragraphs_above >= 0
+            keyword_n_paragraphs_above != -1
             and keyword_n_paragraphs_above <= subsequent_paragraphs
         ):
             if return_type == "list":
-                parts_out.append(paragraph)
+                passages_out.append(paragraph)
             elif return_type == "str":
-                parts_out += paragraph + "\n"
+                passages_out += paragraph + "\n"
         if keyword_n_paragraphs_above != -1:
             keyword_n_paragraphs_above += 1
-    return parts_out
+    return passages_out
 
 
 def process_text_nlp(
@@ -295,14 +317,17 @@ def process_text_nlp(
     lowercase: bool = True,
     remove_stopwords: bool = True,
     remove_punctuation: bool = True,
-    remove_numeric: bool = False,
+    remove_numeric: bool = True,
     remove_currency: bool = True,
     remove_space: bool = True,
+    remove_additional_words: list[str] = [],
 ) -> list[str]:
     """
-    Method to process a spaCy document. According to the parameters, the
-    document is lemmatized, lowercased and stopwords, punctuation, numeric,
-    currency and space tokens are removed.
+    Processes a spaCy document.
+
+    According to the parameters, the document is `lemmatized`, `lowercased` and
+    `stopwords`, `additional_words`, `punctuation`, `numeric`, `currency` and
+    `space` tokens are removed.
 
     Parameters
     ----------
@@ -322,6 +347,8 @@ def process_text_nlp(
         If currency symbols should be removed from document.
     remove_space : bool, default: True
         If spaces should be removed from document.
+    remove_additional_words : list[str], default: []
+        List of additional words to be removed from the document.
 
     Returns
     -------
@@ -334,11 +361,13 @@ def process_text_nlp(
             continue
         if remove_punctuation and word.is_punct:
             continue
-        if remove_numeric and word.is_numeric:
+        if remove_numeric and word.is_digit:
             continue
         if remove_currency and word.is_currency:
             continue
         if remove_space and word.is_space:
+            continue
+        if word.lower_ in remove_additional_words:
             continue
         if lemmatize:
             word = word.lemma_
@@ -353,25 +382,28 @@ def process_text_nlp(
 
 def process_text(
     text: str,
-    nlp,
+    nlp_model,
     lemmatize: bool = True,
     lowercase: bool = True,
     remove_stopwords: bool = True,
     remove_punctuation: bool = True,
-    remove_numeric: bool = False,
+    remove_numeric: bool = True,
     remove_currency: bool = True,
     remove_space: bool = True,
+    remove_additional_words: list[str] = [],
 ) -> list:
     """
-    Method to process a text with spaCy and an NLP model. According to the
-    parameters, the document is lemmatized, lowercased and stopwords,
-    punctuation, numeric, currency and space tokens are removed.
+    Processes a text with spaCy and an NLP model.
+
+    According to the parameters, the document is `lemmatized`, `lowercased` and
+    `stopwords`, `additional_words`, `punctuation`, `numeric`, `currency` and
+    `space` tokens are removed.
 
     Parameters
     ----------
     text_nlp : str
         The text document to be processed.
-    nlp : spacy.lang
+    nlp_model : spacy.lang
         The spaCy NLP model.
     lemmatize : bool, default: True
         If document should be lemmatized.
@@ -387,6 +419,8 @@ def process_text(
         If currency symbols should be removed from document.
     remove_space : bool, default: True
         If spaces should be removed from document.
+    remove_additional_words : list[str], default: []
+        List of additional words to be removed from the document.
 
     Returns
     -------
@@ -396,45 +430,50 @@ def process_text(
     Raises
     ------
     ValueError
-        If `nlp` is not a spaCy NLP model.
+        If `nlp_model` is not a spaCy NLP model.
     """
-    if nlp is None:
+    if nlp_model is None:
         raise ValueError("No spaCy NLP model provided.")
-    text_nlp = nlp(text)
+    text_nlp = nlp_model(text)
 
     return process_text_nlp(
-        text_nlp=text_nlp,
-        lemmatize=lemmatize,
-        lowercase=lowercase,
-        remove_stopwords=remove_stopwords,
-        remove_punctuation=remove_punctuation,
-        remove_numeric=remove_numeric,
-        remove_currency=remove_currency,
-        remove_space=remove_space,
+        text_nlp,
+        lemmatize,
+        lowercase,
+        remove_stopwords,
+        remove_punctuation,
+        remove_numeric,
+        remove_currency,
+        remove_space,
+        remove_additional_words,
     )
 
 
 def process_corpus(
     corpus: list[str],
-    nlp,
+    nlp_model,
     lemmatize: bool = True,
     lowercase: bool = True,
     remove_stopwords: bool = True,
     remove_punctuation: bool = True,
-    remove_numeric: bool = False,
+    remove_numeric: bool = True,
     remove_currency: bool = True,
     remove_space: bool = True,
+    remove_additional_words: list[str] = [],
 ) -> list[list[str]]:
     """
-    Method to process a corpus (list of documents/texts) with spaCy and an NLP
-    model. According to the parameters, the document is lemmatized, lowercased
-    and stopwords, punctuation, numeric, currency and space tokens are removed.
+    Processes a corpus (list of documents/texts) with spaCy and an NLP
+    model.
+
+    According to the parameters, the document is `lemmatized`, `lowercased` and
+    `stopwords`, `additional_words`, `punctuation`, `numeric`, `currency` and
+    `space` tokens are removed.
 
     Parameters
     ----------
     corpus : list[str]:
         List of texts to be processed.
-    nlp : spacy.lang
+    nlp_model : spacy.lang
         The spaCy NLP model.
     lemmatize : bool, default: True
         If document should be lemmatized.
@@ -450,6 +489,8 @@ def process_corpus(
         If currency symbols should be removed from document.
     remove_space : bool, default: True
         If spaces should be removed from document.
+    remove_additional_words : list[str], default: []
+        List of additional words to be removed from the document.
 
     Returns
     -------
@@ -460,24 +501,25 @@ def process_corpus(
     # corpus_nlp = list(nlp.pipe(corpus, batch_size=128))
     docs = []
     for doc in tqdm(
-        nlp.pipe(corpus, batch_size=128), desc="Documents", total=len(corpus)
+        nlp_model.pipe(corpus, batch_size=128), desc="Documents", total=len(corpus)
     ):
         docs.append(
             process_text_nlp(
-                text_nlp=doc,
-                lemmatize=lemmatize,
-                lowercase=lowercase,
-                remove_stopwords=remove_stopwords,
-                remove_punctuation=remove_punctuation,
-                remove_numeric=remove_numeric,
-                remove_currency=remove_currency,
-                remove_space=remove_space,
+                doc,
+                lemmatize,
+                lowercase,
+                remove_stopwords,
+                remove_punctuation,
+                remove_numeric,
+                remove_currency,
+                remove_space,
+                remove_additional_words,
             )
         )
-
     return docs
 
 
 def list_to_string(list: list, separator=" ") -> str:
-    """Method to convert a list of strings to a string with a separator."""
+    """Converts a list of strings to a string with a separator. Is used to
+    convert the list of tokens from :func:`process_corpus` back to a string."""
     return separator.join(list)
