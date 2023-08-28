@@ -164,6 +164,7 @@ output/
 orbis_overview_files/
 infineac_coref/neuralcoref/
 literature/
+docs/
 
 .DS_Store
 .Rproj.user
@@ -171,3 +172,4 @@ literature/
 .vscode/settings.json
 *.Rproj
 ideas.md
+*.lz4
