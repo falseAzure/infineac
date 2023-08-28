@@ -1,5 +1,5 @@
 """
-This file contains functions to manipulate events and strings and extract the
+This module contains functions to manipulate events and strings and extract the
 corresponding information for the infineac package. For text processing it uses
 the :mod:`infineac.process_text` module.
 
@@ -30,27 +30,32 @@ An event is a dictionary with the following key-value pairs:
 
 import re
 
+import polars as pl
 from tqdm import tqdm
 
 import infineac.process_text as process_text
-from infineac.process_text import FILTER_WORDS, extract_parts_from_paragraphs
+from infineac.process_text import MODIFIER_WORDS, extract_passages_from_paragraphs
 
 
-def extract_parts_from_presentation(
+def extract_passages_from_presentation(
     presentation: list[dict],
     keywords: list[str] | dict,
-    filter_words: list[str] = FILTER_WORDS,
+    modifier_words: list[str] = MODIFIER_WORDS,
     context_window_sentence: int = 0,
+    join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
     return_type: str = "list",
     nlp=None,
 ) -> str | list[list[list[str]]]:
     """
-    Method to extract important parts from the presentation section of an
-    event. Importance of a part is determined by the presence of one of the
+    Extracts important passages from the presentation section of an event.
+
+    Importance of a passage is determined by the presence of one of the
     `keywords`. If a keyword occurs in a paragraph, the sentence containing it
     and the context surrounding it (`context_window_sentence`) are extracted.
-    Additionally, `window_subsequent` paragraphs are extracted.
+    Additionally, `window_subsequent` paragraphs are extracted. (Like
+    :func:`extract_passages_from_qa` but for the presentation section of an
+    event.)
 
     Parameters
     ----------
@@ -58,10 +63,10 @@ def extract_parts_from_presentation(
         Presentation part of an event.
     keywords : list[str] | dict
         List of `keywords` to search for in the presentation and extract the
-        corresponding parts. If `keywords` is a dictionary, the keys are the
+        corresponding passages. If `keywords` is a dictionary, the keys are the
         keywords.
-    filter_words : list[str], default: FILTER_WORDS
-        List of filter words, which must not precede the keyword.
+    modifier_words : list[str], default: MODIFIER_WORDS
+        List of `modifier_words`, which must not precede the keyword.
     context_window_sentence : list[int] | int, default: 0
         The context window of of the sentences to be extracted. Either an
         integer or a list of length 2. The first element of the list indicates
@@ -83,18 +88,18 @@ def extract_parts_from_presentation(
     Returns
     -------
     str | list[list[list[str]]]
-        The extracted parts as a concatenated string or list of lists (parts)
-        of lists (paragraphs) of sentences.
+        The extracted passages as a concatenated string or list of lists
+        (passages) of lists (paragraphs) of sentences.
     """
     if return_type == "str":
-        parts = ""
+        passages = ""
     elif return_type == "list":
-        parts = []
+        passages = []
     else:
         return False
 
     if presentation is None:
-        return parts
+        return passages
 
     keyword_n_paragraphs_above = -1
     for part in presentation:
@@ -102,40 +107,47 @@ def extract_parts_from_presentation(
             continue
         else:
             paragraphs = re.split("\n", part["text"])
-            new_parts = extract_parts_from_paragraphs(
+            new_passages = extract_passages_from_paragraphs(
                 paragraphs,
                 keywords,
-                filter_words,
+                modifier_words,
                 context_window_sentence,
+                join_adjacent_sentences,
                 subsequent_paragraphs,
                 return_type,
                 keyword_n_paragraphs_above,
                 nlp,
             )
-            if new_parts:
-                parts += new_parts
+            if new_passages:
+                if return_type == "list":
+                    passages.append(new_passages)
+                if return_type == "str":
+                    passages += new_passages
 
-    return parts
+    return passages
 
 
-def extract_parts_from_qa(
+def extract_passages_from_qa(
     qa: list[dict],
     keywords: list[str] | dict,
-    filter_words: list[str] = FILTER_WORDS,
+    modifier_words: list[str] = MODIFIER_WORDS,
     context_window_sentence: int = 0,
+    join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
     extract_answers: bool = False,
     return_type: str = "list",
     nlp=None,
 ) -> str | list[list[list[str]]]:
     """
-    Method to extract important parts from the Q&A section of an event.
-    Importance of a part is determined by the presence of one of the
+    Extracts important passages, like :func:`extract_passages_from_presentation`, but
+    for the Q&A section of an event.
+
+    Importance of a passage is determined by the presence of one of the
     `keywords`. If a keyword occurs in a paragraph of an answer, the sentence
     containing it and the context surrounding it (`context_window_sentence`)
     are extracted. Additionally, `window_subsequent` paragraphs are extracted.
-    If `extract_answers` is set to True, the entire answer is extracted, if a
-    question contains a keyword,
+    If `extract_answers` is set to True, the entire answer is extracted, if the
+    prior question contains a keyword.
 
     Parameters
     ----------
@@ -143,10 +155,10 @@ def extract_parts_from_qa(
         Q&A part of an event.
     keywords : list[str] | dict
         List of `keywords` to search for in the Q&A and extract the
-        corresponding parts. If `keywords` is a dictionary, the keys are the
+        corresponding passages. If `keywords` is a dictionary, the keys are the
         keywords.
-    filter_words : list[str], default: FILTER_WORDS
-        List of filter words, which must not precede the keyword.
+    modifier_words : list[str], default: MODIFIER_WORDS
+        List of `modifier_words`, which must not precede the keyword.
     context_window_sentence : list[int] | int, default: 0
         The context window of of the sentences to be extracted. Either an
         integer or a list of length 2. The first element of the list indicates
@@ -171,18 +183,18 @@ def extract_parts_from_qa(
     Returns
     -------
     str | list[list[list[str]]]
-        The extracted parts as a concatenated string or list of lists (parts)
+        The extracted passages as a concatenated string or list of lists (passages)
         of lists (paragraphs) of sentences.
     """
     if return_type == "str":
-        parts = ""
+        passages = ""
     elif return_type == "list":
-        parts = []
+        passages = []
     else:
         return False
 
     if qa is None:
-        return parts
+        return passages
 
     previous_question_has_keyword = False
     keyword_n_paragraphs_above = -1
@@ -202,26 +214,30 @@ def extract_parts_from_qa(
         # cooperation
         if previous_question_has_keyword and extract_answers:
             if return_type == "str":
-                parts += part["text"] + "\n"
+                passages += part["text"] + "\n"
             if return_type == "list":
-                parts.append(part["text"])
+                passages.append([[part["text"]]])
             continue
 
         paragraphs = re.split("\n", part["text"])
-        new_parts = extract_parts_from_paragraphs(
+        new_passages = extract_passages_from_paragraphs(
             paragraphs,
             keywords,
-            filter_words,
+            modifier_words,
             context_window_sentence,
+            join_adjacent_sentences,
             subsequent_paragraphs,
             return_type,
             keyword_n_paragraphs_above,
             nlp,
         )
-        if new_parts:
-            parts += new_parts
+        if new_passages:
+            if return_type == "list":
+                passages.append(new_passages)
+            if return_type == "str":
+                passages += new_passages
 
-    return parts
+    return passages
 
 
 def check_if_keyword_align_qa(qa: list[dict], keywords: list[str]) -> int:
@@ -266,28 +282,29 @@ def check_if_keyword_align_qa(qa: list[dict], keywords: list[str]) -> int:
     return n_only_qa_uses_keyword
 
 
-def extract_parts_from_event(
+def extract_passages_from_event(
     event: dict,
     keywords: list[str] | dict,
-    filter_words: list[str] = FILTER_WORDS,
+    modifier_words: list[str] = MODIFIER_WORDS,
     context_window_sentence: int = 0,
+    join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
     extract_answers: bool = False,
     return_type: str = "list",
     nlp=None,
 ) -> str | list[list[list[list[str]]]]:
     """
-    Wrapper function to extract important parts from an event. Comprises of
-    :func:`extract_parts_from_presentation` and :func:`extract_parts_from_qa`.
+    Wrapper function to extract important passages from an event: comprises of
+    :func:`extract_passages_from_presentation` and :func:`extract_passages_from_qa`.
 
     Parameters
     ----------
     keywords : list[str] | dict
         List of `keywords` to search for in the event and extract the
-        corresponding parts. If `keywords` is a dictionary, the keys are the
+        corresponding passages. If `keywords` is a dictionary, the keys are the
         keywords.
-    filter_words : list[str], default: FILTER_WORDS
-        List of filter words, which must not precede the keyword.
+    modifier_words : list[str], default: MODIFIER_WORDS
+        List of `modifier_words`, which must not precede the keyword.
     context_window_sentence : list[int] | int, default: 0
         The context window of of the sentences to be extracted. Either an
         integer or a list of length 2. The first element of the list indicates
@@ -312,24 +329,26 @@ def extract_parts_from_event(
     Returns
     -------
     str | list[list[list[list[str]]]]
-        The extracted parts as a concatenated string or a nested list with the
+        The extracted passages as a concatenated string or a nested list with the
         following hierarchy: presentation and qa - parts - paragraphs -
-        sentences.
+        passages.
     """
-    presentation_extracted = extract_parts_from_presentation(
+    presentation_extracted = extract_passages_from_presentation(
         event["presentation"],
         keywords,
-        filter_words,
+        modifier_words,
         context_window_sentence,
+        join_adjacent_sentences,
         subsequent_paragraphs,
         return_type,
         nlp,
     )
-    qa_extracted = extract_parts_from_qa(
+    qa_extracted = extract_passages_from_qa(
         event["qa"],
         keywords,
-        filter_words,
+        modifier_words,
         context_window_sentence,
+        join_adjacent_sentences,
         subsequent_paragraphs,
         extract_answers,
         return_type,
@@ -342,11 +361,12 @@ def extract_parts_from_event(
     return doc
 
 
-def extract_parts_from_events(
+def extract_passages_from_events(
     events: list[dict],
     keywords: list[str] | dict,
-    filter_words: list[str] = FILTER_WORDS,
+    modifier_words: list[str] = MODIFIER_WORDS,
     context_window_sentence: int = 0,
+    join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
     extract_answers: bool = False,
     return_type: str = "list",
@@ -354,16 +374,16 @@ def extract_parts_from_events(
 ) -> list[str] | list[list[list[list[list[str]]]]]:
     """
     Wrapper function to extract important paragraphs from a list of events.
-    Loops over all events and calls :func:`extract_parts_from_event`.
+    Loops over all events and calls :func:`extract_passages_from_event`.
 
     Parameters
     ----------
     keywords : list[str] | dict
         List of `keywords` to search for in the events and extract the
-        corresponding parts. If `keywords` is a dictionary, the keys are the
+        corresponding passages. If `keywords` is a dictionary, the keys are the
         keywords.
-    filter_words : list[str], default: FILTER_WORDS
-        List of filter words, which must not precede the keyword.
+    modifier_words : list[str], default: MODIFIER_WORDS
+        List of `modifier_words`, which must not precede the keyword.
     context_window_sentence : list[int] | int, default: 0
         The context window of of the sentences to be extracted. Either an
         integer or a list of length 2. The first element of the list indicates
@@ -388,19 +408,20 @@ def extract_parts_from_events(
     Returns
     -------
     str | list[list[list[list[list[str]]]]]
-        The extracted parts as a list of strings or a nested list with the
+        The extracted passages as a list of strings or a nested list with the
         following hierarchy: event - presentation and qa - parts - paragraphs -
-        sentences.
+        passages.
     """
     print("Extracting paragraphs from events")
     docs = []
     for event in tqdm(events, desc="Events", total=len(events)):
         docs.append(
-            extract_parts_from_event(
+            extract_passages_from_event(
                 event,
                 keywords,
-                filter_words,
+                modifier_words,
                 context_window_sentence,
+                join_adjacent_sentences,
                 subsequent_paragraphs,
                 extract_answers,
                 return_type,
@@ -413,17 +434,16 @@ def extract_parts_from_events(
 def check_keywords_in_event(
     event: dict,
     keywords: dict[str, int] | list[str] = {},
-    filter_words: list[str] = FILTER_WORDS,
+    modifier_words: list[str] = MODIFIER_WORDS,
 ) -> bool:
     """
-    Function to check if keywords are present in the presentation or
-    Q&A part of an event. Calls
-    :func:`process_text.keyword_search_exclude_threshold`.
+    Function to check if keywords are present in the presentation or Q&A part
+    of an event. Calls :func:`process_text.keyword_search_exclude_threshold`.
     """
     return process_text.keyword_search_exclude_threshold(
         str(event["qa_collapsed"] + event["presentation_collapsed"]),
         keywords,
-        filter_words,
+        modifier_words,
     )
 
 
@@ -431,13 +451,10 @@ def filter_events(
     events: list[dict],
     year: int = 2022,
     keywords: dict[str, int] | list[str] = {},
-    filter_words: list[str] = FILTER_WORDS,
+    modifier_words: list[str] = MODIFIER_WORDS,
 ) -> list[dict]:
     """
-    Method to filter events based on a given year and keywords.
-    All events before the given year are filtered out.
-    All events that do not contain the keywords in
-    the presentation and Q&Q part are filtered out.
+    Filters events based on a given `year` and `keywords`.
 
     Parameters
     ----------
@@ -449,8 +466,8 @@ def filter_events(
         Dictionary or list of `keywords`. If `keywords` is a dictionary, the key is
         the keyword and the value is the minimum number of occurrences of the
         keyword in the text.
-    filter_words : list[str], default: FILTER_WORDS
-        List of filter words, which must not precede the keyword
+    modifier_words : list[str], default: MODIFIER_WORDS
+        List of `modifier_words`, which must not precede the keyword
 
     Returns
     -------
@@ -468,9 +485,102 @@ def filter_events(
         ):
             continue
 
-        if not check_keywords_in_event(event, keywords, filter_words):
+        if not check_keywords_in_event(event, keywords, modifier_words):
             continue
 
         events_filtered.append(event)
 
     return events_filtered
+
+
+def test_positions(events: list[dict]):
+    """Checks if all positions of the speakers of an event are valid."""
+    positions = []
+    for i, event in enumerate(events):
+        if event["qa"] is not None:
+            for speaker in event["qa"]:
+                if speaker["position"] not in [
+                    "conference",
+                    "cooperation",
+                    "operator",
+                    "unknown participant",
+                ]:
+                    positions.append("" + str(i) + ": " + speaker["position"])
+
+
+def corpus_list_to_dataframe(corpus: list[list[list[list[list[str]]]]]) -> pl.DataFrame:
+    indices = []
+    for event_idx, event in enumerate(corpus):
+        for presentation_and_qa_idx, presentation_and_qa in enumerate(event):
+            for part_idx, part in enumerate(presentation_and_qa):
+                for paragraph_idx, paragraph in enumerate(part):
+                    for sentence_idx, sentence in enumerate(paragraph):
+                        indices.append(
+                            {
+                                "event": event_idx,
+                                "presentation_and_qa": presentation_and_qa_idx,
+                                "part": part_idx,
+                                "paragraph": paragraph_idx,
+                                "sentence": sentence_idx,
+                                "text": sentence,
+                            }
+                        )
+    return pl.DataFrame(indices)
+
+
+def events_to_corpus(
+    events: list[dict],
+    keywords: list[str] | dict,
+    modifier_words: list[str] = MODIFIER_WORDS,
+    context_window_sentence: int = 0,
+    join_adjacent_sentences: bool = True,
+    subsequent_paragraphs: int = 0,
+    extract_answers: bool = False,
+    nlp_model=None,
+    lemmatize: bool = True,
+    lowercase: bool = True,
+    remove_stopwords: bool = True,
+    remove_punctuation: bool = True,
+    remove_numeric: bool = True,
+    remove_currency: bool = True,
+    remove_space: bool = True,
+    remove_additional_words: list[str] | bool = [],
+) -> list[str]:
+    """Converts a list of events to a corpus (list of texts)"""
+    corpus_raw = extract_passages_from_events(
+        events,
+        keywords,
+        modifier_words,
+        context_window_sentence,
+        join_adjacent_sentences,
+        subsequent_paragraphs,
+        extract_answers,
+        "list",
+        nlp_model,
+    )
+    corpus_df = corpus_list_to_dataframe(corpus_raw)
+    corpus_raw_list = corpus_df["text"].to_list()
+
+    if remove_additional_words:
+        if type(keywords) == list:
+            remove_additional_words = keywords
+        if type(keywords) == dict:
+            remove_additional_words = list(keywords.keys())
+
+    docs = process_text.process_corpus(
+        corpus_raw_list,
+        nlp_model,
+        lemmatize,
+        lowercase,
+        remove_stopwords,
+        remove_punctuation,
+        remove_numeric,
+        remove_currency,
+        remove_space,
+        remove_additional_words,
+    )
+    docs_joined = [process_text.list_to_string(doc) for doc in docs]
+
+    corpus_df = corpus_df.with_columns(pl.Series("processed_text", docs_joined))
+
+    return corpus_df
