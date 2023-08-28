@@ -303,7 +303,7 @@ def extract_passages_from_paragraphs(
             and keyword_n_paragraphs_above <= subsequent_paragraphs
         ):
             if return_type == "list":
-                passages_out.append(paragraph)
+                passages_out.append([paragraph])
             elif return_type == "str":
                 passages_out += paragraph + "\n"
         if keyword_n_paragraphs_above != -1:
