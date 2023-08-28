@@ -100,8 +100,8 @@ File structure
 
 .. code-block:: bash
 
-    📦project-2022WS
-    ┣ 📂docs
+    📦infineac
+    ┣ 📂docs_source
     ┣ 📂notebooks
     ┃ ┗ 📜infineac.ipynb
     ┣ 📂infineac
@@ -122,7 +122,7 @@ File structure
     ┗ 📜tox.ini
 
 
-* ``docs``: Contains the documentation of the project.
+* ``docs:source``: Contains the source for creating the documentation of the project.
   
 * ``notebooks/infineac.ipynb``: This notebook contains the execution process and
   insights gained throughout the project.
