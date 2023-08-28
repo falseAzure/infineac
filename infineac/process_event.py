@@ -45,7 +45,7 @@ def extract_passages_from_presentation(
     join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
     return_type: str = "list",
-    nlp=None,
+    nlp_model=None,
 ) -> str | list[list[list[str]]]:
     """
     Extracts important passages from the presentation section of an event.
@@ -82,7 +82,7 @@ def extract_passages_from_presentation(
         keyword.
     return_type : str, default: "list"
         The return type of the method. Either "str" or "list"
-    nlp : spacy.lang, default: None
+    nlp_model : spacy.lang, default: None
         NLP model.
 
     Returns
@@ -116,7 +116,7 @@ def extract_passages_from_presentation(
                 subsequent_paragraphs,
                 return_type,
                 keyword_n_paragraphs_above,
-                nlp,
+                nlp_model,
             )
             if new_passages:
                 if return_type == "list":
@@ -136,7 +136,7 @@ def extract_passages_from_qa(
     subsequent_paragraphs: int = 0,
     extract_answers: bool = False,
     return_type: str = "list",
-    nlp=None,
+    nlp_model=None,
 ) -> str | list[list[list[str]]]:
     """
     Extracts important passages, like :func:`extract_passages_from_presentation`, but
@@ -177,7 +177,7 @@ def extract_passages_from_qa(
         extracted.
     return_type : str, default: "list"
         The return type of the method. Either "str" or "list"
-    nlp : spacy.lang, default: None
+    nlp_model : spacy.lang, default: None
         NLP model.
 
     Returns
@@ -229,7 +229,7 @@ def extract_passages_from_qa(
             subsequent_paragraphs,
             return_type,
             keyword_n_paragraphs_above,
-            nlp,
+            nlp_model,
         )
         if new_passages:
             if return_type == "list":
@@ -291,7 +291,7 @@ def extract_passages_from_event(
     subsequent_paragraphs: int = 0,
     extract_answers: bool = False,
     return_type: str = "list",
-    nlp=None,
+    nlp_model=None,
 ) -> str | list[list[list[list[str]]]]:
     """
     Wrapper function to extract important passages from an event: comprises of
@@ -299,6 +299,8 @@ def extract_passages_from_event(
 
     Parameters
     ----------
+    event : dict
+        Event to extract the passages from.
     keywords : list[str] | dict
         List of `keywords` to search for in the event and extract the
         corresponding passages. If `keywords` is a dictionary, the keys are the
@@ -323,7 +325,7 @@ def extract_passages_from_event(
         extracted.
     return_type : str, default: "list"
         The return type of the method. Either "str" or "list"
-    nlp : spacy.lang, default: None
+    nlp_model : spacy.lang, default: None
         NLP model.
 
     Returns
@@ -341,7 +343,7 @@ def extract_passages_from_event(
         join_adjacent_sentences,
         subsequent_paragraphs,
         return_type,
-        nlp,
+        nlp_model,
     )
     qa_extracted = extract_passages_from_qa(
         event["qa"],
@@ -352,7 +354,7 @@ def extract_passages_from_event(
         subsequent_paragraphs,
         extract_answers,
         return_type,
-        nlp,
+        nlp_model,
     )
     if return_type == "str":
         doc = presentation_extracted + "/n" + qa_extracted
@@ -370,7 +372,7 @@ def extract_passages_from_events(
     subsequent_paragraphs: int = 0,
     extract_answers: bool = False,
     return_type: str = "list",
-    nlp=None,
+    nlp_model=None,
 ) -> list[str] | list[list[list[list[list[str]]]]]:
     """
     Wrapper function to extract important paragraphs from a list of events.
@@ -378,6 +380,8 @@ def extract_passages_from_events(
 
     Parameters
     ----------
+    events : list[dict]
+         Lists of dicts containing the events.
     keywords : list[str] | dict
         List of `keywords` to search for in the events and extract the
         corresponding passages. If `keywords` is a dictionary, the keys are the
@@ -402,7 +406,7 @@ def extract_passages_from_events(
         extracted.
     return_type : str, default: "list"
         The return type of the method. Either "str" or "list"
-    nlp : spacy.lang, default: None
+    nlp_model : spacy.lang, default: None
         NLP model.
 
     Returns
@@ -425,7 +429,7 @@ def extract_passages_from_events(
                 subsequent_paragraphs,
                 extract_answers,
                 return_type,
-                nlp,
+                nlp_model,
             )
         )
     return docs
@@ -509,6 +513,10 @@ def test_positions(events: list[dict]):
 
 
 def corpus_list_to_dataframe(corpus: list[list[list[list[list[str]]]]]) -> pl.DataFrame:
+    """Converts a corpus (nested list of texts) to a polars DataFrame with
+    indices, indicating the position of the texts in the corpus: event -
+    presentation or qa - part - paragraph - sentence."""
+
     indices = []
     for event_idx, event in enumerate(corpus):
         for presentation_and_qa_idx, presentation_and_qa in enumerate(event):
@@ -536,6 +544,7 @@ def events_to_corpus(
     join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
     extract_answers: bool = False,
+    return_type: str = "list",
     nlp_model=None,
     lemmatize: bool = True,
     lowercase: bool = True,
@@ -545,8 +554,70 @@ def events_to_corpus(
     remove_currency: bool = True,
     remove_space: bool = True,
     remove_additional_words: list[str] | bool = [],
-) -> list[str]:
-    """Converts a list of events to a corpus (list of texts)"""
+) -> pl.DataFrame:
+    """
+    Converts a list of events to a corpus (list of texts).
+
+    This is a wraper function that calls :func:`extract_passages_from_events`,
+    :func:corpus_list_to_dataframe` and :func:`process_text.process_corpus`.
+    This function is used to extract the corpus from the events and process it
+    with the :mod:`infineac.process_text` module according to the given
+    parameters.
+
+    Parameters
+    ----------
+    events : list[dict]
+         Lists of dicts containing the events.
+    keywords : list[str] | dict
+        List of `keywords` to search for in the events and extract the
+        corresponding passages. If `keywords` is a dictionary, the keys are the
+        keywords.
+    modifier_words : list[str], default: MODIFIER_WORDS
+        List of `modifier_words`, which must not precede the keyword.
+    context_window_sentence : list[int] | int, default: 0
+        The context window of of the sentences to be extracted. Either an
+        integer or a list of length 2. The first element of the list indicates
+        the number of sentences to be extracted before the sentence the keyword
+        was found in, the second element the number of sentences after it. If
+        only an integer is provided, the same number of sentences are extracted
+        before and after the keyword. If one of the elements is -1, all
+        sentences before or after the keyword are extracted. So -1 can be used
+        to extract all sentences before and after the keyword, e.g. the entire
+        text.
+    subsequent_paragraphs : int, default: 0
+        Number of subsequent paragraphs to extract after the one containing a
+        keyword.
+    extract_answers : bool, default: False
+        If True, entire answers to questions that include a keyword are also
+        extracted.
+    return_type : str, default: "list"
+        The return type of the method. Either "str" or "list"
+    nlp_model : spacy.lang, default: None
+        NLP model.
+        lemmatize : bool, default: True
+        If document should be lemmatized.
+    lowercase : bool, default: True
+        If document should be lowercased.
+    remove_stopwords : bool, default: True
+        If stopwords should be removed from document.
+    remove_punctuation : bool, default: True
+        If punctuation should be removed from document.
+    remove_numeric : bool, default: False
+        If numerics should be removed from document.
+    remove_currency : bool, default: True
+        If currency symbols should be removed from document.
+    remove_space : bool, default: True
+        If spaces should be removed from document.
+    remove_additional_words : list[str], default: []
+        List of additional words to be removed from the document.
+
+    Returns
+    -------
+    pl.DataFrame
+        The corpus as a polars DataFrame with indices, indicating the position
+        of the texts in the corpus: event - presentation or qa - part -
+        paragraph - sentence, the original text and the processed text.
+    """
     corpus_raw = extract_passages_from_events(
         events,
         keywords,
@@ -555,7 +626,7 @@ def events_to_corpus(
         join_adjacent_sentences,
         subsequent_paragraphs,
         extract_answers,
-        "list",
+        return_type,
         nlp_model,
     )
     corpus_df = corpus_list_to_dataframe(corpus_raw)
