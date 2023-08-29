@@ -37,7 +37,7 @@ extensions = [
     "sphinx.ext.todo",  # to-do syntax highlighting
     "sphinx.ext.ifconfig",  # Content based configuration
     "sphinx_toolbox.documentation_summary",  # Add a summary to each page
-    "sphinx_copybutton",
+    "sphinx_copybutton",  # Add copy button to code blocks
 ]
 
 source_suffix = [".rst", ".md"]
