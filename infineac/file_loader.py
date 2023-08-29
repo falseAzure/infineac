@@ -1,8 +1,8 @@
 """
 Module for importing and structuring the earnings calls data. The earnings
-calls are stored in xml files. :func:`load_files` is the main function of the
-module, that loads the xml files, extracts the relevant information and stores
-it in a list of dictionaries.
+calls are stored in xml files. :func:`load_files_from_xml` is the main function
+of the module, that loads the xml files, extracts the relevant information and
+stores it in a list of dictionaries.
 """
 
 import logging
@@ -203,7 +203,7 @@ def transform_unlisted_participants(
     Parameters
     ----------
     participant : dict
-        Participant to be transformed. Only uses the key "name".
+        Participant to be transformed. Only uses the key 'name'.
     corp_participants : list[str]
         List of corporate participants.
     conf_participants : list[str]
@@ -252,7 +252,7 @@ def get_participants_position(
     Parameters
     ----------
     participant : dict
-        Participant to be transformed. Only uses the key "name".
+        Participant to be transformed. Only uses the key 'name'.
     corp_participants : list[str]
         List of corporate participants.
     conf_participants : list[str]
