@@ -47,9 +47,11 @@ dependencies = [
     "rapidfuzz==3.1.1",
 
     "dill==0.3.6",
+    "lz4==4.3.2",
     "black==23.7.0",
     "flake8==6.0.0",
     "jupyterlab==4.0.2",
+
     "sphinx==7.1.2",
     "pydata-sphinx-theme==0.13.3",
     "sphinx-toolbox==3.5.0",
