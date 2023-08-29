@@ -244,12 +244,12 @@ def extract_passages_from_paragraphs(
         The context window of of the sentences to be extracted. Either an
         integer or a list of length 2. The first element of the list indicates
         the number of sentences to be extracted before the sentence the keyword
-        was found in, the second element the number of sentences after it. If
-        only an integer is provided, the same number of sentences are extracted
-        before and after the keyword. If one of the elements is -1, all
-        sentences before or after the keyword are extracted. So -1 can be used
-        to extract all sentences before and after the keyword, e.g. the entire
-        text.
+        was found in, the second element indicates the number of sentences
+        after it. If only an integer is provided, the same number of sentences
+        are extracted before and after the keyword. If one of the elements is
+        -1, all sentences before or after the keyword are extracted. So -1 can
+        be used to extract all sentences before and after the keyword, e.g. the
+        entire paragraph.
     subsequent_paragraphs : int, default: 0
         Number of subsequent paragraphs to extract after the one containing a
         keyword.
