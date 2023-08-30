@@ -68,12 +68,14 @@ def add_context_integers(
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
     """
     if n < -1 or m < -1:
-        raise ValueError("n and m must be greater than -1.")
+        raise ValueError("n and m must be >= -1.")
     if not all(num >= 0 for num in lst):
         raise ValueError("All integers in lst must be positive.")
     if type(n) != int or type(m) != int:
         raise TypeError("n and m must be integers.")
 
+    if lst == []:
+        return lst
     if n == 0 and m == 0:
         return lst
 
