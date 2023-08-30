@@ -88,8 +88,8 @@ def keyword_search_exclude_threshold(
     Returns
     -------
     bool
-        True if the text contains a keyword and does not contain a filter
-        word. False otherwise.
+        True if the text contains a keyword and does not contain a modifier
+        word preceding it. False otherwise.
     """
     if type(keywords) == list:
         keywords_orig = keywords
@@ -311,6 +311,96 @@ def extract_passages_from_paragraphs(
     return passages_out
 
 
+def keyword_search_include_threshold(
+    string: str,
+    keywords: list[str] = [],
+    modifier_words: list[str] = MODIFIER_WORDS,
+) -> bool:
+    """
+    Checks if a string contains one of the `keywords` and contains a `modifier_word`
+    preceding the keyword. Used to obtain the sentences, that are filtered out
+    by :func:`keyword_search_exclude_threshold`.
+
+    Parameters
+    ----------
+    string : str
+        The string to be searched.
+    keywords : list[str], default: []
+        List of `keywords` to be searched for in the text and to extract the
+    modifier_words : list[str], default: MODIFIER_WORDS
+        List of `modifier_words`, which must precede the keyword.
+
+    Returns
+    -------
+    bool
+        True if the text contains a keyword and a modifier word preceding it.
+        False otherwise.
+    """
+    modifier_pattern = r"(?:" + "|".join(modifier_words) + r")"
+    keyword_pattern = r"(?:" + "|".join(keywords) + r")"
+
+    if keyword_search_exclude_threshold(string, keywords, modifier_words):
+        return False
+
+    pattern = rf"{modifier_pattern} {keyword_pattern}"
+    return bool(re.search(pattern, string, re.IGNORECASE))
+
+
+def extract_keyword_sentences_preceding_mod(
+    text: str,
+    keywords: list[str],
+    modifier_words: list[str] = MODIFIER_WORDS,
+    nlp_model=None,
+) -> str | list[str]:
+    """
+    Extracts sentences with specific `keywords` and a `modifier_word` preceding
+    it. Used to obtain the sentences, that are filtered out by
+    :func:`keyword_search_exclude_threshold`,
+    :func:`extract_keyword_sentences_window` and all functions that use it.
+
+    Parameter
+    ----------
+    text : str
+        The text to extract the sentences from.
+    keywords : list[str] | dict, default: []
+        List of `keywords` to be searched for in the text and to extract the
+        sentences.
+    modifier_words : list[str], default: MODIFIER_WORDS
+        List of `modifier_words` which must precede the keyword.
+    nlp_model : spacy.lang, default: None
+        NLP model.
+
+    Returns
+    -------
+    str | list[str]
+        The extracted sentences as a list of passages.
+
+    Raises
+    ------
+    ValueError
+        - If `nlp_model` is not a spaCy NLP model.
+    """
+    if nlp_model is None:
+        raise ValueError("No spaCy NLP model provided.")
+    if str == "":
+        print("Empty text.")
+        return ""
+    doc = nlp_model(text)
+    sentences = list(doc.sents)
+    keyword_sent_idx = []
+
+    for idx, sent in enumerate(sentences):
+        if keyword_search_include_threshold(
+            sent.text.lower(), keywords, modifier_words
+        ):
+            keyword_sent_idx.append(idx)
+
+    sentences_str = [sentence.text for sentence in sentences]
+    matching_sentences = [sentences_str[i] for i in keyword_sent_idx]
+
+    return matching_sentences
+
+
 def process_text_nlp(
     text_nlp: str,
     lemmatize: bool = True,
@@ -367,7 +457,7 @@ def process_text_nlp(
             continue
         if remove_space and word.is_space:
             continue
-        if word.lower_ in remove_additional_words:
+        if contains_stopword(word.text, remove_additional_words):
             continue
         if lemmatize:
             word = word.lemma_
@@ -378,6 +468,22 @@ def process_text_nlp(
         doc.append(word)
 
     return doc
+
+
+def starts_with_additional_word(word: str, additional_words: list[str]) -> bool:
+    """Checks if a word starts with an `additional_word`."""
+    for additional_word in additional_words:
+        if word.lower_.startswith(additional_word):
+            return True
+    return False
+
+
+def contains_stopword(word: str, stopwords: list[str]) -> bool:
+    """Checks if a word contains a `stopword`."""
+    if stopwords == []:
+        return False
+    pattern = r"(?:" + "|".join(stopwords) + r")"  # \b would be word boundary
+    return bool(re.search(pattern, word, re.IGNORECASE))
 
 
 def process_text(
