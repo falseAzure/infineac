@@ -34,7 +34,8 @@ import polars as pl
 from tqdm import tqdm
 
 import infineac.process_text as process_text
-from infineac.process_text import MODIFIER_WORDS, extract_passages_from_paragraphs
+from infineac.process_text import (MODIFIER_WORDS,
+                                   extract_passages_from_paragraphs)
 
 
 def extract_passages_from_presentation(
@@ -416,7 +417,7 @@ def extract_passages_from_events(
         following hierarchy: event - presentation and qa - parts - paragraphs -
         passages.
     """
-    print("Extracting paragraphs from events")
+    print("Extracting passages from events")
     docs = []
     for event in tqdm(events, desc="Events", total=len(events)):
         docs.append(
@@ -497,6 +498,21 @@ def filter_events(
     return events_filtered
 
 
+def excluded_sentences_by_mod_words(events, nlp_model):
+    excluded_sentences = []
+    for event in tqdm(events, desc="Events", total=len(events)):
+        excluded_qa = process_text.extract_keyword_sentences_preceding_mod(
+            text=event["qa_collapsed"], keywords=["russia"], nlp_model=nlp_model
+        )
+        excluded_presentation = process_text.extract_keyword_sentences_preceding_mod(
+            text=event["presentation_collapsed"],
+            keywords=["russia"],
+            nlp_model=nlp_model,
+        )
+        excluded_sentences.append(excluded_qa + excluded_presentation)
+    return [sent for lst in excluded_sentences for sent in lst if lst != []]
+
+
 def test_positions(events: list[dict]):
     """Checks if all positions of the speakers of an event are valid."""
     positions = []
@@ -525,15 +541,39 @@ def corpus_list_to_dataframe(corpus: list[list[list[list[list[str]]]]]) -> pl.Da
                     for sentence_idx, sentence in enumerate(paragraph):
                         indices.append(
                             {
-                                "event": event_idx,
-                                "presentation_and_qa": presentation_and_qa_idx,
-                                "part": part_idx,
-                                "paragraph": paragraph_idx,
-                                "sentence": sentence_idx,
+                                "event_idx": event_idx,
+                                "presentation_and_qa_idx": presentation_and_qa_idx,
+                                "part_idx": part_idx,
+                                "paragraph_idx": paragraph_idx,
+                                "sentence_idx": sentence_idx,
                                 "text": sentence,
                             }
                         )
     return pl.DataFrame(indices)
+
+
+def extract_infos_from_events(events: list[dict]) -> pl.DataFrame:
+    """Extracts the id, year, date and company name from a list of events."""
+    ids = []
+    years = []
+    dates = []
+    company_names = []
+    event_idx = []
+    for idx, event in enumerate(events):
+        event_idx.append(idx)
+        ids.append(event["id"])
+        years.append(event["year_upload"])
+        dates.append(event["date"])
+        company_names.append(event["company_name"])
+    return pl.DataFrame(
+        {
+            "event_idx": event_idx,
+            "id": ids,
+            "year": years,
+            "date": dates,
+            "company_name": company_names,
+        }
+    )
 
 
 def events_to_corpus(
@@ -553,12 +593,12 @@ def events_to_corpus(
     remove_numeric: bool = True,
     remove_currency: bool = True,
     remove_space: bool = True,
-    remove_additional_words: list[str] | bool = [],
+    remove_additional_words: list[str] | bool = True,
 ) -> pl.DataFrame:
     """
     Converts a list of events to a corpus (list of texts).
 
-    This is a wraper function that calls :func:`extract_passages_from_events`,
+    This is a wrapper function that calls :func:`extract_passages_from_events`,
     :func:corpus_list_to_dataframe` and
     :func:`infineac.process_text.process_corpus`. This function is used to
     extract the corpus from the events and process it with the
@@ -652,5 +692,8 @@ def events_to_corpus(
     docs_joined = [process_text.list_to_string(doc) for doc in docs]
 
     corpus_df = corpus_df.with_columns(pl.Series("processed_text", docs_joined))
+    info_df = extract_infos_from_events(events)
+
+    corpus_df = corpus_df.join(info_df, on="event_idx")
 
     return corpus_df
