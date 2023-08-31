@@ -12,8 +12,12 @@ PATH = "data/transcripts/"
 
 def get_args():
     parser = argparse.ArgumentParser(
-        "This script generates topics from with BERTopic"
-        + "from a given list of files containing earnings calls transcripts."
+        "This script loads, structures and saves earnings calls as a list of events"
+        + "from a given directory of xml files containing the earnings calls"
+        + "transcripts."
+        + "The saved file is a pickle or lz4 file containing the list of events."
+        + "This file can then be used to create a corpus (create_corpus.py)"
+        + "for training a topic model (extract_topics.py)."
     )
 
     parser.add_argument(
@@ -21,7 +25,7 @@ def get_args():
         "--path",
         type=str,
         default=PATH,
-        help="Path to directory of earnings calls transcripts",
+        help="Path to directory of xml files containing the earnings calls transcripts",
     )
 
     parser.add_argument(
@@ -29,7 +33,7 @@ def get_args():
         "--compress",
         type=bool,
         default=False,
-        help="Whether to compress the pickle file",
+        help="Whether to compress the pickle file with lz4",
     )
 
     return parser.parse_args()
@@ -42,9 +46,12 @@ if "__main__" == __name__:
     files = list(Path(path).rglob("*.xml"))
     print(f"Found {len(files)} files\n")
     print(f"Loading files from {files[0]} to {files[len(files) - 1]}")
-
-    events = file_loader.load_files_from_xml(files[0:500])
+    events = file_loader.load_files_from_xml(files)
 
     name = str(data_dir / "events")
-    print("Saving data to pickle file")
+    if args.compress:
+        file_ending = ".lz4"
+    else:
+        file_ending = ".pickle"
+    print("Saving data to ", name + file_ending)
     helper.save_data(events, name, compression=args.compress)
