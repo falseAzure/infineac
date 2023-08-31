@@ -9,7 +9,7 @@ import infineac.process_event as process_event
 main_dir = Path(__file__).resolve().parents[1]
 data_dir = main_dir / "data"
 
-PATH = "data/transcripts/"
+PATH = str(data_dir / "events.lz4")
 
 
 def get_args():
@@ -27,6 +27,7 @@ def get_args():
         "-p",
         "--path",
         type=str,
+        default=PATH,
         help="Path to pickle/lz4 file containing the earnings calls transcripts",
     )
 
@@ -41,7 +42,8 @@ def get_args():
     parser.add_argument(
         "-k",
         "--keywords",
-        type=dict[str:int] | list[str],
+        type=str,
+        nargs="+",
         default={"russia": 1, "ukraine": 1},
         help="Keywords to filter events by"
         + "- all events not containing these keywords will be removed",
@@ -50,13 +52,14 @@ def get_args():
     parser.add_argument(
         "-w",
         "--window",
-        type=int | list[int],
+        type=int,
+        nargs="+",
         default=0,
         help="Context window size in sentences.",
     )
 
     parser.add_argument(
-        "-p",
+        "-par",
         "--paragraphs",
         type=bool,
         default=False,
@@ -96,6 +99,7 @@ if "__main__" == __name__:
     path = args.path
     year = args.year
     keywords = args.keywords
+    # keywords = ["russia", "ukraine"]
     context_window_sentence = args.window
     subsequent_paragraphs = args.paragraphs
     join_adjacent_sentences = args.join
@@ -126,5 +130,5 @@ if "__main__" == __name__:
     directory = Path(path).parents[0]
     name = str(directory / "corpus")
 
-    print("Saving data to ", name + "lz4")
+    print("Saving data to ", name + ".lz4")
     helper.save_data(corpus_df, name, compression=True)
