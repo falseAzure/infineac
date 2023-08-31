@@ -43,7 +43,7 @@ if "__main__" == __name__:
     args = get_args()
     path = args.path
 
-    files = list(Path(path).rglob("*.xml"))
+    files = list(Path(path).rglob("*.xml"))[0:500]
     print(f"Found {len(files)} files\n")
     print(f"Loading files from {files[0]} to {files[len(files) - 1]}")
     events = file_loader.load_files_from_xml(files)
