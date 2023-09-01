@@ -115,7 +115,7 @@ def extract_keyword_sentences_window(
     text: str,
     keywords: list[str] | dict = [],
     modifier_words: list[str] = MODIFIER_WORDS,
-    context_window_sentence: list[int] | int = 0,
+    context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
     return_type: str = "list",
     nlp_model=None,
@@ -133,16 +133,16 @@ def extract_keyword_sentences_window(
         sentences. If `keywords` is a dictionary, the keys are the keywords.
     modifier_words : list[str], default: MODIFIER_WORDS
         List of `modifier_words`, which must not precede the keyword.
-    context_window_sentence : list[int] | int, default: 0
+    context_window_sentence : tuple[int, int] | int, default: 0
         The context window of of the sentences to be extracted. Either an
-        integer or a list of length 2. The first element of the list indicates
+        integer or a tuple of length 2. The first element of the tuple indicates
         the number of sentences to be extracted before the sentence the keyword
-        was found in, the second element the number of sentences after it. If
-        only an integer is provided, the same number of sentences are extracted
-        before and after the keyword. If one of the elements is -1, all
-        sentences before or after the keyword are extracted. So -1 can be used
-        to extract all sentences before and after the keyword, e.g. the entire
-        text.
+        was found in, the second element indicates the number of sentences
+        after it. If only an integer is provided, the same number of sentences
+        are extracted before and after the keyword. If one of the elements is
+        -1, all sentences before or after the keyword are extracted. So -1 can
+        be used to extract all sentences before and after the keyword, e.g. the
+        entire paragraph.
     join_adjacent_sentences : bool, default: True
         If adjacent sentences should be joined or left as individual sentences.
         If `context_window_sentence` > 0, this parameter is automatically set to `True`.
@@ -181,14 +181,16 @@ def extract_keyword_sentences_window(
         raise ValueError("Context window must be an integer or a list of length 2.")
     if context_window_sentence[0] > 0 or context_window_sentence[1] > 0:
         join_adjacent_sentences = True
-    doc = nlp_model(text)
+    doc = nlp_model(text.strip())
     sentences = list(doc.sents)
+    # print(sentences)
     keyword_sent_idx = []
+    # print(len(sentences))
 
     for idx, sent in enumerate(sentences):
         # if any(keyword in sent.text.lower() for keyword in keywords):
         if keyword_search_exclude_threshold(
-            sent.text.lower(), keywords, modifier_words
+            sent.text.lower().strip(), keywords, modifier_words
         ):
             keyword_sent_idx.append(idx)
     keyword_sent_idx = add_context_integers(
@@ -198,12 +200,15 @@ def extract_keyword_sentences_window(
         0,
         len(sentences) - 1,
     )
+    # print(keyword_sent_idx)
 
-    sentences_str = [sentence.text for sentence in sentences]
+    sentences_str = [sentence.text.strip() for sentence in sentences]
     if join_adjacent_sentences and len(keyword_sent_idx) > 1:
         matching_sentences = combine_adjacent_sentences(keyword_sent_idx, sentences_str)
     else:
         matching_sentences = [sentences_str[i] for i in keyword_sent_idx]
+
+    # print(matching_sentences, "\n")
 
     if return_type == "str":
         matching_sentences = " ".join(
@@ -216,7 +221,7 @@ def extract_passages_from_paragraphs(
     paragraphs: list[str],
     keywords: list[str] | dict,
     modifier_words: list[str] = MODIFIER_WORDS,
-    context_window_sentence: list[int] | int = 0,
+    context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
     return_type: str = "list",
@@ -240,9 +245,9 @@ def extract_passages_from_paragraphs(
         dictionary, the keys are the keywords.
     modifier_words : list[str], default: MODIFIER_WORDS
         List of `modifier_words`, which must not precede the keyword.
-    context_window_sentence : list[int] | int, default: 0
+    context_window_sentence : tuple[int, int] | int, default: 0
         The context window of of the sentences to be extracted. Either an
-        integer or a list of length 2. The first element of the list indicates
+        integer or a tuple of length 2. The first element of the tuple indicates
         the number of sentences to be extracted before the sentence the keyword
         was found in, the second element indicates the number of sentences
         after it. If only an integer is provided, the same number of sentences
