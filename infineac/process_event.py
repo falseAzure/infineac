@@ -34,15 +34,14 @@ import polars as pl
 from tqdm import tqdm
 
 import infineac.process_text as process_text
-from infineac.process_text import (MODIFIER_WORDS,
-                                   extract_passages_from_paragraphs)
+from infineac.process_text import MODIFIER_WORDS, extract_passages_from_paragraphs
 
 
 def extract_passages_from_presentation(
     presentation: list[dict],
     keywords: list[str] | dict,
     modifier_words: list[str] = MODIFIER_WORDS,
-    context_window_sentence: int = 0,
+    context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
     return_type: str = "list",
@@ -68,16 +67,16 @@ def extract_passages_from_presentation(
         keywords.
     modifier_words : list[str], default: MODIFIER_WORDS
         List of `modifier_words`, which must not precede the keyword.
-    context_window_sentence : list[int] | int, default: 0
+    context_window_sentence : tuple[int, int] | int, default: 0
         The context window of of the sentences to be extracted. Either an
-        integer or a list of length 2. The first element of the list indicates
+        integer or a tuple of length 2. The first element of the tuple indicates
         the number of sentences to be extracted before the sentence the keyword
-        was found in, the second element the number of sentences after it. If
-        only an integer is provided, the same number of sentences are extracted
-        before and after the keyword. If one of the elements is -1, all
-        sentences before or after the keyword are extracted. So -1 can be used
-        to extract all sentences before and after the keyword, e.g. the entire
-        text.
+        was found in, the second element indicates the number of sentences
+        after it. If only an integer is provided, the same number of sentences
+        are extracted before and after the keyword. If one of the elements is
+        -1, all sentences before or after the keyword are extracted. So -1 can
+        be used to extract all sentences before and after the keyword, e.g. the
+        entire paragraph.
     subsequent_paragraphs : int, default: 0
         Number of subsequent paragraphs to extract after the one containing a
         keyword.
@@ -132,7 +131,7 @@ def extract_passages_from_qa(
     qa: list[dict],
     keywords: list[str] | dict,
     modifier_words: list[str] = MODIFIER_WORDS,
-    context_window_sentence: int = 0,
+    context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
     extract_answers: bool = False,
@@ -160,16 +159,16 @@ def extract_passages_from_qa(
         keywords.
     modifier_words : list[str], default: MODIFIER_WORDS
         List of `modifier_words`, which must not precede the keyword.
-    context_window_sentence : list[int] | int, default: 0
+    context_window_sentence : tuple[int, int] | int, default: 0
         The context window of of the sentences to be extracted. Either an
-        integer or a list of length 2. The first element of the list indicates
+        integer or a tuple of length 2. The first element of the tuple indicates
         the number of sentences to be extracted before the sentence the keyword
-        was found in, the second element the number of sentences after it. If
-        only an integer is provided, the same number of sentences are extracted
-        before and after the keyword. If one of the elements is -1, all
-        sentences before or after the keyword are extracted. So -1 can be used
-        to extract all sentences before and after the keyword, e.g. the entire
-        text.
+        was found in, the second element indicates the number of sentences
+        after it. If only an integer is provided, the same number of sentences
+        are extracted before and after the keyword. If one of the elements is
+        -1, all sentences before or after the keyword are extracted. So -1 can
+        be used to extract all sentences before and after the keyword, e.g. the
+        entire paragraph.
     subsequent_paragraphs : int, default: 0
         Number of subsequent paragraphs to extract after the one containing a
         keyword.
@@ -232,6 +231,7 @@ def extract_passages_from_qa(
             keyword_n_paragraphs_above,
             nlp_model,
         )
+
         if new_passages:
             if return_type == "list":
                 passages.append(new_passages)
@@ -287,7 +287,8 @@ def extract_passages_from_event(
     event: dict,
     keywords: list[str] | dict,
     modifier_words: list[str] = MODIFIER_WORDS,
-    context_window_sentence: int = 0,
+    sections: str = "all",
+    context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
     extract_answers: bool = False,
@@ -308,16 +309,19 @@ def extract_passages_from_event(
         keywords.
     modifier_words : list[str], default: MODIFIER_WORDS
         List of `modifier_words`, which must not precede the keyword.
-    context_window_sentence : list[int] | int, default: 0
+    sections : str, default: "all"
+        Section of the event to extract the passages from. Either "all",
+        "presentation" or "qa"
+    context_window_sentence : tuple[int, int] | int, default: 0
         The context window of of the sentences to be extracted. Either an
-        integer or a list of length 2. The first element of the list indicates
+        integer or a tuple of length 2. The first element of the tuple indicates
         the number of sentences to be extracted before the sentence the keyword
-        was found in, the second element the number of sentences after it. If
-        only an integer is provided, the same number of sentences are extracted
-        before and after the keyword. If one of the elements is -1, all
-        sentences before or after the keyword are extracted. So -1 can be used
-        to extract all sentences before and after the keyword, e.g. the entire
-        text.
+        was found in, the second element indicates the number of sentences
+        after it. If only an integer is provided, the same number of sentences
+        are extracted before and after the keyword. If one of the elements is
+        -1, all sentences before or after the keyword are extracted. So -1 can
+        be used to extract all sentences before and after the keyword, e.g. the
+        entire paragraph.
     subsequent_paragraphs : int, default: 0
         Number of subsequent paragraphs to extract after the one containing a
         keyword.
@@ -336,27 +340,37 @@ def extract_passages_from_event(
         following hierarchy: presentation and qa - parts - paragraphs -
         passages.
     """
-    presentation_extracted = extract_passages_from_presentation(
-        event["presentation"],
-        keywords,
-        modifier_words,
-        context_window_sentence,
-        join_adjacent_sentences,
-        subsequent_paragraphs,
-        return_type,
-        nlp_model,
-    )
-    qa_extracted = extract_passages_from_qa(
-        event["qa"],
-        keywords,
-        modifier_words,
-        context_window_sentence,
-        join_adjacent_sentences,
-        subsequent_paragraphs,
-        extract_answers,
-        return_type,
-        nlp_model,
-    )
+    if sections in ["all", "presentation"]:
+        presentation_extracted = extract_passages_from_presentation(
+            event["presentation"],
+            keywords,
+            modifier_words,
+            context_window_sentence,
+            join_adjacent_sentences,
+            subsequent_paragraphs,
+            return_type,
+            nlp_model,
+        )
+
+        # for participant in event["corp_participants"] + event["conf_participants"]:
+        #     if any(keyword in participant.lower() for keyword in keywords):
+        #         presentation_extracted += participant + "\n"
+    else:
+        presentation_extracted = ""
+    if sections in ["all", "qa"]:
+        qa_extracted = extract_passages_from_qa(
+            event["qa"],
+            keywords,
+            modifier_words,
+            context_window_sentence,
+            join_adjacent_sentences,
+            subsequent_paragraphs,
+            extract_answers,
+            return_type,
+            nlp_model,
+        )
+    else:
+        qa_extracted = ""
     if return_type == "str":
         doc = presentation_extracted + "/n" + qa_extracted
     elif return_type == "list":
@@ -368,7 +382,8 @@ def extract_passages_from_events(
     events: list[dict],
     keywords: list[str] | dict,
     modifier_words: list[str] = MODIFIER_WORDS,
-    context_window_sentence: int = 0,
+    sections: str = "all",
+    context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
     extract_answers: bool = False,
@@ -389,16 +404,19 @@ def extract_passages_from_events(
         keywords.
     modifier_words : list[str], default: MODIFIER_WORDS
         List of `modifier_words`, which must not precede the keyword.
-    context_window_sentence : list[int] | int, default: 0
+    sections : str, default: "all"
+        Section of the event to extract the passages from. Either "all",
+        "presentation" or "qa".
+    context_window_sentence : tuple[int, int] | int, default: 0
         The context window of of the sentences to be extracted. Either an
-        integer or a list of length 2. The first element of the list indicates
+        integer or a tuple of length 2. The first element of the tuple indicates
         the number of sentences to be extracted before the sentence the keyword
-        was found in, the second element the number of sentences after it. If
-        only an integer is provided, the same number of sentences are extracted
-        before and after the keyword. If one of the elements is -1, all
-        sentences before or after the keyword are extracted. So -1 can be used
-        to extract all sentences before and after the keyword, e.g. the entire
-        text.
+        was found in, the second element indicates the number of sentences
+        after it. If only an integer is provided, the same number of sentences
+        are extracted before and after the keyword. If one of the elements is
+        -1, all sentences before or after the keyword are extracted. So -1 can
+        be used to extract all sentences before and after the keyword, e.g. the
+        entire paragraph.
     subsequent_paragraphs : int, default: 0
         Number of subsequent paragraphs to extract after the one containing a
         keyword.
@@ -425,6 +443,7 @@ def extract_passages_from_events(
                 event,
                 keywords,
                 modifier_words,
+                sections,
                 context_window_sentence,
                 join_adjacent_sentences,
                 subsequent_paragraphs,
@@ -580,7 +599,8 @@ def events_to_corpus(
     events: list[dict],
     keywords: list[str] | dict,
     modifier_words: list[str] = MODIFIER_WORDS,
-    context_window_sentence: int = 0,
+    sections: str = "all",
+    context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
     extract_answers: bool = False,
@@ -614,16 +634,19 @@ def events_to_corpus(
         keywords.
     modifier_words : list[str], default: MODIFIER_WORDS
         List of `modifier_words`, which must not precede the keyword.
-    context_window_sentence : list[int] | int, default: 0
+    sections : str, default: "all"
+        Section of the event to extract the passages from. Either "all",
+        "presentation" or "qa"
+    context_window_sentence : tuple[int, int] | int, default: 0
         The context window of of the sentences to be extracted. Either an
-        integer or a list of length 2. The first element of the list indicates
+        integer or a tuple of length 2. The first element of the tuple indicates
         the number of sentences to be extracted before the sentence the keyword
-        was found in, the second element the number of sentences after it. If
-        only an integer is provided, the same number of sentences are extracted
-        before and after the keyword. If one of the elements is -1, all
-        sentences before or after the keyword are extracted. So -1 can be used
-        to extract all sentences before and after the keyword, e.g. the entire
-        text.
+        was found in, the second element indicates the number of sentences
+        after it. If only an integer is provided, the same number of sentences
+        are extracted before and after the keyword. If one of the elements is
+        -1, all sentences before or after the keyword are extracted. So -1 can
+        be used to extract all sentences before and after the keyword, e.g. the
+        entire paragraph.
     subsequent_paragraphs : int, default: 0
         Number of subsequent paragraphs to extract after the one containing a
         keyword.
@@ -661,6 +684,7 @@ def events_to_corpus(
         events,
         keywords,
         modifier_words,
+        sections,
         context_window_sentence,
         join_adjacent_sentences,
         subsequent_paragraphs,
