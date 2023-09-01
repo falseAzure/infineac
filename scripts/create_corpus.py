@@ -43,17 +43,26 @@ def get_args():
         "-k",
         "--keywords",
         type=str,
-        nargs="+",
+        nargs="*",
         default={"russia": 1, "ukraine": 1},
         help="Keywords to filter events by"
         + "- all events not containing these keywords will be removed",
     )
 
     parser.add_argument(
+        "-s",
+        "--sections",
+        type=str,
+        default="all",
+        choices=["all", "presentation", "qa"],
+        help="Section to extract passages from.",
+    )
+
+    parser.add_argument(
         "-w",
         "--window",
         type=int,
-        nargs="+",
+        nargs=2,
         default=0,
         help="Context window size in sentences.",
     )
@@ -99,7 +108,7 @@ if "__main__" == __name__:
     path = args.path
     year = args.year
     keywords = args.keywords
-    # keywords = ["russia", "ukraine"]
+    sections = args.sections
     context_window_sentence = args.window
     subsequent_paragraphs = args.paragraphs
     join_adjacent_sentences = args.join
@@ -120,6 +129,7 @@ if "__main__" == __name__:
     corpus_df = process_event.events_to_corpus(
         events=events_filtered,
         keywords=keywords,
+        sections=sections,
         context_window_sentence=context_window_sentence,
         subsequent_paragraphs=subsequent_paragraphs,
         join_adjacent_sentences=join_adjacent_sentences,
