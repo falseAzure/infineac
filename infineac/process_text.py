@@ -6,9 +6,16 @@ earnings calls.
 
 import re
 
+import polars as pl
 from tqdm import tqdm
 
 from infineac.helper import add_context_integers
+
+STRATEGY_KEYWORDS = {
+    "exit": ["exit", "leave", "sell", "leave"],
+    "stay": ["stay"],
+    "adaptation": ["change", "adapt"],
+}
 
 MODIFIER_WORDS = [
     "excluding",
@@ -19,6 +26,8 @@ MODIFIER_WORDS = [
     "disregarding",
     "ignoring",
 ]
+
+MODIFIER_WORDS_STRATEGY = ["not", "don't", "can't", "cannot"]
 
 
 def get_russia_and_sanction(string: str) -> str:
@@ -65,7 +74,7 @@ def combine_adjacent_sentences(
     return joined_sentences
 
 
-def keyword_search_exclude_threshold(
+def keyword_threshold_search_exclude_mod(
     string: str,
     keywords: dict[str, int] | list[str] = {},
     modifier_words: list[str] = MODIFIER_WORDS,
@@ -189,7 +198,7 @@ def extract_keyword_sentences_window(
 
     for idx, sent in enumerate(sentences):
         # if any(keyword in sent.text.lower() for keyword in keywords):
-        if keyword_search_exclude_threshold(
+        if keyword_threshold_search_exclude_mod(
             sent.text.lower().strip(), keywords, modifier_words
         ):
             keyword_sent_idx.append(idx)
@@ -316,7 +325,7 @@ def extract_passages_from_paragraphs(
     return passages_out
 
 
-def keyword_search_include_threshold(
+def keyword_threshold_search_include_mod(
     string: str,
     keywords: list[str] = [],
     modifier_words: list[str] = MODIFIER_WORDS,
@@ -344,7 +353,7 @@ def keyword_search_include_threshold(
     modifier_pattern = r"(?:" + "|".join(modifier_words) + r")"
     keyword_pattern = r"(?:" + "|".join(keywords) + r")"
 
-    if keyword_search_exclude_threshold(string, keywords, modifier_words):
+    if keyword_threshold_search_exclude_mod(string, keywords, modifier_words):
         return False
 
     pattern = rf"{modifier_pattern} {keyword_pattern}"
@@ -395,7 +404,7 @@ def extract_keyword_sentences_preceding_mod(
     keyword_sent_idx = []
 
     for idx, sent in enumerate(sentences):
-        if keyword_search_include_threshold(
+        if keyword_threshold_search_include_mod(
             sent.text.lower(), keywords, modifier_words
         ):
             keyword_sent_idx.append(idx)
@@ -634,3 +643,35 @@ def list_to_string(list: list, separator=" ") -> str:
     """Converts a list of strings to a string with a separator. Is used to
     convert the list of tokens from :func:`process_corpus` back to a string."""
     return separator.join(list)
+
+
+def get_strategies(
+    lst: list = [],
+    strategy_keywords: dict[str, list[str]] = STRATEGY_KEYWORDS,
+    modifier_words: list[str] = MODIFIER_WORDS_STRATEGY,
+    dataframe: pl.DataFrame = None,
+) -> dict[str, list[bool]]:
+    if type(dataframe) == pl.dataframe.frame.DataFrame:
+        lst = list(dataframe["text"].to_list())
+    strategies = {}
+    for strategy in strategy_keywords.keys():
+        keywords = strategy_keywords[strategy]
+        list_strategy = []
+        for text in lst:
+            list_strategy.append(
+                keyword_threshold_search_exclude_mod(text, keywords, modifier_words)
+            )
+        strategies[strategy] = list_strategy
+
+    if type(dataframe) == pl.dataframe.frame.DataFrame:
+        for strategy in strategies.keys():
+            dataframe = dataframe.with_columns(
+                pl.Series(
+                    name=strategy + "_strategy",
+                    values=strategies[strategy],
+                )
+            )
+            # dataframe[strategy] = pl.Series(strategies[strategy])
+        return dataframe
+
+    return strategies
