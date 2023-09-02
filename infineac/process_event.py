@@ -28,7 +28,9 @@ An event is a dictionary with the following key-value pairs:
     - 'event_type_name': str - the event type name
 """
 
+import os
 import re
+import shutil
 
 import polars as pl
 from tqdm import tqdm
@@ -464,7 +466,7 @@ def check_keywords_in_event(
     Function to check if keywords are present in the presentation or Q&A part
     of an event. Calls :func:`process_text.keyword_search_exclude_threshold`.
     """
-    return process_text.keyword_search_exclude_threshold(
+    return process_text.keyword_threshold_search_exclude_mod(
         str(event["qa_collapsed"] + event["presentation_collapsed"]),
         keywords,
         modifier_words,
@@ -721,3 +723,19 @@ def events_to_corpus(
     corpus_df = corpus_df.join(info_df, on="event_idx")
 
     return corpus_df
+
+
+def create_samples(df):
+    if len(df[df["russia"] == "russia & sanctions"]) > 0:
+        sample_files_russia = (
+            df[df["russia"] == "russia"].sample(8)["file"].tolist()
+            + df[df["russia"] == "russia & sanctions"].sample(7)["file"].tolist()
+        )
+
+    folder = "../output/sample transcripts/russia/"
+    files = os.listdir(folder)
+    for f in files:
+        os.remove(folder + f)
+    # copy sample files to folder
+    for file in sample_files_russia:
+        shutil.copy(file, folder)
