@@ -41,7 +41,6 @@ def bert_advanced(
     # Fine-tune your topic representations
     topic_model = BERTopic(
         representation_model=representation_model,
-        nr_topics=10,
         calculate_probabilities=True,
         embedding_model=embedding_model,
         vectorizer_model=vectorizer_model,
