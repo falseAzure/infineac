@@ -36,8 +36,10 @@ import polars as pl
 from tqdm import tqdm
 
 import infineac.process_text as process_text
-from infineac.process_text import MODIFIER_WORDS, extract_passages_from_paragraphs
+from infineac.process_text import (MODIFIER_WORDS,
+                                   extract_passages_from_paragraphs)
 
+BASE_YEAR = 2019
 
 def extract_passages_from_presentation(
     presentation: list[dict],
@@ -475,7 +477,7 @@ def check_keywords_in_event(
 
 def filter_events(
     events: list[dict],
-    year: int = 2022,
+    year: int = BASE_YEAR,
     keywords: dict[str, int] | list[str] = {},
     modifier_words: list[str] = MODIFIER_WORDS,
 ) -> list[dict]:
@@ -486,7 +488,7 @@ def filter_events(
     ----------
     events : list[dict]
        Lists of dicts containing the events.
-    year : int, default: 2022
+    year : int, default: BASE_YEAR
         All events before the given year are filtered out.
     keywords : dict[str, int] | list[str], default: {}
         Dictionary or list of `keywords`. If `keywords` is a dictionary, the key is
