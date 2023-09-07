@@ -17,6 +17,7 @@ def pipeline(
     extract_answers=True,
     nlp_model=None,
     remove_additional_words=True,
+    representation_model=None,
 ):
     files = list(Path(path).rglob("*.xml"))
     print(f"Found {len(files)} files\n")
@@ -40,8 +41,8 @@ def pipeline(
         remove_additional_words=remove_additional_words,
     )
 
-    topic_model, topics, probs = topic_extractor.bert_inspired(
-        corpus_df["processed_text"].tolist()
+    topic_model, topics, probs = topic_extractor.bert_advanced(
+        corpus_df["processed_text"].tolist(), representation_model
     )
 
     return topics, probs
