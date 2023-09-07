@@ -36,7 +36,11 @@ def bert_inspired(docs, representation_model, nr_topics=None, seed_topic_list=No
 
 
 def bert_advanced(
-    docs, representation_model, embedding_model=None, vectorizer_model=None
+    docs,
+    representation_model,
+    embedding_model=None,
+    vectorizer_model=None,
+    nr_topics=None,
 ):
     # Fine-tune your topic representations
     topic_model = BERTopic(
@@ -44,6 +48,7 @@ def bert_advanced(
         calculate_probabilities=True,
         embedding_model=embedding_model,
         vectorizer_model=vectorizer_model,
+        nr_topics=nr_topics,
         # seed_topic_list=seed_topic_list,
         low_memory=True,
         verbose=True,
