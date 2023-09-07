@@ -1,7 +1,7 @@
 """
 This module contains methods to process text data. It is mainly used by the
-:mod:`infineac.process_event` module to process the text data of the events, e.g.
-earnings calls.
+:mod:`infineac.process_event` module to process the text data of the events,
+e.g. earnings calls.
 """
 
 import re
@@ -12,10 +12,73 @@ from tqdm import tqdm
 from infineac.helper import add_context_integers
 
 STRATEGY_KEYWORDS = {
-    "exit": ["exit", "leave", "sell", "leave"],
-    "stay": ["stay"],
-    "adaptation": ["change", "adapt"],
+    "exit": [
+        "exit",
+        "leave",
+        "left",
+        "withdraw",
+        "pull out",
+        "retreat",
+        "liquidate",
+        "sell",
+        "sold",
+        "divest",
+        "close",
+        "discontinue",
+        "terminate",
+        "suspend",
+        "cancel",
+    ],
+    "stay": ["stay", "wait", "remain", "continue", "keep"],
+    "adaptation": ["change", "adapt", "relocate"],
 }
+
+REMOVE_WORDS = [
+    "covid",
+    "corona",
+    "war",
+    "conflict",
+    "crisis",
+    "omicron",
+    "pandemic",
+    "virus",
+    "disease",
+    "exposure",
+    "sanction",
+    "lockdown",
+    "invasion",
+    "invade",
+    "china",
+    "quarterly",
+    "q1",
+    "q2",
+    "q3",
+    "q4",
+    "pleasure",
+    "thank",
+    "volatility",
+    "risk",
+    "uncertain",
+    "pray",
+    "inaudible",
+    "slide",
+    "presentation",
+    "listener",
+    "speaker",
+    "repeat",
+    "journal",
+    "question",
+    "guess",
+    "thousand",
+    "million",
+    "billion",
+    "multibillion",
+    "geopolitic",
+    "correct",
+    "gentleman",
+    "lady",
+    "guidance",
+]
 
 MODIFIER_WORDS = [
     "excluding",
@@ -675,3 +738,12 @@ def get_strategies(
         return dataframe
 
     return strategies
+
+
+def strategy_keywords_tolist(
+    strategy_keywords: dict[str, list[str]] = STRATEGY_KEYWORDS
+) -> list[str]:
+    keywords = []
+    for strategy in strategy_keywords.keys():
+        keywords += strategy_keywords[strategy]
+    return keywords
