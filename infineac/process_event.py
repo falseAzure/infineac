@@ -36,10 +36,10 @@ import polars as pl
 from tqdm import tqdm
 
 import infineac.process_text as process_text
-from infineac.process_text import (MODIFIER_WORDS,
-                                   extract_passages_from_paragraphs)
+from infineac.process_text import MODIFIER_WORDS, REMOVE_WORDS, STRATEGY_KEYWORDS
 
 BASE_YEAR = 2019
+
 
 def extract_passages_from_presentation(
     presentation: list[dict],
@@ -111,7 +111,7 @@ def extract_passages_from_presentation(
             continue
         else:
             paragraphs = re.split("\n", part["text"])
-            new_passages = extract_passages_from_paragraphs(
+            new_passages = process_text.extract_passages_from_paragraphs(
                 paragraphs,
                 keywords,
                 modifier_words,
@@ -224,7 +224,7 @@ def extract_passages_from_qa(
             continue
 
         paragraphs = re.split("\n", part["text"])
-        new_passages = extract_passages_from_paragraphs(
+        new_passages = process_text.extract_passages_from_paragraphs(
             paragraphs,
             keywords,
             modifier_words,
@@ -674,7 +674,7 @@ def events_to_corpus(
         If currency symbols should be removed from document.
     remove_space : bool, default: True
         If spaces should be removed from document.
-    remove_additional_words : list[str], default: []
+    remove_additional_words : list[str] | bool, default: True
         List of additional words to be removed from the document.
 
     Returns
@@ -699,11 +699,18 @@ def events_to_corpus(
     corpus_df = corpus_list_to_dataframe(corpus_raw)
     corpus_raw_list = corpus_df["text"].to_list()
 
-    if remove_additional_words:
+    if remove_additional_words is True:
+        remove_additional_words_list = (
+            REMOVE_WORDS + process_text.strategy_keywords_tolist(STRATEGY_KEYWORDS)
+        )
         if type(keywords) == list:
-            remove_additional_words = keywords
+            remove_additional_words_list += keywords
         if type(keywords) == dict:
-            remove_additional_words = list(keywords.keys())
+            remove_additional_words_list += list(keywords.keys())
+    elif type(remove_additional_words) == "list":
+        remove_additional_words_list = remove_additional_words
+    else:
+        remove_additional_words_list = []
 
     docs = process_text.process_corpus(
         corpus_raw_list,
@@ -715,7 +722,7 @@ def events_to_corpus(
         remove_numeric,
         remove_currency,
         remove_space,
-        remove_additional_words,
+        remove_additional_words_list,
     )
     docs_joined = [process_text.list_to_string(doc) for doc in docs]
 
