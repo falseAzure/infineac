@@ -63,8 +63,8 @@ REMOVE_WORDS = [
     "inaudible",
     "slide",
     "presentation",
-    "listener",
-    "speaker",
+    "listen",
+    "speak",
     "repeat",
     "journal",
     "question",
@@ -76,8 +76,12 @@ REMOVE_WORDS = [
     "geopolitic",
     "correct",
     "gentleman",
+    "gentlemen",
     "lady",
+    "ladies",
     "guidance",
+    "okay",
+    "fine",
 ]
 
 MODIFIER_WORDS = [
