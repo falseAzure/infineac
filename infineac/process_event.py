@@ -628,7 +628,7 @@ def events_to_corpus(
     remove_space: bool = True,
     remove_keywords: bool = True,
     remove_names: bool = True,
-    remove_strategies: bool = True,
+    remove_strategies: bool | dict = True,
     remove_additional_stopwords: bool | list[str] = True,
 ) -> pl.DataFrame:
     """
@@ -688,7 +688,7 @@ def events_to_corpus(
         If spaces should be removed from document.
     remove_keywords: bool, default: True
         If keywords should be removed from document.
-    remove_names : list[list[str]], default: []
+    remove_names : bool, default: True
         If participant names should be removed from document.
     remove_strategies : bool | dict, default: True
         If the strategy keywords should be removed from document.
@@ -717,24 +717,26 @@ def events_to_corpus(
     corpus_df = corpus_list_to_dataframe(corpus_raw)
     corpus_raw_list = corpus_df["text"].to_list()
 
-    remove_additional_words = []
+    remove_additional_words_part = []
     if remove_keywords is True:
         if type(keywords) == list:
-            remove_additional_words += keywords
+            remove_additional_words_part += keywords
         if type(keywords) == dict:
-            remove_additional_words += list(keywords.keys())
+            remove_additional_words_part += list(keywords.keys())
     if remove_additional_stopwords:
         if remove_additional_stopwords is True:
-            remove_additional_words += REMOVE_WORDS
+            remove_additional_words_part += REMOVE_WORDS
         else:
-            remove_additional_words += remove_additional_stopwords
+            remove_additional_words_part += remove_additional_stopwords
     if remove_strategies:
         if remove_strategies is True:
-            remove_additional_words += process_text.strategy_keywords_tolist(
+            remove_additional_words_part += process_text.strategy_keywords_tolist(
                 STRATEGY_KEYWORDS
             )
         else:
-            remove_additional_words += remove_strategies
+            remove_additional_words_part += process_text.strategy_keywords_tolist(
+                remove_strategies
+            )
 
     remove_names_list = []
     if remove_names is True:
@@ -753,7 +755,7 @@ def events_to_corpus(
         remove_numeric,
         remove_currency,
         remove_space,
-        remove_additional_words,
+        remove_additional_words_part,
         remove_names_list,
     )
     docs_joined = [process_text.list_to_string(doc) for doc in docs]

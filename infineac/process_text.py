@@ -680,7 +680,7 @@ def process_corpus(
     remove_numeric: bool = True,
     remove_currency: bool = True,
     remove_space: bool = True,
-    remove_additional_words: list[str] = [],
+    remove_additional_words_part: list[str] = [],
     remove_specific_stopwords: list[list[str]] = [],
 ) -> list[list[str]]:
     """
@@ -734,7 +734,7 @@ def process_corpus(
         )
     ):
         if remove_specific_stopwords:
-            remove_specific_stopwords_list = remove_specific_stopwords[idx_doc]
+            remove_additional_words_whole = remove_specific_stopwords[idx_doc]
         docs.append(
             process_text_nlp(
                 doc,
@@ -745,8 +745,8 @@ def process_corpus(
                 remove_numeric,
                 remove_currency,
                 remove_space,
-                remove_additional_words,
-                remove_specific_stopwords_list,
+                remove_additional_words_part,
+                remove_additional_words_whole,
             )
         )
     return docs
