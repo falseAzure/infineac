@@ -510,14 +510,16 @@ def process_text_nlp(
     remove_numeric: bool = True,
     remove_currency: bool = True,
     remove_space: bool = True,
-    remove_additional_words: list[str] = [],
+    remove_additional_words_part: list[str] = [],
+    remove_additional_words_whole: list[str] = [],
 ) -> list[str]:
     """
     Processes a spaCy document.
 
     According to the parameters, the document is `lemmatized`, `lowercased` and
     `stopwords`, `additional_words`, `punctuation`, `numeric`, `currency` and
-    `space` tokens are removed.
+    `space` tokens as well as `additional_words_part` and
+    `additional_words_whole` are removed from the document.
 
     Parameters
     ----------
@@ -537,8 +539,12 @@ def process_text_nlp(
         If currency symbols should be removed from document.
     remove_space : bool, default: True
         If spaces should be removed from document.
-    remove_additional_words : list[str], default: []
-        List of additional words to be removed from the document.
+    remove_additional_words_part : list[str], default: []
+        List of additional words to be removed from the document. These words
+        can be part of a another word.
+    remove_additional_words_whole : list[str], default: []
+        List of additional words to be removed from the document. These words
+        must be a whole, individual word.
 
     Returns
     -------
@@ -557,7 +563,9 @@ def process_text_nlp(
             continue
         if remove_space and word.is_space:
             continue
-        if contains_stopword(word.text, remove_additional_words):
+        if contains_stopword(word.lemma_, remove_additional_words_part):
+            continue
+        if word.text in remove_additional_words_whole:
             continue
         if lemmatize:
             word = word.lemma_
@@ -596,14 +604,16 @@ def process_text(
     remove_numeric: bool = True,
     remove_currency: bool = True,
     remove_space: bool = True,
-    remove_additional_words: list[str] = [],
+    remove_additional_words_part: list[str] = [],
+    remove_additional_words_whole: list[str] = [],
 ) -> list:
     """
     Processes a text with spaCy and an NLP model.
 
     According to the parameters, the document is `lemmatized`, `lowercased` and
     `stopwords`, `additional_words`, `punctuation`, `numeric`, `currency` and
-    `space` tokens are removed.
+    `space` tokens as well as `additional_words_part` and
+    `additional_words_whole` are removed from the document.
 
     Parameters
     ----------
@@ -625,8 +635,12 @@ def process_text(
         If currency symbols should be removed from document.
     remove_space : bool, default: True
         If spaces should be removed from document.
-    remove_additional_words : list[str], default: []
-        List of additional words to be removed from the document.
+    remove_additional_words_part : list[str], default: []
+        List of additional words to be removed from the document. These words
+        can be part of a another word.
+    remove_additional_words_whole : list[str], default: []
+        List of additional words to be removed from the document. These words
+        must be a whole, individual word.
 
     Returns
     -------
@@ -651,7 +665,8 @@ def process_text(
         remove_numeric,
         remove_currency,
         remove_space,
-        remove_additional_words,
+        remove_additional_words_part,
+        remove_additional_words_whole,
     )
 
 
@@ -666,6 +681,7 @@ def process_corpus(
     remove_currency: bool = True,
     remove_space: bool = True,
     remove_additional_words: list[str] = [],
+    remove_specific_stopwords: list[list[str]] = [],
 ) -> list[list[str]]:
     """
     Processes a corpus (list of documents/texts) with spaCy and an NLP
@@ -673,7 +689,8 @@ def process_corpus(
 
     According to the parameters, the document is `lemmatized`, `lowercased` and
     `stopwords`, `additional_words`, `punctuation`, `numeric`, `currency` and
-    `space` tokens are removed.
+    `space` tokens as well as `names`, `strategies` and
+    `additional_words_whole` are removed from the corpus.
 
     Parameters
     ----------
@@ -695,8 +712,12 @@ def process_corpus(
         If currency symbols should be removed from document.
     remove_space : bool, default: True
         If spaces should be removed from document.
-    remove_additional_words : list[str], default: []
-        List of additional words to be removed from the document.
+    remove_additional_words : list[str], default: True
+        List of additional words to be removed from the document. These words
+        can be part of a another word.
+    remove_specific_stopwords : list[list[str]], default: []
+        List of lists of stopwords to be removed from the document. Each list
+        of stopwords corresponds to a document in the corpus.
 
     Returns
     -------
@@ -706,9 +727,14 @@ def process_corpus(
     print("Processing corpus with spaCy-pipeline")
     # corpus_nlp = list(nlp.pipe(corpus, batch_size=128))
     docs = []
-    for doc in tqdm(
-        nlp_model.pipe(corpus, batch_size=128), desc="Documents", total=len(corpus)
+
+    for idx_doc, doc in enumerate(
+        tqdm(
+            nlp_model.pipe(corpus, batch_size=128), desc="Documents", total=len(corpus)
+        )
     ):
+        if remove_specific_stopwords:
+            remove_specific_stopwords_list = remove_specific_stopwords[idx_doc]
         docs.append(
             process_text_nlp(
                 doc,
@@ -720,6 +746,7 @@ def process_corpus(
                 remove_currency,
                 remove_space,
                 remove_additional_words,
+                remove_specific_stopwords_list,
             )
         )
     return docs
