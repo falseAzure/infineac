@@ -12,14 +12,16 @@ of the strategies and the values are lists of keywords for each strategy.
 
 Additional stopwords to be removed from the text data.
 
-..data:: MODIFIER_WORDS
+.. data:: MODIFIER_WORDS
 
 Modifier words that must not precede the keywords in the text data.
 
-..data:: MODIFIER_WORDS_STRATEGY
+.. data:: MODIFIER_WORDS_STRATEGY
 
 Modifier words that must precede the strategy keywords in the text data.
 """
+
+# TODO: Add additional parameter to remove additional stopwords, strategies and names.
 
 import re
 
@@ -28,9 +30,6 @@ from tqdm import tqdm
 
 from infineac.helper import add_context_integers
 
-#: Strategy keywords to be searched for in the text data. The keys are the
-# names of the strategies and the values are lists of keywords for each
-# strategy.
 STRATEGY_KEYWORDS = {
     "exit": [
         "exit",
