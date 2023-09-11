@@ -2,6 +2,23 @@
 This module contains methods to process text data. It is mainly used by the
 :mod:`infineac.process_event` module to process the text data of the events,
 e.g. earnings calls.
+
+.. data:: STRATEGY_KEYWORDS
+
+Strategy keywords to be searched for in the text data. The keys are the names
+of the strategies and the values are lists of keywords for each strategy.
+
+.. data:: REMOVE_WORDS
+
+Additional stopwords to be removed from the text data.
+
+..data:: MODIFIER_WORDS
+
+Modifier words that must not precede the keywords in the text data.
+
+..data:: MODIFIER_WORDS_STRATEGY
+
+Modifier words that must precede the strategy keywords in the text data.
 """
 
 import re
@@ -11,6 +28,9 @@ from tqdm import tqdm
 
 from infineac.helper import add_context_integers
 
+#: Strategy keywords to be searched for in the text data. The keys are the
+# names of the strategies and the values are lists of keywords for each
+# strategy.
 STRATEGY_KEYWORDS = {
     "exit": [
         "exit",
@@ -717,7 +737,10 @@ def get_strategies(
     strategy_keywords: dict[str, list[str]] = STRATEGY_KEYWORDS,
     modifier_words: list[str] = MODIFIER_WORDS_STRATEGY,
     dataframe: pl.DataFrame = None,
-) -> dict[str, list[bool]]:
+) -> dict[str, list[bool]] | pl.DataFrame:
+    """Searches for the `strategy_keywords` in a list of strings or DataFrame
+    and returns a boolean list or DataFrame with the results (for each strategy).
+    """
     if type(dataframe) == pl.dataframe.frame.DataFrame:
         lst = list(dataframe["text"].to_list())
     strategies = {}
@@ -747,6 +770,7 @@ def get_strategies(
 def strategy_keywords_tolist(
     strategy_keywords: dict[str, list[str]] = STRATEGY_KEYWORDS
 ) -> list[str]:
+    """Converts the dictionary of `strategy_keywords` to a list of keywords."""
     keywords = []
     for strategy in strategy_keywords.keys():
         keywords += strategy_keywords[strategy]
