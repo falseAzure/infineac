@@ -36,7 +36,7 @@ import polars as pl
 from tqdm import tqdm
 
 import infineac.process_text as process_text
-from infineac.process_text import MODIFIER_WORDS, REMOVE_WORDS, STRATEGY_KEYWORDS
+from infineac.process_text import MODIFIER_WORDS, REMOVE_WORDS
 
 BASE_YEAR = 2019
 
@@ -626,7 +626,10 @@ def events_to_corpus(
     remove_numeric: bool = True,
     remove_currency: bool = True,
     remove_space: bool = True,
-    remove_additional_words: list[str] | bool = True,
+    remove_keywords: bool = True,
+    remove_names: bool = True,
+    remove_strategies: bool = True,
+    remove_additional_stopwords: bool | list[str] = True,
 ) -> pl.DataFrame:
     """
     Converts a list of events to a corpus (list of texts).
@@ -683,8 +686,14 @@ def events_to_corpus(
         If currency symbols should be removed from document.
     remove_space : bool, default: True
         If spaces should be removed from document.
-    remove_additional_words : list[str] | bool, default: True
-        List of additional words to be removed from the document.
+    remove_keywords: bool, default: True
+        If keywords should be removed from document.
+    remove_names : list[list[str]], default: []
+        If participant names should be removed from document.
+    remove_strategies : bool | dict, default: True
+        If the strategies should be removed from document.
+    remove_additional_stopwords : bool | list[str], default: True
+        If additional stopwords should be removed from document.
 
     Returns
     -------
@@ -708,18 +717,24 @@ def events_to_corpus(
     corpus_df = corpus_list_to_dataframe(corpus_raw)
     corpus_raw_list = corpus_df["text"].to_list()
 
-    if remove_additional_words is True:
-        remove_additional_words_list = (
-            REMOVE_WORDS + process_text.strategy_keywords_tolist(STRATEGY_KEYWORDS)
-        )
+    remove_additional_words = []
+    if remove_keywords is True:
         if type(keywords) == list:
-            remove_additional_words_list += keywords
+            remove_additional_words += keywords
         if type(keywords) == dict:
-            remove_additional_words_list += list(keywords.keys())
-    elif type(remove_additional_words) == "list":
-        remove_additional_words_list = remove_additional_words
-    else:
-        remove_additional_words_list = []
+            remove_additional_words += list(keywords.keys())
+    if remove_additional_stopwords:
+        if remove_additional_stopwords is True:
+            remove_additional_words += REMOVE_WORDS
+        else:
+            remove_additional_words += remove_additional_stopwords
+
+    remove_names_list = []
+    if remove_names is True:
+        for idx in corpus_df["event_idx"].to_list():
+            print(idx, end="\r")
+            remove_names_list.append(create_participants_to_remove(events[idx]))
+    assert len(remove_names_list) == len(corpus_df)
 
     docs = process_text.process_corpus(
         corpus_raw_list,
@@ -731,7 +746,8 @@ def events_to_corpus(
         remove_numeric,
         remove_currency,
         remove_space,
-        remove_additional_words_list,
+        remove_additional_words,
+        remove_names_list,
     )
     docs_joined = [process_text.list_to_string(doc) for doc in docs]
 
