@@ -691,7 +691,7 @@ def events_to_corpus(
     remove_names : list[list[str]], default: []
         If participant names should be removed from document.
     remove_strategies : bool | dict, default: True
-        If the strategies should be removed from document.
+        If the strategy keywords should be removed from document.
     remove_additional_stopwords : bool | list[str], default: True
         If additional stopwords should be removed from document.
 
