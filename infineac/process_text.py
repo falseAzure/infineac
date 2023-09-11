@@ -29,7 +29,7 @@ STRATEGY_KEYWORDS = {
         "suspend",
         "cancel",
     ],
-    "stay": ["stay", "wait", "remain", "continue", "keep"],
+    "stay": ["stay", "wait", "remain", "continue", "keep", "hold", "maintain"],
     "adaptation": ["change", "adapt", "relocate"],
 }
 
