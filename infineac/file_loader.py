@@ -83,7 +83,8 @@ def structure_earnings_call(string: str) -> dict:
 
         The values are empty strings if the corresponding part is not present.
         If a value represents multiple values (e.g. holds information about
-        multiple participants), these are separated by a specific string.
+        multiple participants), these are separated by a specific string (e.g.
+        '*').
     """
 
     start_word_corp_participants = (
@@ -195,8 +196,9 @@ def transform_unlisted_participants(
     participant: dict, corp_participants: list[str], conf_participants: list[str]
 ) -> dict:
     """
-    Transforms the unlisted participants name so that it can be either
-    identified among the listed participants (corp_participants or
+    As some speakers are not listed among the corporate or conference call
+    participants, transforms these unlisted speakers names so that they can be
+    either identified among the listed participants (corp_participants or
     conf_participants), the generic participants(operator, editor, moderator)
     or be added as an unknown participant.
 
@@ -230,8 +232,8 @@ def transform_unlisted_participants(
     if participant["name"].lower().startswith("moderator"):
         participant["name"] = "Moderator"
         return participant
-    participant["name"] = re.sub(r"\s{2,}", "  ", participant["name"])
     # (ph) is added to some of the participants' names
+    participant["name"] = re.sub(r"\s{2,}", "  ", participant["name"])
     # check if a similar name is in the list of participants
     for participant_ in corp_participants + conf_participants:
         if fuzz.ratio(participant["name"], participant_.replace("(ph)", "")) >= 80:
@@ -316,7 +318,7 @@ def extract_info_from_earnings_call_part(
     list[dict]
         List of dictionaries, where each dictionary holds the information of
         the individual participants and their corresponding texts within the given
-        given part of the earning call.
+        given part of the earnings call.
         The dictionary key-value pairs are:
 
             - 'n': int - the participant's appearance number
@@ -481,14 +483,13 @@ def extract_info_from_earnings_call_structured(
         Dictionary containing the extracted information from the earnings call.
         The key-value pairs are:
 
-            - 'corp_participants': list[list[str]] - List of corporate
-              participants. Each participant is itself a list of strings with
-              length 2. The first string is the name of the participant, the
-              second string is the position of the participant.
+            - 'corp_participants': list[dict] - List of corporate
+              participants. Each participant consists of a dictionary with the
+              keys 'name' and 'position'.
             - 'corp_participants_collapsed': list[str] - As a above, but name
               and position of each participant are collapsed into a single
               string.
-            - 'conf_participants': list[list[str]] - Conference call
+            - 'conf_participants': list[dict] - Conference call
               participants. Same format as above.
             - 'conf_participants_collapsed': list[str] - Conference call
               participants with collapsed name and position.
@@ -504,29 +505,54 @@ def extract_info_from_earnings_call_structured(
     corp_participants = re.split(
         "\s{1,}\\*", conference_call_structured_dict["corp_participants"]
     )
-    # corp_participants = conference_call_structured_dict["corp_participants"].split(
-    #     "\s*"
-    # )
     corp_participants = [
-        [el.strip() for el in pair.split("\r\n") if el.strip()]
-        for pair in corp_participants
-        if pair.strip()
+        {
+            "name": participant.split("\r\n")[0].strip(),
+            "position": participant.split("\r\n")[1].strip()
+            if len(participant.split("\r\n")) > 1
+            else "unknown",
+        }
+        for participant in corp_participants
+        if participant.strip()
     ]
-    corp_participants_collapsed = [",  ".join(pair) for pair in corp_participants]
+    corp_participants_collapsed = [
+        ",  ".join([participant["name"], participant["position"]])
+        for participant in corp_participants
+    ]
+
+    # corp_participants = [
+    #     [el.strip() for el in pair.split("\r\n") if el.strip()]
+    #     for pair in corp_participants
+    #     if pair.strip()
+    # ]
+    # corp_participants_collapsed = [",  ".join(pair) for pair in corp_participants]
 
     # Conference Call Participants
     conf_participants = re.split(
         "\s{1,}\\*", conference_call_structured_dict["conf_participants"]
     )
-    # conf_participants = conference_call_structured_dict["conf_participants"].split(
-    #     "*"
-    # )
+
     conf_participants = [
-        [el.strip() for el in pair.split("\r\n") if el.strip()]
-        for pair in conf_participants
-        if pair.strip()
+        {
+            "name": participant.split("\r\n")[0].strip(),
+            "position": participant.split("\r\n")[1].strip()
+            if len(participant.split("\r\n")) > 1
+            else "unknown",
+        }
+        for participant in conf_participants
+        if participant.strip()
     ]
-    conf_participants_collapsed = [",  ".join(pair) for pair in conf_participants]
+    conf_participants_collapsed = [
+        ",  ".join([participant["name"], participant["position"]])
+        for participant in conf_participants
+    ]
+
+    # conf_participants = [
+    #     [el.strip() for el in pair.split("\r\n") if el.strip()]
+    #     for pair in conf_participants
+    #     if pair.strip()
+    # ]
+    # conf_participants_collapsed = [",  ".join(pair) for pair in conf_participants]
 
     # Presentation
     presentation = extract_info_from_earnings_call_part(
@@ -578,14 +604,13 @@ def extract_info_from_earnings_call_body(body: str) -> dict:
         Dictionary containing the extracted information from the earnings call.
         The key-value pairs are:
 
-            - 'corp_participants': list[list[str]] - List of corporate
-              participants. Each participant is itself a list of strings with
-              length 2. The first string is the name of the participant, the
-              second string is the position of the participant.
+            - 'corp_participants': list[dict] - List of corporate
+              participants. Each participant consists of a dictionary with the
+              keys 'name' and 'position'.
             - 'corp_participants_collapsed': list[str] - As a above, but name
               and position of each participant are collapsed into a single
               string.
-            - 'conf_participants': list[list[str]] - Conference call
+            - 'conf_participants': list[dict] - Conference call
               participants. Same format as above.
             - 'conf_participants_collapsed': list[str] - Conference call
               participants with collapsed name and position.
@@ -733,9 +758,9 @@ def load_files_from_xml(files: list) -> list[dict]:
 
             - 'file': str - the file name
             - 'year_upload': integer - the year of the upload
-            - 'corp_participants': list[list[str]] - the corporate participants
+            - 'corp_participants': list[dict] - the corporate participants
             - 'corp_participants_collapsed': list[str] - collapsed list
-            - 'conf_participants': list[list[str]] - the conference call participants
+            - 'conf_participants': list[dict] - the conference call participants
             - 'conf_participants_collapsed': list[str] - collapsed list
             - 'presentation': list[dict] - the presentation part
             - 'presentation_collapsed': list[str] - collapsed list
