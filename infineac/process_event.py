@@ -537,7 +537,7 @@ def excluded_sentences_by_mod_words(events, nlp_model):
 
 
 def test_positions(events: list[dict]):
-    """Checks if all positions of the speakers of an event are valid."""
+    """Checks if all positions of the speakers of the given events are valid."""
     positions = []
     for i, event in enumerate(events):
         if event["qa"] is not None:
@@ -549,6 +549,15 @@ def test_positions(events: list[dict]):
                     "unknown participant",
                 ]:
                     positions.append("" + str(i) + ": " + speaker["position"])
+
+
+def create_participants_to_remove(event: dict) -> list[str]:
+    """Creates a list containing the names of the participants to be later
+    removed during the text processing."""
+    names = []
+    for participant in event["corp_participants"] + event["conf_participants"]:
+        names += participant["name"].split(" ")
+    return names
 
 
 def corpus_list_to_dataframe(corpus: list[list[list[list[list[str]]]]]) -> pl.DataFrame:
