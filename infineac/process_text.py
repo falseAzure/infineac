@@ -821,7 +821,9 @@ def strategy_keywords_tolist(
     return keywords
 
 
-def remove_sentences_threshold(corpus: list[str], threshold: int = 1) -> list[str]:
+def remove_sentences_under_threshold(
+    corpus: list[str], threshold: int = 1
+) -> list[str]:
     """Removes sentences from a corpus that only contain `threshold` words or less."""
     corpus_cleaned = []
     for i, el in enumerate(corpus):
