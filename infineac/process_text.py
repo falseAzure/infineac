@@ -1,15 +1,28 @@
 """
 This module contains methods to process text data.
 
+Examples
+--------
+>>> import infineac.process_text as process_text
+>>> import spacy_stanza
+>>> nlp = spacy_stanza.load_pipeline("en", processors="tokenize, lemma")
+>>> nlp_stanza.add_pipe('sentencizer')
+>>> nlp = "data/transcripts/"
+>>> files = list(Path(PATH_DIR).rglob("*.xml"))
+>>> events = file_loader.load_files_from_xml(files)
+>>> keywords = {"russia": 1, "ukraine": 1}
+>>> process_text.extract_passages_from_events(
+    events=events,
+    keywords=keywords,
+    nlp_model=nlp)
+
 Notes
 -----
     It is mainly used by the :mod:`infineac.process_event` module to process
     the text data of the events, e.g. earnings calls.
 
-
 Attributes
 ----------
-
 STRATEGY_KEYWORDS: dict[str, list[str]]
     Strategy keywords to be searched for in the text data. The keys are the
     names of the strategies and the values are lists of keywords for each
@@ -52,7 +65,7 @@ STRATEGY_KEYWORDS = {
         "cancel",
     ],
     "stay": ["stay", "wait", "remain", "continue", "keep", "hold", "maintain"],
-    "adaptation": ["change", "adapt", "relocate"],
+    "adaptation": ["adapt", "relocate"],
 }
 
 REMOVE_WORDS = [
@@ -584,16 +597,18 @@ def process_text_nlp(
 def starts_with_additional_word(word: str, additional_words: list[str]) -> bool:
     """Checks if a word starts with an `additional_word`."""
     for additional_word in additional_words:
-        if word.lower_.startswith(additional_word):
+        if word.startswith(additional_word):
             return True
     return False
 
 
-def contains_stopword(word: str, stopwords: list[str]) -> bool:
+def contains_stopword(word: str, stopwords: list[str], only_start: bool = True) -> bool:
     """Checks if a word contains a `stopword`."""
     if stopwords == []:
         return False
     pattern = r"(?:" + "|".join(stopwords) + r")"  # \b would be word boundary
+    if only_start is True:
+        pattern = r"\b" + pattern
     return bool(re.search(pattern, word, re.IGNORECASE))
 
 
@@ -804,3 +819,15 @@ def strategy_keywords_tolist(
     for strategy in strategy_keywords.keys():
         keywords += strategy_keywords[strategy]
     return keywords
+
+
+def remove_sentences_threshold(corpus: list[str], threshold: int = 1) -> list[str]:
+    """Removes sentences from a corpus that only contain `threshold` words or less."""
+    corpus_cleaned = []
+    for i, el in enumerate(corpus):
+        length = len(el.split(" "))
+        if length <= threshold:
+            corpus_cleaned.append("")
+        else:
+            corpus_cleaned.append(el)
+    return corpus_cleaned
