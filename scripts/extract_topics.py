@@ -6,6 +6,7 @@ import infineac.process_event as process_event
 import infineac.topic_extractor as topic_extractor
 
 PATH = "data/transcripts/"
+# TODO: adapt to new topic_extractor.py
 
 
 def get_args():
