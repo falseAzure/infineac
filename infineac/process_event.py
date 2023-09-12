@@ -3,6 +3,20 @@ This module contains functions to manipulate events and strings and extract the
 corresponding information for the infineac package. For text processing it uses
 the :mod:`infineac.process_text` module.
 
+Examples
+--------
+>>> import infineac.process_event as process_event
+>>> import infineac.file_loader as file_loader
+>>> import spacy_stanza
+>>> nlp = spacy_stanza.load_pipeline("en", processors="tokenize, lemma")
+>>> nlp.add_pipe('sentencizer')
+>>> PATH_DIR = "data/transcripts/"
+>>> files = list(Path(PATH_DIR).rglob("*.xml"))
+>>> events = file_loader.load_files_from_xml(files)
+>>> keywords = {"russia": 1, "ukraine": 1}
+>>> process_event.events_to_corpus(events=events, keywords=keywords, nlp_model=nlp)
+
+
 Notes
 -----
     An event is a dictionary with the following key-value pairs:
@@ -38,7 +52,8 @@ import polars as pl
 from tqdm import tqdm
 
 import infineac.process_text as process_text
-from infineac.process_text import MODIFIER_WORDS, REMOVE_WORDS, STRATEGY_KEYWORDS
+from infineac.process_text import (MODIFIER_WORDS, REMOVE_WORDS,
+                                   STRATEGY_KEYWORDS)
 
 BASE_YEAR = 2019
 
@@ -786,3 +801,4 @@ def create_samples(df):
     # copy sample files to folder
     for file in sample_files_russia:
         shutil.copy(file, folder)
+
