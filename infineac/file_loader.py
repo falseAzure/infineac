@@ -206,18 +206,20 @@ def structure_earnings_call(string: str) -> dict:
 
 
 def transform_unlisted_participants(
-    participant: dict, corp_participants: list[str], conf_participants: list[str]
-) -> dict:
+    participant: dict[str, str | int],
+    corp_participants: list[str],
+    conf_participants: list[str],
+) -> dict[str, str | int]:
     """
     As some speakers are not listed among the corporate or conference call
     participants, transforms these unlisted speakers names so that they can be
     either identified among the listed participants (corp_participants or
-    conf_participants), the generic participants(operator, editor, moderator)
+    conf_participants), the generic participants (operator, editor, moderator)
     or be added as an unknown participant.
 
     Parameters
     ----------
-    participant : dict
+    participant : dict[str, str | int]
         Participant to be transformed. Only uses the key 'name'.
     corp_participants : list[str]
         List of corporate participants.
@@ -226,7 +228,7 @@ def transform_unlisted_participants(
 
     Returns
     -------
-    dict
+    dict[str, str | int]
         The transformed participant.
     """
     # some participants are listed with a comma at the end
@@ -258,7 +260,9 @@ def transform_unlisted_participants(
 
 
 def get_participants_position(
-    participant: dict, corp_participants: list[str], conf_participants: list[str]
+    participant: dict[str, str | int],
+    corp_participants: list[str],
+    conf_participants: list[str],
 ) -> str:
     """
     Returns the position of the participant based on the lists of corporate and
@@ -266,7 +270,7 @@ def get_participants_position(
 
     Parameters
     ----------
-    participant : dict
+    participant : dict[str, str | int]
         Participant to be transformed. Only uses the key 'name'.
     corp_participants : list[str]
         List of corporate participants.
@@ -350,19 +354,28 @@ def extract_info_from_earnings_call_part(
     # presentation=[re.sub(' +', ' ', el.strip()) for el in presentation if el.strip()]
 
     # Split part into participants and texts
+    # alternating
+    # participants = []
+    # texts = []
+    # for index, item in enumerate(parts_split):
+    #     if index % 2 == 0:
+    #         participants.append(item)
+    #     else:
+    #         texts.append(item)
+
+    # with regex
     participants = [
         part
         for part in parts_split
-        if re.match(".+  \[\d+\]", part)
+        if re.match("(.|\n)+  \[\d+\]", part)
         or (re.match("\[\d+\]", part) and len(part) <= 5)
     ]
-
     texts = [part for part in parts_split if part not in participants]
 
     n_participants = len(participants)
     n_texts = len(texts)
 
-    # Note: if no participant or no text is found, the presentation is not included
+    # Note: if no participant or text is found, the presentation is not included
     if n_participants == 0:
         warning_message = f"No participants present at {type}"
         load_logger.warning(warning_message)
@@ -395,9 +408,11 @@ def extract_info_from_earnings_call_part(
         not in corp_participants
         + conf_participants
         + ["editor", "operator", "moderator"]
+        + ["Editor", "Operator", "Moderator"]
         and not participant["name"].lower().startswith("unidentified")
     ]
 
+    # transforms participants_ordered as well
     for participant in participants_not_listed:
         participant = transform_unlisted_participants(
             participant, corp_participants, conf_participants
@@ -431,7 +446,7 @@ def extract_info_from_earnings_call_part(
             warnings.warn(warning_message)
         if n_participants < n_texts:
             missing = n_texts - n_participants
-            last_participant = participants_ordered[-1][0]
+            last_participant = participants_ordered[-1]["n"]
             for i in range(missing):
                 participants.append(
                     [last_participant + i, "unknown participant", "unknown participant"]
