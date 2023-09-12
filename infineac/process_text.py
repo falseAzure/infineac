@@ -1,27 +1,30 @@
 """
-This module contains methods to process text data. It is mainly used by the
-:mod:`infineac.process_event` module to process the text data of the events,
-e.g. earnings calls.
+This module contains methods to process text data.
 
-.. data:: STRATEGY_KEYWORDS
+Notes
+-----
+    It is mainly used by the :mod:`infineac.process_event` module to process
+    the text data of the events, e.g. earnings calls.
 
-Strategy keywords to be searched for in the text data. The keys are the names
-of the strategies and the values are lists of keywords for each strategy.
 
-.. data:: REMOVE_WORDS
+Attributes
+----------
 
-Additional stopwords to be removed from the text data.
+STRATEGY_KEYWORDS: dict[str, list[str]]
+    Strategy keywords to be searched for in the text data. The keys are the
+    names of the strategies and the values are lists of keywords for each
+    strategy.
 
-.. data:: MODIFIER_WORDS
+REMOVE_WORDS: list[str]
+    Additional stopwords to be removed from the text data.
 
-Modifier words that must not precede the keywords in the text data.
+MODIFIER_WORDS
+    Modifier words that must not precede the keywords in the text data.
 
-.. data:: MODIFIER_WORDS_STRATEGY
-
-Modifier words that must precede the strategy keywords in the text data.
+MODIFIER_WORDS_STRATEGY
+    Modifier words that must precede the strategy keywords in the text data.
 """
 
-# TODO: Add additional parameter to remove additional stopwords, strategies and names.
 
 import re
 
@@ -208,7 +211,7 @@ def keyword_threshold_search_exclude_mod(
 
 def extract_keyword_sentences_window(
     text: str,
-    keywords: list[str] | dict = [],
+    keywords: list[str] | dict[str, int] = [],
     modifier_words: list[str] = MODIFIER_WORDS,
     context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
@@ -223,7 +226,7 @@ def extract_keyword_sentences_window(
     ----------
     text : str
         The text to extract the sentences from.
-    keywords : list[str] | dict, default: []
+    keywords : list[str] | dict[str, int], default: []
         List of `keywords` to be searched for in the text and to extract the
         sentences. If `keywords` is a dictionary, the keys are the keywords.
     modifier_words : list[str], default: MODIFIER_WORDS
@@ -314,7 +317,7 @@ def extract_keyword_sentences_window(
 
 def extract_passages_from_paragraphs(
     paragraphs: list[str],
-    keywords: list[str] | dict,
+    keywords: list[str] | dict[str, int],
     modifier_words: list[str] = MODIFIER_WORDS,
     context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
@@ -335,7 +338,7 @@ def extract_passages_from_paragraphs(
     ----------
     paragraphs : list[str]
         List of `paragraphs` to loop through.
-    keywords : list[str] | dict
+    keywords : list[str] | dict[str, int]
         List of `keywords` to search for in the paragraphs. If `keywords` is a
         dictionary, the keys are the keywords.
     modifier_words : list[str], default: MODIFIER_WORDS
@@ -462,7 +465,7 @@ def extract_keyword_sentences_preceding_mod(
     ----------
     text : str
         The text to extract the sentences from.
-    keywords : list[str] | dict, default: []
+    keywords : list[str], default: []
         List of `keywords` to be searched for in the text and to extract the
         sentences.
     modifier_words : list[str], default: MODIFIER_WORDS
