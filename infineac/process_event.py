@@ -52,8 +52,7 @@ import polars as pl
 from tqdm import tqdm
 
 import infineac.process_text as process_text
-from infineac.process_text import (MODIFIER_WORDS, REMOVE_WORDS,
-                                   STRATEGY_KEYWORDS)
+from infineac.process_text import MODIFIER_WORDS, REMOVE_WORDS, STRATEGY_KEYWORDS
 
 BASE_YEAR = 2019
 
@@ -606,21 +605,21 @@ def corpus_list_to_dataframe(corpus: list[list[list[list[list[str]]]]]) -> pl.Da
 def extract_infos_from_events(events: list[dict]) -> pl.DataFrame:
     """Extracts the id, year, date and company name from a list of events."""
     ids = []
-    years = []
+    years_upload = []
     dates = []
     company_names = []
     event_idx = []
     for idx, event in enumerate(events):
         event_idx.append(idx)
         ids.append(event["id"])
-        years.append(event["year_upload"])
+        years_upload.append(event["year_upload"])
         dates.append(event["date"])
         company_names.append(event["company_name"])
     return pl.DataFrame(
         {
             "event_idx": event_idx,
             "id": ids,
-            "year": years,
+            "years_upload": years_upload,
             "date": dates,
             "company_name": company_names,
         }
@@ -801,4 +800,3 @@ def create_samples(df):
     # copy sample files to folder
     for file in sample_files_russia:
         shutil.copy(file, folder)
-
