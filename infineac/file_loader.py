@@ -1,8 +1,21 @@
 """
-Module for importing and structuring the earnings calls data. The earnings
-calls are stored in xml files. :func:`load_files_from_xml` is the main function
-of the module, that loads the xml files, extracts the relevant information and
-stores it in a list of dictionaries.
+Module for importing and structuring the earnings calls data. 
+
+Examples
+--------
+>>> import infineac.file_loader as file_loader
+>>> import spacy_stanza
+>>> nlp_stanza = spacy_stanza.load_pipeline("en", processors="tokenize, lemma")
+>>> nlp_stanza.add_pipe('sentencizer')
+>>> PATH_DIR = "data/transcripts/"
+>>> files = list(Path(PATH_DIR).rglob("*.xml"))
+>>> events = file_loader.load_files_from_xml(files)
+
+Notes
+-----
+    The earnings calls are stored in xml files. :func:`load_files_from_xml` is
+    the main function of the module, that loads the xml files, extracts the
+    relevant information and stores it in a list of dictionaries.
 """
 
 import logging
