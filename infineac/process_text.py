@@ -98,6 +98,7 @@ REMOVE_WORDS = [
     "inaudible",
     "slide",
     "presentation",
+    "discuss",
     "listen",
     "speak",
     "repeat",
