@@ -3,29 +3,31 @@ This module contains functions to manipulate events and strings and extract the
 corresponding information for the infineac package. For text processing it uses
 the :mod:`infineac.process_text` module.
 
-An event is a dictionary with the following key-value pairs:
-    - 'file': str - the file name
-    - 'year_upload': integer - the year of the upload
-    - 'corp_participants': list[list[str]] - the corporate participants
-    - 'corp_participants_collapsed': list[str] - collapsed list
-    - 'conf_participants': list[list[str]] - the conference call participants
-    - 'conf_participants_collapsed': list[str] - collapsed list
-    - 'presentation': list[dict] - the presentation part
-    - 'presentation_collapsed': list[str] - collapsed list
-    - 'qa': list[dict] - the Q&A part
-    - 'qa_collapsed': list[str] - collapsed list
-    - 'action': str - the action (e.g. publish)
-    - 'story_type': str - the story type (e.g. transcript)
-    - 'version': str - the version of the publication (e.g. final)
-    - 'title': str - the title of the earnings call
-    - 'city': str - the city of the earnings call
-    - 'company_name': str - the company of the earnings call
-    - 'company_ticker': str - the company ticker of the earnings call
-    - 'date': date - the date of the earnings call
-    - 'id': int - the id of the publication
-    - 'last_update': date - the last update of the publication
-    - 'event_type_id': int - the event type id
-    - 'event_type_name': str - the event type name
+Notes
+-----
+    An event is a dictionary with the following key-value pairs:
+        - 'file': str - the file name
+        - 'year_upload': integer - the year of the upload
+        - 'corp_participants': list[list[str]] - the corporate participants
+        - 'corp_participants_collapsed': list[str] - collapsed list
+        - 'conf_participants': list[list[str]] - the conference call participants
+        - 'conf_participants_collapsed': list[str] - collapsed list
+        - 'presentation': list[dict] - the presentation part
+        - 'presentation_collapsed': list[str] - collapsed list
+        - 'qa': list[dict] - the Q&A part
+        - 'qa_collapsed': list[str] - collapsed list
+        - 'action': str - the action (e.g. publish)
+        - 'story_type': str - the story type (e.g. transcript)
+        - 'version': str - the version of the publication (e.g. final)
+        - 'title': str - the title of the earnings call
+        - 'city': str - the city of the earnings call
+        - 'company_name': str - the company of the earnings call
+        - 'company_ticker': str - the company ticker of the earnings call
+        - 'date': date - the date of the earnings call
+        - 'id': int - the id of the publication
+        - 'last_update': date - the last update of the publication
+        - 'event_type_id': int - the event type id
+        - 'event_type_name': str - the event type name
 """
 
 import os
@@ -42,8 +44,8 @@ BASE_YEAR = 2019
 
 
 def extract_passages_from_presentation(
-    presentation: list[dict],
-    keywords: list[str] | dict,
+    presentation: list[dict[str, int | str]] | None,
+    keywords: list[str] | dict[str, int],
     modifier_words: list[str] = MODIFIER_WORDS,
     context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
@@ -63,9 +65,9 @@ def extract_passages_from_presentation(
 
     Parameters
     ----------
-    presentation : list[dict]
+    presentation : list[dict[str, int | str]]
         Presentation part of an event.
-    keywords : list[str] | dict
+    keywords : list[str] | dict[str, int]
         List of `keywords` to search for in the presentation and extract the
         corresponding passages. If `keywords` is a dictionary, the keys are the
         keywords.
@@ -132,8 +134,8 @@ def extract_passages_from_presentation(
 
 
 def extract_passages_from_qa(
-    qa: list[dict],
-    keywords: list[str] | dict,
+    qa: list[dict[str, int | str]],
+    keywords: list[str] | dict[str, int],
     modifier_words: list[str] = MODIFIER_WORDS,
     context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
@@ -155,9 +157,9 @@ def extract_passages_from_qa(
 
     Parameters
     ----------
-    qa : list[dict]
+    qa : list[dict[str, int | str]]
         Q&A part of an event.
-    keywords : list[str] | dict
+    keywords : list[str] | dict[str, int]
         List of `keywords` to search for in the Q&A and extract the
         corresponding passages. If `keywords` is a dictionary, the keys are the
         keywords.
@@ -245,13 +247,15 @@ def extract_passages_from_qa(
     return passages
 
 
-def check_if_keyword_align_qa(qa: list[dict], keywords: list[str]) -> int:
+def check_if_keyword_align_qa(
+    qa: list[dict[str, int | str]], keywords: list[str]
+) -> int:
     """
     Function to check if a keyword occurs in a question and the answer to that.
 
     Parameters
     ----------
-    qa : list[dict]
+    qa : list[dict[str, int | str]]
         Q&A section of an event.
     keywords : list[str]
         Keywords to check for.
@@ -289,7 +293,7 @@ def check_if_keyword_align_qa(qa: list[dict], keywords: list[str]) -> int:
 
 def extract_passages_from_event(
     event: dict,
-    keywords: list[str] | dict,
+    keywords: list[str] | dict[str, int],
     modifier_words: list[str] = MODIFIER_WORDS,
     sections: str = "all",
     context_window_sentence: tuple[int, int] | int = 0,
@@ -307,7 +311,7 @@ def extract_passages_from_event(
     ----------
     event : dict
         Event to extract the passages from.
-    keywords : list[str] | dict
+    keywords : list[str] | dict[str, int]
         List of `keywords` to search for in the event and extract the
         corresponding passages. If `keywords` is a dictionary, the keys are the
         keywords.
@@ -384,7 +388,7 @@ def extract_passages_from_event(
 
 def extract_passages_from_events(
     events: list[dict],
-    keywords: list[str] | dict,
+    keywords: list[str] | dict[str, int],
     modifier_words: list[str] = MODIFIER_WORDS,
     sections: str = "all",
     context_window_sentence: tuple[int, int] | int = 0,
@@ -402,7 +406,7 @@ def extract_passages_from_events(
     ----------
     events : list[dict]
          Lists of dicts containing the events.
-    keywords : list[str] | dict
+    keywords : list[str] | dict[str, int]
         List of `keywords` to search for in the events and extract the
         corresponding passages. If `keywords` is a dictionary, the keys are the
         keywords.
@@ -461,7 +465,7 @@ def extract_passages_from_events(
 
 def check_keywords_in_event(
     event: dict,
-    keywords: dict[str, int] | list[str] = {},
+    keywords: list[str] | dict[str, int] = [],
     modifier_words: list[str] = MODIFIER_WORDS,
 ) -> bool:
     """
@@ -478,7 +482,7 @@ def check_keywords_in_event(
 def filter_events(
     events: list[dict],
     year: int = BASE_YEAR,
-    keywords: dict[str, int] | list[str] = {},
+    keywords: list[str] | dict[str, int] = [],
     modifier_words: list[str] = MODIFIER_WORDS,
 ) -> list[dict]:
     """
@@ -490,7 +494,7 @@ def filter_events(
        Lists of dicts containing the events.
     year : int, default: BASE_YEAR
         All events before the given year are filtered out.
-    keywords : dict[str, int] | list[str], default: {}
+    keywords : list[str] | dict[str, int], default: []
         Dictionary or list of `keywords`. If `keywords` is a dictionary, the key is
         the keyword and the value is the minimum number of occurrences of the
         keyword in the text.
@@ -610,7 +614,7 @@ def extract_infos_from_events(events: list[dict]) -> pl.DataFrame:
 
 def events_to_corpus(
     events: list[dict],
-    keywords: list[str] | dict,
+    keywords: list[str] | dict[str, int],
     modifier_words: list[str] = MODIFIER_WORDS,
     sections: str = "all",
     context_window_sentence: tuple[int, int] | int = 0,
@@ -628,7 +632,7 @@ def events_to_corpus(
     remove_space: bool = True,
     remove_keywords: bool = True,
     remove_names: bool = True,
-    remove_strategies: bool | dict = True,
+    remove_strategies: bool | dict[str, list[str]] = True,
     remove_additional_stopwords: bool | list[str] = True,
 ) -> pl.DataFrame:
     """
@@ -644,7 +648,7 @@ def events_to_corpus(
     ----------
     events : list[dict]
          Lists of dicts containing the events.
-    keywords : list[str] | dict
+    keywords : list[str] | dict[str, int]
         List of `keywords` to search for in the events and extract the
         corresponding passages. If `keywords` is a dictionary, the keys are the
         keywords.
@@ -690,7 +694,7 @@ def events_to_corpus(
         If keywords should be removed from document.
     remove_names : bool, default: True
         If participant names should be removed from document.
-    remove_strategies : bool | dict, default: True
+    remove_strategies : bool | dict[str, list[str]], default: True
         If the strategy keywords should be removed from document.
     remove_additional_stopwords : bool | list[str], default: True
         If additional stopwords should be removed from document.
