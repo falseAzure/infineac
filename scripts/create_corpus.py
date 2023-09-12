@@ -93,11 +93,35 @@ def get_args():
     )
 
     parser.add_argument(
-        "-r",
-        "--remove",
+        "-rk",
+        "--remove_keywords",
         type=bool,
         default=True,
         help="Whether to remove keywords from the corpus.",
+    )
+
+    parser.add_argument(
+        "-rn",
+        "--remove_names",
+        type=bool,
+        default=True,
+        help="Whether to remove participant names from the corpus.",
+    )
+
+    parser.add_argument(
+        "-rs",
+        "--remove_strategies",
+        type=bool,
+        default=True,
+        help="Whether to remove strategies from the corpus.",
+    )
+
+    parser.add_argument(
+        "-ra",
+        "--remove_additional_words",
+        type=bool,
+        default=True,
+        help="Whether to remove additional stopwords from the corpus.",
     )
 
     return parser.parse_args()
@@ -113,7 +137,10 @@ if "__main__" == __name__:
     subsequent_paragraphs = args.paragraphs
     join_adjacent_sentences = args.join
     extract_answers = args.answers
-    remove_additional_words = args.remove
+    remove_keywords = args.remove_keywords
+    remove_names = args.remove_names
+    remove_strategies = args.remove_strategies
+    remove_additional_stopwords = args.remove_additional_words
 
     print(f"Loading data from {path}")
     events = helper.load_data(path)
@@ -135,7 +162,10 @@ if "__main__" == __name__:
         join_adjacent_sentences=join_adjacent_sentences,
         extract_answers=extract_answers,
         nlp_model=nlp_model,
-        remove_additional_words=remove_additional_words,
+        remove_keywords=remove_keywords,
+        remove_names=remove_names,
+        remove_strategies=remove_strategies,
+        remove_additional_stopwords=remove_additional_stopwords,
     )
     directory = Path(path).parents[0]
     name = str(directory / "corpus")
