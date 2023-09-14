@@ -1,5 +1,5 @@
 """
-Module for importing and structuring the earnings calls data. 
+Module for importing and structuring the earnings calls data.
 
 Examples
 --------
@@ -367,8 +367,8 @@ def extract_info_from_earnings_call_part(
     participants = [
         part
         for part in parts_split
-        if re.match("(.|\n)+  \[\d+\]", part)
-        or (re.match("\[\d+\]", part) and len(part) <= 5)
+        if re.match(r"(.|\n)+  \[\d+\]", part)
+        or (re.match(r"\[\d+\]", part) and len(part) <= 5)
     ]
     texts = [part for part in parts_split if part not in participants]
 
@@ -691,7 +691,7 @@ def create_blank_event() -> dict:
     return event
 
 
-def add_info_to_event(event: dict, element) -> dict:
+def add_info_to_event(event: dict, element) -> dict:  # noqa: C901
     """
     Adds information to given `event` based on the `element` of an xml file.
     Used by :func:`load_files_from_xml`.
@@ -709,61 +709,63 @@ def add_info_to_event(event: dict, element) -> dict:
         Dictionary containing the event with the added information.
     """
     tag = element.tag
-    if tag is not None:
-        text = element.text
-        if tag == "Body":
-            # event["body_orig"] = text
+    if tag is None:
+        return event
 
-            body = extract_info_from_earnings_call_body(text)
+    text = element.text
+    if tag == "Body":
+        # event["body_orig"] = text
 
-            event["corp_participants"] = body["corp_participants"]
-            event["corp_participants_collapsed"] = body["corp_participants_collapsed"]
-            event["conf_participants"] = body["conf_participants"]
-            event["conf_participants_collapsed"] = body["conf_participants_collapsed"]
+        body = extract_info_from_earnings_call_body(text)
 
-            presentation = body["presentation"]
-            event["presentation"] = presentation
-            if presentation:
-                event["presentation_collapsed"] = " ".join(
-                    [
-                        el["text"]
-                        for el in presentation
-                        if el["position"] == "cooperation"
-                    ]
-                )
-            else:
-                event["presentation_collapsed"] = ""
+        event["corp_participants"] = body["corp_participants"]
+        event["corp_participants_collapsed"] = body["corp_participants_collapsed"]
+        event["conf_participants"] = body["conf_participants"]
+        event["conf_participants_collapsed"] = body["conf_participants_collapsed"]
 
-            qa = body["qa"]
-            event["qa"] = qa
-            if qa:
-                event["qa_collapsed"] = " ".join(
-                    [el["text"] for el in qa if el["position"] == "cooperation"]
-                )
-            else:
-                event["qa_collapsed"] = ""
-
-        if tag == "EventStory":
-            event["action"] = element.attrib["action"]
-            event["story_type"] = element.attrib["storyType"]
-            event["version"] = element.attrib["version"]
-        if tag == "eventTitle":
-            event["title"] = text
-        if tag == "city":
-            event["city"] = text
-        if tag == "companyName":
-            event["company_name"] = text
-        if tag == "companyTicker":
-            event["company_ticker"] = text
-        if tag == "startDate":
-            event["date"] = datetime.strptime(text, "%d-%b-%y %I:%M%p %Z")
-        if tag == "Event":
-            event["id"] = int(element.attrib["Id"])
-            event["last_update"] = datetime.strptime(
-                element.attrib["lastUpdate"], "%A, %B %d, %Y at %I:%M:%S%p %Z"
+        presentation = body["presentation"]
+        event["presentation"] = presentation
+        if presentation:
+            event["presentation_collapsed"] = " ".join(
+                [
+                    el["text"]
+                    for el in presentation
+                    if el["position"] == "cooperation"
+                ]
             )
-            event["event_type_id"] = int(element.attrib["eventTypeId"])
-            event["event_type_name"] = element.attrib["eventTypeName"]
+        else:
+            event["presentation_collapsed"] = ""
+
+        qa = body["qa"]
+        event["qa"] = qa
+        if qa:
+            event["qa_collapsed"] = " ".join(
+                [el["text"] for el in qa if el["position"] == "cooperation"]
+            )
+        else:
+            event["qa_collapsed"] = ""
+
+    if tag == "EventStory":
+        event["action"] = element.attrib["action"]
+        event["story_type"] = element.attrib["storyType"]
+        event["version"] = element.attrib["version"]
+    if tag == "eventTitle":
+        event["title"] = text
+    if tag == "city":
+        event["city"] = text
+    if tag == "companyName":
+        event["company_name"] = text
+    if tag == "companyTicker":
+        event["company_ticker"] = text
+    if tag == "startDate":
+        event["date"] = datetime.strptime(text, "%d-%b-%y %I:%M%p %Z")
+    if tag == "Event":
+        event["id"] = int(element.attrib["Id"])
+        event["last_update"] = datetime.strptime(
+            element.attrib["lastUpdate"], "%A, %B %d, %Y at %I:%M:%S%p %Z"
+        )
+        event["event_type_id"] = int(element.attrib["eventTypeId"])
+        event["event_type_name"] = element.attrib["eventTypeName"]
 
     return event
 
