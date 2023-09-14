@@ -52,7 +52,11 @@ import polars as pl
 from tqdm import tqdm
 
 import infineac.process_text as process_text
-from infineac.process_text import MODIFIER_WORDS, REMOVE_WORDS, STRATEGY_KEYWORDS
+from infineac.process_text import (
+    ADDITIONAL_STOPWORDS,
+    MODIFIER_WORDS,
+    STRATEGY_KEYWORDS,
+)
 
 BASE_YEAR = 2019
 
@@ -743,7 +747,7 @@ def events_to_corpus(
             remove_additional_words_part += list(keywords.keys())
     if remove_additional_stopwords:
         if remove_additional_stopwords is True:
-            remove_additional_words_part += REMOVE_WORDS
+            remove_additional_words_part += ADDITIONAL_STOPWORDS
         else:
             remove_additional_words_part += remove_additional_stopwords
     if remove_strategies:
