@@ -51,12 +51,8 @@ import shutil
 import polars as pl
 from tqdm import tqdm
 
+import infineac.constants as constants
 import infineac.process_text as process_text
-from infineac.process_text import (
-    ADDITIONAL_STOPWORDS,
-    MODIFIER_WORDS,
-    STRATEGY_KEYWORDS,
-)
 
 BASE_YEAR = 2019
 
@@ -64,7 +60,7 @@ BASE_YEAR = 2019
 def extract_passages_from_presentation(
     presentation: list[dict[str, int | str]] | None,
     keywords: list[str] | dict[str, int],
-    modifier_words: list[str] = MODIFIER_WORDS,
+    modifier_words: list[str] = constants.MODIFIER_WORDS,
     context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
@@ -151,10 +147,10 @@ def extract_passages_from_presentation(
     return passages
 
 
-def extract_passages_from_qa(
+def extract_passages_from_qa(  # noqa: C901
     qa: list[dict[str, int | str]],
     keywords: list[str] | dict[str, int],
-    modifier_words: list[str] = MODIFIER_WORDS,
+    modifier_words: list[str] = constants.MODIFIER_WORDS,
     context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
@@ -312,7 +308,7 @@ def check_if_keyword_align_qa(
 def extract_passages_from_event(
     event: dict,
     keywords: list[str] | dict[str, int],
-    modifier_words: list[str] = MODIFIER_WORDS,
+    modifier_words: list[str] = constants.MODIFIER_WORDS,
     sections: str = "all",
     context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
@@ -407,7 +403,7 @@ def extract_passages_from_event(
 def extract_passages_from_events(
     events: list[dict],
     keywords: list[str] | dict[str, int],
-    modifier_words: list[str] = MODIFIER_WORDS,
+    modifier_words: list[str] = constants.MODIFIER_WORDS,
     sections: str = "all",
     context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
@@ -484,7 +480,7 @@ def extract_passages_from_events(
 def check_keywords_in_event(
     event: dict,
     keywords: list[str] | dict[str, int] = [],
-    modifier_words: list[str] = MODIFIER_WORDS,
+    modifier_words: list[str] = constants.MODIFIER_WORDS,
 ) -> bool:
     """
     Function to check if keywords are present in the presentation or Q&A part
@@ -501,7 +497,7 @@ def filter_events(
     events: list[dict],
     year: int = BASE_YEAR,
     keywords: list[str] | dict[str, int] = [],
-    modifier_words: list[str] = MODIFIER_WORDS,
+    modifier_words: list[str] = constants.MODIFIER_WORDS,
 ) -> list[dict]:
     """
     Filters events based on a given `year` and `keywords`.
@@ -633,7 +629,7 @@ def extract_infos_from_events(events: list[dict]) -> pl.DataFrame:
 def events_to_corpus(
     events: list[dict],
     keywords: list[str] | dict[str, int],
-    modifier_words: list[str] = MODIFIER_WORDS,
+    modifier_words: list[str] = constants.MODIFIER_WORDS,
     sections: str = "all",
     context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
@@ -747,13 +743,13 @@ def events_to_corpus(
             remove_additional_words_part += list(keywords.keys())
     if remove_additional_stopwords:
         if remove_additional_stopwords is True:
-            remove_additional_words_part += ADDITIONAL_STOPWORDS
+            remove_additional_words_part += constants.ADDITIONAL_STOPWORDS
         else:
             remove_additional_words_part += remove_additional_stopwords
     if remove_strategies:
         if remove_strategies is True:
             remove_additional_words_part += process_text.strategy_keywords_tolist(
-                STRATEGY_KEYWORDS
+                constants.STRATEGY_KEYWORDS
             )
         else:
             remove_additional_words_part += process_text.strategy_keywords_tolist(
