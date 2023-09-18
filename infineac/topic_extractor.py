@@ -71,8 +71,10 @@ def bert_advanced(
     return topic_model, topics, probs
 
 
-def get_groups_from_hierarchy(hierarchical_topics, n=10):
-    """Returns the top n groups from the hierarchical topics."""
+def get_groups_from_hierarchy(
+    hierarchical_topics: pl.DataFrame, n: int = 10
+) -> pl.DataFrame:
+    """Returns the top `n` children/groups from the hierarchical topics."""
     parent = hierarchical_topics[
         hierarchical_topics["Distance"] == hierarchical_topics["Distance"].max()
     ]
@@ -100,7 +102,7 @@ def get_topics_per_company(df: pl.DataFrame):
         df.groupby("company_name", "year")
         .agg(
             pl.col("exit_strategy", "stay_strategy", "adaptation_strategy").sum(),
-            pl.col("text", "processed_text", "topic", "group"),
+            pl.col("text", "processed_text", "topic", "category"),
         )
         .sort("company_name")
     )
@@ -111,13 +113,13 @@ def get_topics_per_company(df: pl.DataFrame):
         topics_ = [topic for topic in topics_ if topic != -1 | topic != -2]
         topics_comp[i] = topics_
 
-    groups_comp = df_comp["group"].to_list()
-    for i, groups in enumerate(groups_comp):
-        groups_ = list(set(groups))
-        groups_ = [group for group in groups_]
-        groups_comp[i] = groups_
+    category_comp = df_comp["category"].to_list()
+    for i, categories in enumerate(category_comp):
+        category_ = list(set(categories))
+        category_ = [group for group in category_]
+        category_comp[i] = category_
 
-    df_comp = df_comp.with_columns(pl.Series("group", groups_comp))
+    df_comp = df_comp.with_columns(pl.Series("category", category_comp))
     df_comp = df_comp.with_columns(pl.Series("topic", topics_comp))
     return df_comp
 
@@ -141,7 +143,7 @@ def categorize_topics(keywords_topics: list[list[str]]) -> pl.DataFrame:
     return pl.DataFrame(
         {
             "n": range(-1, len(max_category_list) - 1),
-            "group": max_category_list,
+            "category": max_category_list,
             "keywords": keywords_topics,
         }
     )
@@ -152,9 +154,13 @@ def map_topics_to_categories(topics: list[int], mapping: pl.DataFrame) -> list[s
     topics_pl = pl.DataFrame({"topic": topics})
     topics_pl = topics_pl.join(mapping, left_on="topic", right_on="n", how="left")
     topics_pl = topics_pl.with_columns(
-        group=pl.when(pl.col("topic") == -1).then("standard").otherwise(pl.col("group"))
+        category=pl.when(pl.col("topic") == -1)
+        .then("standard")
+        .otherwise(pl.col("category"))
     )
     topics_pl = topics_pl.with_columns(
-        group=pl.when(pl.col("topic") == -2).then("empty").otherwise(pl.col("group"))
+        category=pl.when(pl.col("topic") == -2)
+        .then("empty")
+        .otherwise(pl.col("category"))
     )
     return topics_pl
