@@ -1,16 +1,16 @@
 from pathlib import Path
 
+import infineac.constants as constants
 import infineac.file_loader as file_loader
 import infineac.process_event as process_event
 import infineac.topic_extractor as topic_extractor
-from infineac.process_text import MODIFIER_WORDS
 
 
 def pipeline(
     path,
-    year=2022,
+    year=constants.BASE_YEAR,
     keywords={"russia": 1, "ukraine": 1},
-    modifier_words=MODIFIER_WORDS,
+    modifier_words=constants.MODIFIER_WORDS,
     context_window_sentence=0,
     subsequent_paragraphs=0,
     join_adjacent_sentences=True,
