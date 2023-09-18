@@ -3,10 +3,8 @@ This module contains constants used in the infineac package.
 
 Attributes
 ----------
-STRATEGY_KEYWORDS: dict[str, list[str]]
-    Strategy keywords to be searched for in the text data. The keys are the
-    names of the strategies and the values are lists of keywords for each
-    strategy.
+BASE_YEAR: int
+    Base year for filtering events by year.
 
 ADDITIONAL_STOPWORDS: list[str]
     Additional stopwords to be removed from the text data.
@@ -16,7 +14,17 @@ MODIFIER_WORDS
 
 MODIFIER_WORDS_STRATEGY
     Modifier words that must precede the strategy keywords in the text data.
+
+STRATEGY_KEYWORDS: dict[str, list[str]]
+    Strategy keywords to be searched for in the text data. The keys are the
+    names of the strategies and the values are lists of keywords for each
+    strategy.
+
+TOPICS: dict[str, list[str]]
+    Categories of super-topics. The keys are the names of the categories and
+    the values are lists of keywords for each category.
 """
+BASE_YEAR = 2019
 
 ADDITIONAL_STOPWORDS = [
     "billion",
@@ -105,8 +113,8 @@ STRATEGY_KEYWORDS = {
     "adaptation": ["adapt", "relocate"],
 }
 
-TOPICS = [
-    [
+TOPICS = {
+    "commodity": [
         "aftermarket",
         "agricultural",
         "agriculturally",
@@ -239,7 +247,7 @@ TOPICS = [
         "whitefish",
         "wood",
     ],
-    [
+    "compliance": [
         "agreement",
         "announcement",
         "approval",
@@ -266,7 +274,7 @@ TOPICS = [
         "sanction",
         "sanctioning",
     ],
-    [
+    "cybersecurity": [
         "attack",
         "cyber",
         "cyberattack",
@@ -278,7 +286,7 @@ TOPICS = [
         "security",
         "threat",
     ],
-    [
+    "energy": [
         "biofuel",
         "carbon",
         "coal",
@@ -305,7 +313,7 @@ TOPICS = [
         "transition",
         "winter",
     ],
-    [
+    "exchage rate": [
         "chf",
         "currency",
         "depreciation",
@@ -329,7 +337,7 @@ TOPICS = [
         "volume",
         "yen",
     ],
-    [
+    "export": [
         "commerce",
         "commodity",
         "export",
@@ -344,7 +352,7 @@ TOPICS = [
         "trading",
         "volume",
     ],
-    [
+    "finance": [
         "accounting",
         "accumulate",
         "agency",
@@ -454,7 +462,7 @@ TOPICS = [
         "victoriabank",
         "volatility",
     ],
-    [
+    "human ressource": [
         "accommodation",
         "assistance",
         "behalf",
@@ -484,7 +492,7 @@ TOPICS = [
         "workforce",
         "wound",
     ],
-    [
+    "humanitarian": [
         "aid",
         "bravery",
         "charitable",
@@ -520,7 +528,7 @@ TOPICS = [
         "war",
         "wound",
     ],
-    [
+    "indirect geographic": [
         "africa",
         "america",
         "arabia",
@@ -607,7 +615,7 @@ TOPICS = [
         "warsaw",
         "yemen",
     ],
-    [
+    "macro demand": [
         "aftermarket",
         "behavior",
         "business",
@@ -670,7 +678,7 @@ TOPICS = [
         "value",
         "volume",
     ],
-    [
+    "macro inflation": [
         "commodity",
         "cost",
         "decrease",
@@ -706,7 +714,7 @@ TOPICS = [
         "usd",
         "wage",
     ],
-    [
+    "military": [
         "defend",
         "defense",
         "deterrence",
@@ -719,7 +727,7 @@ TOPICS = [
         "war",
         "warfare",
     ],
-    [
+    "supply chain": [
         "cable",
         "capacity",
         "chain",
@@ -780,7 +788,7 @@ TOPICS = [
         "wire",
         "wiring",
     ],
-    [
+    "transport": [
         "aerospace",
         "aircraft",
         "airline",
@@ -839,4 +847,4 @@ TOPICS = [
         "vessel",
         "voyage",
     ],
-]
+}
