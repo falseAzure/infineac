@@ -723,13 +723,19 @@ def strategy_keywords_tolist(
 
 def remove_sentences_under_threshold(
     corpus: list[str], threshold: int = 1
-) -> list[str]:
-    """Removes sentences from a corpus that only contain `threshold` words or less."""
+) -> list[str] and list[int]:
+    """Removes sentences from a `corpus` that only contain `threshold` words or
+    less. Returns a transformed corpus as well as a list of indices that
+    indicate the original position of the sentences in the corpus."""
     corpus_cleaned = []
-    for i, el in enumerate(corpus):
+    mapping = []
+    i = 0
+    for el in corpus:
         length = len(el.split(" "))
         if length <= threshold:
-            corpus_cleaned.append("")
+            mapping.append(-1)
         else:
             corpus_cleaned.append(el)
-    return corpus_cleaned
+            mapping.append(i)
+            i += 1
+    return corpus_cleaned, mapping
