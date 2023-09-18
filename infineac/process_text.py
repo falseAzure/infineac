@@ -688,7 +688,9 @@ def get_strategies(
     if type(dataframe) == pl.dataframe.frame.DataFrame:
         lst = list(dataframe["text"].to_list())
     strategies = {}
-    for strategy in strategy_keywords.keys():
+    for strategy in tqdm(
+        strategy_keywords.keys(), desc="Strategies", len=len(strategy_keywords.keys())
+    ):
         keywords = strategy_keywords[strategy]
         list_strategy = []
         for text in lst:
