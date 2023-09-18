@@ -23,7 +23,9 @@ Examples
 
 """
 
+import polars as pl
 from bertopic import BERTopic
+from umap import UMAP
 
 import infineac.constants as constants
 
@@ -32,21 +34,32 @@ def bert_advanced(
     docs: list[str],
     representation_model,
     embedding_model=None,
+    umap_model=None,
     vectorizer_model=None,
     nr_topics=None,
     predefined_topics: bool | list[list[str]] = None,
 ):
     seed_topic_list = None
     if predefined_topics is True:
-        seed_topic_list = constants.TOPICS
+        seed_topic_list = list(constants.TOPICS.values())
     elif type(predefined_topics) == list:
         seed_topic_list = predefined_topics
+
+    if umap_model is None:
+        umap_model = UMAP(
+            n_neighbors=15,
+            n_components=5,
+            min_dist=0.0,
+            metric="cosine",
+            random_state=111,
+        )
 
     # Fine-tune your topic representations
     topic_model = BERTopic(
         representation_model=representation_model,
         calculate_probabilities=True,
         embedding_model=embedding_model,
+        umap_model=umap_model,
         vectorizer_model=vectorizer_model,
         nr_topics=nr_topics,
         seed_topic_list=seed_topic_list,
@@ -79,3 +92,69 @@ def get_groups_from_hierarchy(hierarchical_topics, n=10):
         hierarchical_topics["Parent_ID"].isin(children)
     ]
     return topics_grouped
+
+
+def get_topics_per_company(df: pl.DataFrame):
+    """Returns the topics per company."""
+    df_comp = (
+        df.groupby("company_name", "year")
+        .agg(
+            pl.col("exit_strategy", "stay_strategy", "adaptation_strategy").sum(),
+            pl.col("text", "processed_text", "topic", "group"),
+        )
+        .sort("company_name")
+    )
+
+    topics_comp = df_comp["topic"].to_list()
+    for i, topics in enumerate(topics_comp):
+        topics_ = sorted(list(set(topics)))
+        topics_ = [topic for topic in topics_ if topic != -1 | topic != -2]
+        topics_comp[i] = topics_
+
+    groups_comp = df_comp["group"].to_list()
+    for i, groups in enumerate(groups_comp):
+        groups_ = list(set(groups))
+        groups_ = [group for group in groups_]
+        groups_comp[i] = groups_
+
+    df_comp = df_comp.with_columns(pl.Series("group", groups_comp))
+    df_comp = df_comp.with_columns(pl.Series("topic", topics_comp))
+    return df_comp
+
+
+def categorize_topics(keywords_topics: list[list[str]]) -> pl.DataFrame:
+    """Categorizes the topics according to the corresponding `keywords_topics` and a
+    dictionary, that maps keywords to topics. Categories are grouped topics
+    defined by :func:`infineac.constants.TOPICS`."""
+    max_category_list = []
+    for keywords in keywords_topics:
+        count_max_group = 0
+        max_topic = "other"
+        for category, keywords_group in constants.TOPICS.items():
+            common_keywords = set(keywords_group) & set(keywords)
+            count = len(common_keywords)
+            if count > 0 and count > count_max_group:
+                max_topic = category
+                count_max_group = count
+        max_category_list.append(max_topic)
+
+    return pl.DataFrame(
+        {
+            "n": range(-1, len(max_category_list) - 1),
+            "group": max_category_list,
+            "keywords": keywords_topics,
+        }
+    )
+
+
+def map_topics_to_categories(topics: list[int], mapping: pl.DataFrame) -> list[str]:
+    """Maps the `topics` to the corresponding groups."""
+    topics_pl = pl.DataFrame({"topic": topics})
+    topics_pl = topics_pl.join(mapping, left_on="topic", right_on="n", how="left")
+    topics_pl = topics_pl.with_columns(
+        group=pl.when(pl.col("topic") == -1).then("standard").otherwise(pl.col("group"))
+    )
+    topics_pl = topics_pl.with_columns(
+        group=pl.when(pl.col("topic") == -2).then("empty").otherwise(pl.col("group"))
+    )
+    return topics_pl
