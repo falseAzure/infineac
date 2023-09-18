@@ -54,8 +54,6 @@ from tqdm import tqdm
 import infineac.constants as constants
 import infineac.process_text as process_text
 
-BASE_YEAR = 2019
-
 
 def extract_passages_from_presentation(
     presentation: list[dict[str, int | str]] | None,
@@ -495,7 +493,7 @@ def check_keywords_in_event(
 
 def filter_events(
     events: list[dict],
-    year: int = BASE_YEAR,
+    year: int = constants.BASE_YEAR,
     keywords: list[str] | dict[str, int] = [],
     modifier_words: list[str] = constants.MODIFIER_WORDS,
 ) -> list[dict]:
@@ -506,7 +504,7 @@ def filter_events(
     ----------
     events : list[dict]
        Lists of dicts containing the events.
-    year : int, default: BASE_YEAR
+    year : int, default: constants.BASE_YEAR
         All events before the given year are filtered out.
     keywords : list[str] | dict[str, int], default: []
         Dictionary or list of `keywords`. If `keywords` is a dictionary, the key is
