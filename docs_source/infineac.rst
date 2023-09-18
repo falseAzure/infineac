@@ -1,8 +1,18 @@
-infineac package
-================
+infineac.constants module
+-------------------------
 
-Submodules
-----------
+.. automodule:: infineac.constants
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+infineac.helper module
+----------------------
+
+.. automodule:: infineac.helper
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 infineac.file\_loader module
 ----------------------------
@@ -12,10 +22,10 @@ infineac.file\_loader module
    :undoc-members:
    :show-inheritance:
 
-infineac.helper module
-----------------------
+infineac.pipeline module
+------------------------
 
-.. automodule:: infineac.helper
+.. automodule:: infineac.pipeline
    :members:
    :undoc-members:
    :show-inheritance:
@@ -40,14 +50,6 @@ infineac.topic\_extractor module
 --------------------------------
 
 .. automodule:: infineac.topic_extractor
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: infineac
    :members:
    :undoc-members:
    :show-inheritance:

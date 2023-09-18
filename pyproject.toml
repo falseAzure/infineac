@@ -19,7 +19,7 @@ description = "Infineac: Extracting Financial Insights from Earnings Calls using
 license = { text = "MIT" }
 requires-python = ">=3.10"
 dependencies = [
-    "numpy==1.24.4",
+    "numpy==1.23.5",
     "scipy==1.10.1",
 
     "lxml==4.9.3",

@@ -23,6 +23,12 @@ Documentation
 
    user_guide
    detailed_description
+
+Modules
+-------
+.. toctree::
+   :maxdepth: 2
+   
    modules
 
 Indices and tables

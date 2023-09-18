@@ -20,22 +20,6 @@ Notes
 -----
     It is mainly used by the :mod:`infineac.process_event` module to process
     the text data of the events, e.g. earnings calls.
-
-Attributes
-----------
-STRATEGY_KEYWORDS: dict[str, list[str]]
-    Strategy keywords to be searched for in the text data. The keys are the
-    names of the strategies and the values are lists of keywords for each
-    strategy.
-
-ADDITIONAL_STOPWORDS: list[str]
-    Additional stopwords to be removed from the text data.
-
-MODIFIER_WORDS
-    Modifier words that must not precede the keywords in the text data.
-
-MODIFIER_WORDS_STRATEGY
-    Modifier words that must precede the strategy keywords in the text data.
 """
 
 
@@ -44,94 +28,8 @@ import re
 import polars as pl
 from tqdm import tqdm
 
+import infineac.constants as constants
 from infineac.helper import add_context_integers
-
-STRATEGY_KEYWORDS = {
-    "exit": [
-        "cancel",
-        "close",
-        "discontinue",
-        "divest",
-        "exit",
-        "leave",
-        "left",
-        "liquidate",
-        "pull out",
-        "retreat",
-        "sell",
-        "sold",
-        "suspend",
-        "terminate",
-        "withdraw",
-    ],
-    "stay": ["continue", "hold", "keep", "maintain", "remain", "stay", "wait"],
-    "adaptation": ["adapt", "relocate"],
-}
-
-ADDITIONAL_STOPWORDS = [
-    "billion",
-    "china",
-    "conflict",
-    "corona",
-    "correct",
-    "covid",
-    "crisis",
-    "discuss",
-    "disease",
-    "exposure",
-    "fine",
-    "gentleman",
-    "gentlemen",
-    "geopolitic",
-    "guess",
-    "guidance",
-    "inaudible",
-    "invade",
-    "invasion",
-    "journal",
-    "ladies",
-    "lady",
-    "listen",
-    "lockdown",
-    "million",
-    "multibillion",
-    "okay",
-    "omicron",
-    "pandemic",
-    "pleasure",
-    "pray",
-    "presentation",
-    "q1",
-    "q2",
-    "q3",
-    "q4",
-    "quarter",
-    "question",
-    "repeat",
-    "risk",
-    "sanction",
-    "slide",
-    "speak",
-    "thank",
-    "thousand",
-    "uncertain",
-    "virus",
-    "volatility",
-    "war",
-    "year",
-]
-
-MODIFIER_WORDS = [
-    "disregarding",
-    "except",
-    "excluding",
-    "ignoring",
-    "leaving out",
-    "not including",
-    "omitting",
-]
-
-MODIFIER_WORDS_STRATEGY = ["can't", "cannot", "don't", "not"]
 
 
 def get_russia_and_sanction(string: str) -> str:
@@ -181,7 +79,7 @@ def combine_adjacent_sentences(
 def keyword_threshold_search_exclude_mod(
     string: str,
     keywords: dict[str, int] | list[str] = {},
-    modifier_words: list[str] = MODIFIER_WORDS,
+    modifier_words: list[str] = constants.MODIFIER_WORDS,
 ) -> bool:
     """
     Checks if a string contains one of the `keywords` and does not
@@ -224,10 +122,10 @@ def keyword_threshold_search_exclude_mod(
     return False
 
 
-def extract_keyword_sentences_window(
+def extract_keyword_sentences_window(  # noqa: C901
     text: str,
     keywords: list[str] | dict[str, int] = [],
-    modifier_words: list[str] = MODIFIER_WORDS,
+    modifier_words: list[str] = constants.MODIFIER_WORDS,
     context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
     return_type: str = "list",
@@ -330,10 +228,10 @@ def extract_keyword_sentences_window(
     return matching_sentences
 
 
-def extract_passages_from_paragraphs(
+def extract_passages_from_paragraphs(  # noqa: C901
     paragraphs: list[str],
     keywords: list[str] | dict[str, int],
-    modifier_words: list[str] = MODIFIER_WORDS,
+    modifier_words: list[str] = constants.MODIFIER_WORDS,
     context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
@@ -432,7 +330,7 @@ def extract_passages_from_paragraphs(
 def keyword_threshold_search_include_mod(
     string: str,
     keywords: list[str] = [],
-    modifier_words: list[str] = MODIFIER_WORDS,
+    modifier_words: list[str] = constants.MODIFIER_WORDS,
 ) -> bool:
     """
     Checks if a string contains one of the `keywords` and contains a `modifier_word`
@@ -467,7 +365,7 @@ def keyword_threshold_search_include_mod(
 def extract_keyword_sentences_preceding_mod(
     text: str,
     keywords: list[str],
-    modifier_words: list[str] = MODIFIER_WORDS,
+    modifier_words: list[str] = constants.MODIFIER_WORDS,
     nlp_model=None,
 ) -> str | list[str]:
     """
@@ -519,7 +417,7 @@ def extract_keyword_sentences_preceding_mod(
     return matching_sentences
 
 
-def process_text_nlp(
+def process_text_nlp(  # noqa: C901
     text_nlp: str,
     lemmatize: bool = True,
     lowercase: bool = True,
@@ -780,8 +678,8 @@ def list_to_string(list: list, separator=" ") -> str:
 
 def get_strategies(
     lst: list = [],
-    strategy_keywords: dict[str, list[str]] = STRATEGY_KEYWORDS,
-    modifier_words: list[str] = MODIFIER_WORDS_STRATEGY,
+    strategy_keywords: dict[str, list[str]] = constants.STRATEGY_KEYWORDS,
+    modifier_words: list[str] = constants.MODIFIER_WORDS_STRATEGY,
     dataframe: pl.DataFrame = None,
 ) -> dict[str, list[bool]] | pl.DataFrame:
     """Searches for the `strategy_keywords` in a list of strings or DataFrame
@@ -814,7 +712,7 @@ def get_strategies(
 
 
 def strategy_keywords_tolist(
-    strategy_keywords: dict[str, list[str]] = STRATEGY_KEYWORDS
+    strategy_keywords: dict[str, list[str]] = constants.STRATEGY_KEYWORDS
 ) -> list[str]:
     """Converts the dictionary of `strategy_keywords` to a list of keywords."""
     keywords = []
@@ -825,13 +723,19 @@ def strategy_keywords_tolist(
 
 def remove_sentences_under_threshold(
     corpus: list[str], threshold: int = 1
-) -> list[str]:
-    """Removes sentences from a corpus that only contain `threshold` words or less."""
+) -> list[str] and list[int]:
+    """Removes sentences from a `corpus` that only contain `threshold` words or
+    less. Returns a transformed corpus as well as a list of indices that
+    indicate the original position of the sentences in the corpus."""
     corpus_cleaned = []
-    for i, el in enumerate(corpus):
+    mapping = []
+    i = 0
+    for el in corpus:
         length = len(el.split(" "))
         if length <= threshold:
-            corpus_cleaned.append("")
+            mapping.append(-1)
         else:
             corpus_cleaned.append(el)
-    return corpus_cleaned
+            mapping.append(i)
+            i += 1
+    return corpus_cleaned, mapping

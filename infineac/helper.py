@@ -10,7 +10,7 @@ import dill as pickle
 import lz4.frame
 
 
-def add_context_integers(
+def add_context_integers(  # noqa: C901
     lst: list[int],
     m: int,
     n: int,
@@ -115,13 +115,22 @@ def add_context_integers(
     return new_elements
 
 
-def fill_list(lst: list, min: int, max: int):
-    """Method to fill a list with integers from min to max."""
+def fill_list(lst: list[int], min: int, max: int) -> list[int]:
+    """Method to fill a `lst` with integers from `min` to `max`."""
     lst_ = copy.deepcopy(lst)
     for i in range(min, max):
         if i not in lst_:
             lst_.append(i)
     return sorted(lst_)
+
+
+def fill_list_from_mapping(lst: list[any], mapping: list[int], value=None) -> list[any]:
+    """Fills a `lst` with `value` according to a corresponding `mapping`."""
+    new_list = [value] * len(mapping)
+    for i, el in enumerate(mapping):
+        if el != -1:
+            new_list[i] = lst[el]
+    return new_list
 
 
 def save_data(data: dict, name: str = "events", compression: str | bool = False):

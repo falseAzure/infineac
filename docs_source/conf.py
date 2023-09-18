@@ -33,6 +33,7 @@ github_url = "https://github.com/{github_username}/{github_repository}".format_m
 extensions = [
     "sphinx.ext.napoleon",  # Supports Google / Numpy docstring
     "sphinx.ext.autodoc",  # Documentation from docstrings
+    # "sphinx.ext.autosummary",  # Create neat summary tables
     "sphinx.ext.doctest",  # Test snippets in documentation
     "sphinx.ext.todo",  # to-do syntax highlighting
     "sphinx.ext.ifconfig",  # Content based configuration
@@ -40,6 +41,8 @@ extensions = [
     "sphinx_toolbox.documentation_summary",  # Add a summary to each page
     "sphinx_copybutton",  # Add copy button to code blocks
 ]
+
+# autosummary_generate = True  # Turn on sphinx.ext.autosummary
 
 source_suffix = [".rst", ".md"]
 
