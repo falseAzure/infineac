@@ -1,5 +1,5 @@
 """
-This module contains functions to manipulate events and strings and extract the
+Contains functions to manipulate events and strings and extract the
 corresponding information for the infineac package. For text processing it uses
 the :mod:`infineac.process_text` module.
 
@@ -537,15 +537,17 @@ def filter_events(
     return events_filtered
 
 
-def excluded_sentences_by_mod_words(events, nlp_model):
+def excluded_sentences_by_mod_words(events, keywords=["russia"], nlp_model=None):
+    """Extracts the sentences that are excluded by the modifier words. Calls
+    on :func:`infineac.process_text.extract_keyword_sentences_preceding_mod`."""
     excluded_sentences = []
     for event in tqdm(events, desc="Events", total=len(events)):
         excluded_qa = process_text.extract_keyword_sentences_preceding_mod(
-            text=event["qa_collapsed"], keywords=["russia"], nlp_model=nlp_model
+            text=event["qa_collapsed"], keywords=keywords, nlp_model=nlp_model
         )
         excluded_presentation = process_text.extract_keyword_sentences_preceding_mod(
             text=event["presentation_collapsed"],
-            keywords=["russia"],
+            keywords=keywords,
             nlp_model=nlp_model,
         )
         excluded_sentences.append(excluded_qa + excluded_presentation)
@@ -785,6 +787,7 @@ def events_to_corpus(
 
 
 def create_samples(df):
+    """Creates 15 samples for keyword 'russia'."""
     if len(df[df["russia"] == "russia & sanctions"]) > 0:
         sample_files_russia = (
             df[df["russia"] == "russia"].sample(8)["file"].tolist()

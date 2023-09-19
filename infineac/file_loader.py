@@ -1,5 +1,5 @@
 """
-Module for importing and structuring the earnings calls data.
+Imports and structures the earnings calls data from xml files.
 
 Examples
 --------
@@ -727,11 +727,7 @@ def add_info_to_event(event: dict, element) -> dict:  # noqa: C901
         event["presentation"] = presentation
         if presentation:
             event["presentation_collapsed"] = " ".join(
-                [
-                    el["text"]
-                    for el in presentation
-                    if el["position"] == "cooperation"
-                ]
+                [el["text"] for el in presentation if el["position"] == "cooperation"]
             )
         else:
             event["presentation_collapsed"] = ""

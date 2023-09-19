@@ -1,5 +1,6 @@
 """
-This module contains methods to process text data.
+Contains methods to process text data. The methods are used to extract passages
+from text data, e.g. earnings calls, that contain specific keywords.
 
 Examples
 --------

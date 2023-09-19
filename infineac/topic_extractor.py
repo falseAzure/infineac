@@ -1,5 +1,5 @@
 """
-This module extracts topics from a list of documents using BERTopic.
+Extracts topics from a list of documents using BERTopic.
 
 Examples
 --------

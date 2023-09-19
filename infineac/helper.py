@@ -146,16 +146,16 @@ def save_data(data: dict, name: str = "events", compression: str | bool = False)
             pickle.dump(data, f)
 
 
-def load_data(name: str):
+def load_data(path: str):
     """Method to load data. Compression can be lzma, lz4 or False."""
-    compression = re.sub(r".*\.", "", name)
+    compression = re.sub(r".*\.", "", path)
     if compression == "lzma":
-        with lzma.open(name, "rb") as f:
+        with lzma.open(path, "rb") as f:
             data = pickle.load(f)
     if compression == "lz4" or compression:
-        with lz4.frame.open(name, "rb") as f:
+        with lz4.frame.open(path, "rb") as f:
             data = pickle.load(f)
     if compression == "pickle" or not compression:
-        with open(name, "rb") as f:
+        with open(path, "rb") as f:
             data = pickle.load(f)
     return data
