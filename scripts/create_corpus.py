@@ -3,6 +3,7 @@ from pathlib import Path
 
 import spacy_stanza
 
+import infineac.constants as constants
 import infineac.helper as helper
 import infineac.process_event as process_event
 
@@ -28,15 +29,15 @@ def get_args():
         "--path",
         type=str,
         default=PATH,
-        help="Path to pickle/lz4 file containing the earnings calls transcripts",
+        help="Path to pickle/lz4 file containing the earnings calls transcripts.",
     )
 
     parser.add_argument(
         "-y",
         "--year",
         type=int,
-        default=2022,
-        help="Year to filter events by - all events before this year will be removed",
+        default=constants.BASE_YEAR,
+        help="Year to filter events by - all events before this year will be removed.",
     )
 
     parser.add_argument(
@@ -44,9 +45,9 @@ def get_args():
         "--keywords",
         type=str,
         nargs="*",
-        default={"russia": 1, "ukraine": 1},
+        default="russia ukraine",
         help="Keywords to filter events by"
-        + "- all events not containing these keywords will be removed",
+        + "- all events not containing these keywords will be removed.",
     )
 
     parser.add_argument(
@@ -55,7 +56,7 @@ def get_args():
         type=str,
         default="all",
         choices=["all", "presentation", "qa"],
-        help="Section to extract passages from.",
+        help="Section/s to extract passages from.",
     )
 
     parser.add_argument(
@@ -97,7 +98,7 @@ def get_args():
         "--remove_keywords",
         type=bool,
         default=True,
-        help="Whether to remove keywords from the corpus.",
+        help="Whether to remove keywords from the extracted passages.",
     )
 
     parser.add_argument(
@@ -105,7 +106,7 @@ def get_args():
         "--remove_names",
         type=bool,
         default=True,
-        help="Whether to remove participant names from the corpus.",
+        help="Whether to remove participant names from the extracted passages.",
     )
 
     parser.add_argument(
@@ -113,7 +114,7 @@ def get_args():
         "--remove_strategies",
         type=bool,
         default=True,
-        help="Whether to remove strategies from the corpus.",
+        help="Whether to remove strategies from the extracted passages.",
     )
 
     parser.add_argument(
@@ -121,7 +122,7 @@ def get_args():
         "--remove_additional_words",
         type=bool,
         default=True,
-        help="Whether to remove additional stopwords from the corpus.",
+        help="Whether to remove additional stopwords from the extracted passages.",
     )
 
     return parser.parse_args()
