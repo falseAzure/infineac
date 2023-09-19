@@ -32,13 +32,38 @@ import infineac.constants as constants
 
 def bert_advanced(
     docs: list[str],
-    representation_model,
-    embedding_model=None,
-    umap_model=None,
-    vectorizer_model=None,
-    nr_topics=None,
+    representation_model: any,
+    embedding_model: any = None,
+    umap_model: any = None,
+    vectorizer_model: any = None,
+    nr_topics: any = None,
     predefined_topics: bool | list[list[str]] = None,
 ):
+    """Extracts topics from a list of documents using BERTopic.
+
+    Parameters
+    ----------
+    docs : list[str]
+        List of documents.
+    representation_model : any
+        Representation model to use.
+    embedding_model : any, default: None
+        Embedding model to use. If None, the default embedding model is used.
+    umap_model : any, default: None
+        UMAP model to use. If None, the default UMAP model is used.
+    vectorizer_model : any, default: None
+        Vectorizer model to use. If None, the default vectorizer model is used.
+    nr_topics : any, default: None
+        Number of topics to extract. If None, the number of topics is
+        determined automatically.
+    predefined_topics : bool | list[list[str]], default: None
+        Whether to use `predefined_topics`. If True, :func:constants.TOPICS is used.
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
     seed_topic_list = None
     if predefined_topics is True:
         seed_topic_list = list(constants.TOPICS.values())
