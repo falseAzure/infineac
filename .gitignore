@@ -173,3 +173,4 @@ docs/
 *.Rproj
 ideas.md
 *.lz4
+notebooks/playground.ipynb
