@@ -74,15 +74,39 @@ The ``load_data.py`` script loads the data from the xml-files and saves it as a
 
     python scripts/load_save_data.py
 
--p PATH       Path to directory of earnings calls transcripts
--c False      Whether to compress the pickle file
+-p, --path      Path to directory of earnings calls transcripts
+-c, --compress      Whether to compress the pickle file
+
+
+Create Corpus
+-------------
+
+The ``create_corpus.py`` script creates a corpus from the data by extracting
+relevant passages from the earnings calls. The corpus is saved as a compressed pickle file.
+
+.. code-block:: bash
+
+    python scripts/create_corpus.py
+
+-p, --path       Path to pickle/lz4 file containing the earnings calls transcripts
+-y, --year       Year to filter events by - all events before this year will be removed
+-k, --keywords       Keywords to filter events by - all events not containing these keywords will be removed
+-s, --sections       Section/s to extract passages from
+-w, --window         Context window size in sentences
+-par, --paragraphs   Whether to include subsequent paragraphs
+-j, --join           Whether to join adjacent sentences
+-a, --answers        Whether to extract answers from the Q&A section if keywords are present in the preceding question.
+-rk, --remove_keywords   Whether to remove keywords from the extracted passages
+-rn, --remove_names      Whether to remove names from the extracted passages
+-rs, --remove_strategies  Whether to remove stopwords from the extracted passages
+-ra, --remove_additional_words    Whether to remove additional words from the extracted passages
 
 
 Extract Topics
 --------------
 
-The ``extract_topics.py`` script extracts the topics from the earnings calls
-and saves them as a csv-file.
+The ``extract_topics.py`` script extracts the topics from a corpus of earnings
+calls and saves them as a csv-file.
 
 .. code-block:: bash
 
