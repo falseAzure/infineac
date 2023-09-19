@@ -95,6 +95,10 @@ def extract_passages_from_presentation(
         -1, all sentences before or after the keyword are extracted. So -1 can
         be used to extract all sentences before and after the keyword, e.g. the
         entire paragraph.
+    join_adjacent_sentences : bool, default: True
+            Whether to join adjacent sentences or leave them as individual. If
+            `context_window_sentence` > 0, this parameter is automatically set
+            to `True`.
     subsequent_paragraphs : int, default: 0
         Number of subsequent paragraphs to extract after the one containing a
         keyword.
@@ -187,6 +191,10 @@ def extract_passages_from_qa(  # noqa: C901
         -1, all sentences before or after the keyword are extracted. So -1 can
         be used to extract all sentences before and after the keyword, e.g. the
         entire paragraph.
+    join_adjacent_sentences : bool, default: True
+            Whether to join adjacent sentences or leave them as individual. If
+            `context_window_sentence` > 0, this parameter is automatically set
+            to `True`.
     subsequent_paragraphs : int, default: 0
         Number of subsequent paragraphs to extract after the one containing a
         keyword.
@@ -342,6 +350,10 @@ def extract_passages_from_event(
         -1, all sentences before or after the keyword are extracted. So -1 can
         be used to extract all sentences before and after the keyword, e.g. the
         entire paragraph.
+    join_adjacent_sentences : bool, default: True
+            Whether to join adjacent sentences or leave them as individual. If
+            `context_window_sentence` > 0, this parameter is automatically set
+            to `True`.
     subsequent_paragraphs : int, default: 0
         Number of subsequent paragraphs to extract after the one containing a
         keyword.
@@ -437,6 +449,10 @@ def extract_passages_from_events(
         -1, all sentences before or after the keyword are extracted. So -1 can
         be used to extract all sentences before and after the keyword, e.g. the
         entire paragraph.
+    join_adjacent_sentences : bool, default: True
+            Whether to join adjacent sentences or leave them as individual. If
+            `context_window_sentence` > 0, this parameter is automatically set
+            to `True`.
     subsequent_paragraphs : int, default: 0
         Number of subsequent paragraphs to extract after the one containing a
         keyword.
@@ -681,6 +697,8 @@ def events_to_corpus(
         -1, all sentences before or after the keyword are extracted. So -1 can
         be used to extract all sentences before and after the keyword, e.g. the
         entire paragraph.
+    join_adjacent_sentences : bool, default: True
+        Whether to join adjacent sentences.
     subsequent_paragraphs : int, default: 0
         Number of subsequent paragraphs to extract after the one containing a
         keyword.
