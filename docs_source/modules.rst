@@ -1,6 +1,9 @@
-Module
-======
-.. toctree::
-   :maxdepth: 3
+Modules
+-------
 
-   infineac
+.. autosummary::
+    :toctree: _autosummary
+    :recursive:
+    :nosignatures:
+
+    infineac

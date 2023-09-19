@@ -24,10 +24,10 @@ Documentation
    user_guide
    detailed_description
 
-Modules
+Package
 -------
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    
    modules
 

@@ -1,0 +1,42 @@
+infineac.process\_event
+=======================
+
+.. automodule:: infineac.process_event
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      check_if_keyword_align_qa
+      check_keywords_in_event
+      corpus_list_to_dataframe
+      create_participants_to_remove
+      create_samples
+      events_to_corpus
+      excluded_sentences_by_mod_words
+      extract_infos_from_events
+      extract_passages_from_event
+      extract_passages_from_events
+      extract_passages_from_presentation
+      extract_passages_from_qa
+      filter_events
+      test_positions
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
