@@ -1,5 +1,5 @@
 """
-This module contains constants used in the infineac package.
+Contains constants used in the infineac package.
 
 Attributes
 ----------
