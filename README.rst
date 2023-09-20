@@ -25,7 +25,7 @@ Overview
 InFineac is a Python package that extracts financial insights from earnings
 calls using NLP. Earnings calls are a rich source of information for investors,
 that are held quarterly by publicly traded companies. 
-It uses the spaCy_ library for NLP
+It heavily uses the spaCy_ and BERTopic_ libraries for the NLP tasks.
 
 .. end overview
 
@@ -238,5 +238,6 @@ An operator moderates the presentation as well as the Q&A session.
 .. _Refinitiv: https://www.refinitiv.com/en
 .. _Refinitiv Events: https://www.refinitiv.com/en/financial-data/company-data/events/earnings-transcripts-briefs
 .. _spaCy: https://spacy.io/
+.. _BERTopic: https://maartengr.github.io/BERTopic/index.html
 
 .. end references
