@@ -47,6 +47,7 @@ jobs:
           make -C ./docs_source html
           cp -a ./docs_source/_build/html/. ./docs
           rm -rf ./docs_source/_build
+          rm -rf ./docs_source/_autosummary
 
       - name: Init new repo in dist folder and commit generated files
         run: |
