@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Infineac
+InFineac
 ========
 
 .. include:: ../README.rst
@@ -27,9 +27,23 @@ Documentation
 Package
 -------
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
    
    modules
+
+.. autosummary:: 
+
+   infineac.constants
+   infineac.file_loader
+   infineac.helper
+   infineac.pipeline
+   infineac.process_event
+   infineac.process_text
+   infineac.topic_extractor
+
+
+
+   
 
 Indices and tables
 ------------------
