@@ -70,6 +70,6 @@ html_theme_options = {
         "text": "InFineac",
         "alt_text": "InFineac",
     },
-    "show_nav_level": 3,
+    "show_nav_level": 2,
     "navigation_depth": 3,
 }
