@@ -14,18 +14,18 @@ import infineac.topic_extractor as topic_extractor
 
 
 def pipeline(
-    path,
+    path: str = None,
     preload_events: bool | str = False,
     preload_corpus: bool | str = False,
+    keywords=[],
+    nlp_model=None,
     year=constants.BASE_YEAR,
-    keywords={"russia": 1, "ukraine": 1},
     modifier_words=constants.MODIFIER_WORDS,
     sections="all",
     context_window_sentence=0,
     join_adjacent_sentences=True,
     subsequent_paragraphs=0,
     extract_answers=True,
-    nlp_model=None,
     lemmatize: bool = True,
     lowercase: bool = True,
     remove_stopwords: bool = True,
@@ -53,15 +53,18 @@ def pipeline(
     path : str
         Path to directory of earnings calls transcripts.
     preload_events : bool | str, default: False
-        Whether to load events from a file. If True, events are loaded from the
-        file `preload_events`.
+        Path to file containing events.
     preload_corpus : bool | str, default: False
-        Whether to load corpus from a file. If True, corpus is loaded from the
-        file `preload_corpus`.
-        keywords : list[str] | dict[str, int]
+        Path to file containing corpus.
+    keywords : list[str] | dict[str, int], default: None
         List of `keywords` to search for in the events and extract the
         corresponding passages. If `keywords` is a dictionary, the keys are the
         keywords.
+    nlp_model : spacy.lang, default: None
+        NLP model. lemmatize : bool, default: True If document should be
+        lemmatized.
+    year : int, default: contants.BASE_YEAR
+        Year to filter the events by.
     modifier_words : list[str], default: MODIFIER_WORDS
         List of `modifier_words`, which must not precede the keyword.
     sections : str, default: "all"
@@ -87,9 +90,6 @@ def pipeline(
         extracted.
     return_type : str, default: "list"
         The return type of the method. Either "str" or "list"
-    nlp_model : spacy.lang, default: None
-        NLP model. lemmatize : bool, default: True If document should be
-        lemmatized.
     lowercase : bool, default: True
         If document should be lowercased.
     remove_stopwords : bool, default: True
@@ -127,7 +127,16 @@ def pipeline(
     threshold : int, default: 1
         Threshold to remove documents from the corpus. If a document contains
         less words than the `threshold`, it is removed.
+
+    Returns
+    -------
+    Tuple[polars.DataFrame, polars.DataFrame]
+        Tuple of two polars DataFrames. The first DataFrame contains the
+        results for each event. The second DataFrame contains the results
+        aggregated for each company and year.
     """
+    if nlp_model is None:
+        raise ValueError("nlp_model must be provided.")
 
     if preload_corpus:
         preload_events = None
@@ -149,26 +158,27 @@ def pipeline(
         print(f"Creating corpus from {len(events_filtered)} events")
 
         corpus_df = process_event.events_to_corpus(
-            events_filtered,
-            keywords,
-            modifier_words,
-            sections,
-            context_window_sentence,
-            subsequent_paragraphs,
-            join_adjacent_sentences,
-            extract_answers,
-            nlp_model,
-            lemmatize,
-            lowercase,
-            remove_stopwords,
-            remove_punctuation,
-            remove_numeric,
-            remove_currency,
-            remove_space,
-            remove_keywords,
-            remove_names,
-            remove_strategies,
-            remove_additional_stopwords,
+            events=events_filtered,
+            keywords=keywords,
+            modifier_words=modifier_words,
+            sections=sections,
+            context_window_sentence=context_window_sentence,
+            join_adjacent_sentences=join_adjacent_sentences,
+            subsequent_paragraphs=subsequent_paragraphs,
+            extract_answers=extract_answers,
+            return_type="list",
+            nlp_model=nlp_model,
+            lemmatize=lemmatize,
+            lowercase=lowercase,
+            remove_stopwords=remove_stopwords,
+            remove_punctuation=remove_punctuation,
+            remove_numeric=remove_numeric,
+            remove_currency=remove_currency,
+            remove_space=remove_space,
+            remove_keywords=remove_keywords,
+            remove_names=remove_names,
+            remove_strategies=remove_strategies,
+            remove_additional_stopwords=remove_additional_stopwords,
         )
     else:
         corpus_df = helper.load_data(preload_corpus)
@@ -190,22 +200,31 @@ def pipeline(
     )
 
     topics_filled = helper.fill_list_from_mapping(topics, bridge, -2)
-    categories = topic_extractor.categorize_topics(
+    topics_categories = topic_extractor.categorize_topics(
         topic_model.get_topic_info()["Chain: Inspired - MMR"].to_list()
     )
-    categories = categories.hstack(
+    topics_categories = topics_categories.hstack(
         pl.DataFrame(topic_model.get_topic_info())[
             ["Count", "Name", "Representative_Docs"]
         ]
     )
-    topics_df = topic_extractor.map_topics_to_categories(topics_filled, categories)
-    categories.filter(pl.col("n") != -1).groupby(("category")).agg(
-        pl.col("Count").sum()
-    ).sort("Count", descending=True)
+    topics_categories_per_doc = topic_extractor.map_topics_to_categories(
+        topics_filled, topics_categories
+    )
+    categories_count = (
+        topics_categories.filter(pl.col("n") != -1)
+        .groupby(("category"))
+        .agg(pl.col("Count").sum())
+        .sort("Count", descending=True)
+    )
 
-    corpus_df = corpus_df.with_columns(pl.Series("year", corpus_df["date"].dt.year()))
-    corpus_df = corpus_df.hstack(topics_df)
+    results_df = corpus_df.with_columns(pl.Series("year", corpus_df["date"].dt.year()))
+    results_df = results_df.hstack(topics_categories_per_doc)
+    results_df = results_df.select(
+        pl.exclude(["keywords", "Count", "Name", "Representative_Docs"])
+    )
 
-    corpus_df_agg = topic_extractor.get_topics_per_company(corpus_df)
+    results_comp = topic_extractor.get_topics_per_company(results_df)
+    results_comp = results_comp.select(pl.exclude(["text", "processed_text", "id"]))
 
-    return corpus_df, corpus_df_agg
+    return results_df, results_comp, topics_categories, categories_count
