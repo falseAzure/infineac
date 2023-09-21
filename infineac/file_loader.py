@@ -211,6 +211,8 @@ def transform_unlisted_participants(
     conf_participants: list[str],
 ) -> dict[str, str | int]:
     """
+    Transform unlisted participants to be identified among the listed ones.
+
     As some speakers are not listed among the corporate or conference call
     participants, transforms these unlisted speakers names so that they can be
     either identified among the listed participants (corp_participants or
