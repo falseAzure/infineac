@@ -1,5 +1,6 @@
 """
 Extracting Financial Insights from Earnings Calls using NLP.
+
 InFineac is a Python package that extracts financial insights from earnings
 calls using NLP. Earnings calls are a rich source of information for investors,
 that are held quarterly by publicly traded companies. It uses the spaCy and
