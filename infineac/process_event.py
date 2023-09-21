@@ -499,7 +499,7 @@ def check_keywords_in_event(
 ) -> bool:
     """
     Function to check if keywords are present in the presentation or Q&A part
-    of an event. Calls :func:`process_text.keyword_search_exclude_threshold`.
+    of an event. Calls :func:`infineac.process_text.keyword_search_exclude_threshold`.
     """
     return process_text.keyword_threshold_search_exclude_mod(
         str(event["qa_collapsed"] + event["presentation_collapsed"]),
@@ -670,7 +670,7 @@ def events_to_corpus(
     Converts a list of events to a corpus (list of texts).
 
     This is a wrapper function that calls :func:`extract_passages_from_events`,
-    :func:corpus_list_to_dataframe` and
+    :func:`corpus_list_to_dataframe` and
     :func:`infineac.process_text.process_corpus`. This function is used to
     extract the corpus from the events and process it with the
     :mod:`infineac.process_text` module according to the given parameters.

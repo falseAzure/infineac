@@ -122,8 +122,8 @@ def pipeline(
         Number of topics to extract. If None, the number of topics is
         determined automatically.
     predefined_topics : bool | list[list[str]], default: None
-        Whether to use `predefined_topics`. If True, :func:constants.TOPICS is
-        used.
+        Whether to use `predefined_topics`. If True,
+        :func:`infineac.constants.TOPICS` is used.
     threshold : int, default: 1
         Threshold to remove documents from the corpus. If a document contains
         less words than the `threshold`, it is removed.
