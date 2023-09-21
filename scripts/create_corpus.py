@@ -45,7 +45,7 @@ def get_args():
         "--keywords",
         type=str,
         nargs="*",
-        default="russia ukraine",
+        default=["russia", "ukraine"],
         help="Keywords to filter events by"
         + "- all events not containing these keywords will be removed.",
     )
