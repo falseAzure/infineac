@@ -135,20 +135,20 @@ def fill_list_from_mapping(lst: list[any], mapping: list[int], value=None) -> li
 
 def save_data(data: dict, path: str = "events.lz4"):
     compression = re.sub(r".*\.", "", path)
-    """Method to save data. Compression can be lzma, lz4 or False."""
+    """Method to save data. File ending can be lzma, lz4 or pickle."""
     if compression == "lzma":
-        with lzma.open(path + ".xz", "wb") as f:
+        with lzma.open(path, "wb") as f:
             pickle.dump(data, f)
     if compression == "lz4" or compression:
-        with lz4.frame.open(path + ".lz4", "wb") as f:
+        with lz4.frame.open(path, "wb") as f:
             pickle.dump(data, f)
     else:
-        with open(path + ".pickle", "wb") as f:
+        with open(path, "wb") as f:
             pickle.dump(data, f)
 
 
 def load_data(path: str):
-    """Method to load data. Compression can be lzma, lz4 or False."""
+    """Method to load data. File ending can be lzma, lz4 or pickle."""
     compression = re.sub(r".*\.", "", path)
     if compression == "lzma":
         with lzma.open(path, "rb") as f:
