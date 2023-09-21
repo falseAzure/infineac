@@ -58,12 +58,12 @@ import infineac.process_text as process_text
 def extract_passages_from_presentation(
     presentation: list[dict[str, int | str]] | None,
     keywords: list[str] | dict[str, int],
+    nlp_model,
     modifier_words: list[str] = constants.MODIFIER_WORDS,
     context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
     return_type: str = "list",
-    nlp_model=None,
 ) -> str | list[list[list[str]]]:
     """
     Extracts important passages from the presentation section of an event.
@@ -83,6 +83,8 @@ def extract_passages_from_presentation(
         List of `keywords` to search for in the presentation and extract the
         corresponding passages. If `keywords` is a dictionary, the keys are the
         keywords.
+    nlp_model : spacy.lang
+        NLP model.
     modifier_words : list[str], default: MODIFIER_WORDS
         List of `modifier_words`, which must not precede the keyword.
     context_window_sentence : tuple[int, int] | int, default: 0
@@ -104,8 +106,6 @@ def extract_passages_from_presentation(
         keyword.
     return_type : str, default: "list"
         The return type of the method. Either "str" or "list"
-    nlp_model : spacy.lang, default: None
-        NLP model.
 
     Returns
     -------
@@ -130,15 +130,15 @@ def extract_passages_from_presentation(
         else:
             paragraphs = re.split("\n", part["text"])
             new_passages = process_text.extract_passages_from_paragraphs(
-                paragraphs,
-                keywords,
-                modifier_words,
-                context_window_sentence,
-                join_adjacent_sentences,
-                subsequent_paragraphs,
-                return_type,
-                keyword_n_paragraphs_above,
-                nlp_model,
+                paragraphs=paragraphs,
+                keywords=keywords,
+                nlp_model=nlp_model,
+                modifier_words=modifier_words,
+                context_window_sentence=context_window_sentence,
+                join_adjacent_sentences=join_adjacent_sentences,
+                subsequent_paragraphs=subsequent_paragraphs,
+                return_type=return_type,
+                keyword_n_paragraphs_above=keyword_n_paragraphs_above,
             )
             if new_passages:
                 if return_type == "list":
@@ -152,13 +152,13 @@ def extract_passages_from_presentation(
 def extract_passages_from_qa(  # noqa: C901
     qa: list[dict[str, int | str]],
     keywords: list[str] | dict[str, int],
+    nlp_model,
     modifier_words: list[str] = constants.MODIFIER_WORDS,
     context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
     extract_answers: bool = False,
     return_type: str = "list",
-    nlp_model=None,
 ) -> str | list[list[list[str]]]:
     """
     Extracts important passages, like :func:`extract_passages_from_presentation`, but
@@ -179,6 +179,8 @@ def extract_passages_from_qa(  # noqa: C901
         List of `keywords` to search for in the Q&A and extract the
         corresponding passages. If `keywords` is a dictionary, the keys are the
         keywords.
+    nlp_model : spacy.lang
+        NLP model.
     modifier_words : list[str], default: MODIFIER_WORDS
         List of `modifier_words`, which must not precede the keyword.
     context_window_sentence : tuple[int, int] | int, default: 0
@@ -203,8 +205,6 @@ def extract_passages_from_qa(  # noqa: C901
         extracted.
     return_type : str, default: "list"
         The return type of the method. Either "str" or "list"
-    nlp_model : spacy.lang, default: None
-        NLP model.
 
     Returns
     -------
@@ -247,15 +247,15 @@ def extract_passages_from_qa(  # noqa: C901
 
         paragraphs = re.split("\n", part["text"])
         new_passages = process_text.extract_passages_from_paragraphs(
-            paragraphs,
-            keywords,
-            modifier_words,
-            context_window_sentence,
-            join_adjacent_sentences,
-            subsequent_paragraphs,
-            return_type,
-            keyword_n_paragraphs_above,
-            nlp_model,
+            paragraphs=paragraphs,
+            keywords=keywords,
+            nlp_model=nlp_model,
+            modifier_words=modifier_words,
+            context_window_sentence=context_window_sentence,
+            join_adjacent_sentences=join_adjacent_sentences,
+            subsequent_paragraphs=subsequent_paragraphs,
+            return_type=return_type,
+            keyword_n_paragraphs_above=keyword_n_paragraphs_above,
         )
 
         if new_passages:
@@ -314,6 +314,7 @@ def check_if_keyword_align_qa(
 def extract_passages_from_event(
     event: dict,
     keywords: list[str] | dict[str, int],
+    nlp_model,
     modifier_words: list[str] = constants.MODIFIER_WORDS,
     sections: str = "all",
     context_window_sentence: tuple[int, int] | int = 0,
@@ -321,7 +322,6 @@ def extract_passages_from_event(
     subsequent_paragraphs: int = 0,
     extract_answers: bool = False,
     return_type: str = "list",
-    nlp_model=None,
 ) -> str | list[list[list[list[str]]]]:
     """
     Wrapper function to extract important passages from an event: comprises of
@@ -335,6 +335,8 @@ def extract_passages_from_event(
         List of `keywords` to search for in the event and extract the
         corresponding passages. If `keywords` is a dictionary, the keys are the
         keywords.
+    nlp_model : spacy.lang
+        NLP model.
     modifier_words : list[str], default: MODIFIER_WORDS
         List of `modifier_words`, which must not precede the keyword.
     sections : str, default: "all"
@@ -362,8 +364,6 @@ def extract_passages_from_event(
         extracted.
     return_type : str, default: "list"
         The return type of the method. Either "str" or "list"
-    nlp_model : spacy.lang, default: None
-        NLP model.
 
     Returns
     -------
@@ -374,14 +374,14 @@ def extract_passages_from_event(
     """
     if sections in ["all", "presentation"]:
         presentation_extracted = extract_passages_from_presentation(
-            event["presentation"],
-            keywords,
-            modifier_words,
-            context_window_sentence,
-            join_adjacent_sentences,
-            subsequent_paragraphs,
-            return_type,
-            nlp_model,
+            presentation=event["presentation"],
+            keywords=keywords,
+            nlp_model=nlp_model,
+            modifier_words=modifier_words,
+            context_window_sentence=context_window_sentence,
+            join_adjacent_sentences=join_adjacent_sentences,
+            subsequent_paragraphs=subsequent_paragraphs,
+            return_type=return_type,
         )
 
         # for participant in event["corp_participants"] + event["conf_participants"]:
@@ -391,18 +391,19 @@ def extract_passages_from_event(
         presentation_extracted = ""
     if sections in ["all", "qa"]:
         qa_extracted = extract_passages_from_qa(
-            event["qa"],
-            keywords,
-            modifier_words,
-            context_window_sentence,
-            join_adjacent_sentences,
-            subsequent_paragraphs,
-            extract_answers,
-            return_type,
-            nlp_model,
+            qa=event["qa"],
+            keywords=keywords,
+            nlp_model=nlp_model,
+            modifier_words=modifier_words,
+            context_window_sentence=context_window_sentence,
+            join_adjacent_sentences=join_adjacent_sentences,
+            subsequent_paragraphs=subsequent_paragraphs,
+            extract_answers=extract_answers,
+            return_type=return_type,
         )
     else:
         qa_extracted = ""
+
     if return_type == "str":
         doc = presentation_extracted + "/n" + qa_extracted
     elif return_type == "list":
@@ -413,6 +414,7 @@ def extract_passages_from_event(
 def extract_passages_from_events(
     events: list[dict],
     keywords: list[str] | dict[str, int],
+    nlp_model,
     modifier_words: list[str] = constants.MODIFIER_WORDS,
     sections: str = "all",
     context_window_sentence: tuple[int, int] | int = 0,
@@ -420,7 +422,6 @@ def extract_passages_from_events(
     subsequent_paragraphs: int = 0,
     extract_answers: bool = False,
     return_type: str = "list",
-    nlp_model=None,
 ) -> list[str] | list[list[list[list[list[str]]]]]:
     """
     Wrapper function to extract important paragraphs from a list of events.
@@ -434,6 +435,8 @@ def extract_passages_from_events(
         List of `keywords` to search for in the events and extract the
         corresponding passages. If `keywords` is a dictionary, the keys are the
         keywords.
+    nlp_model : spacy.lang
+        NLP model.
     modifier_words : list[str], default: MODIFIER_WORDS
         List of `modifier_words`, which must not precede the keyword.
     sections : str, default: "all"
@@ -461,8 +464,6 @@ def extract_passages_from_events(
         extracted.
     return_type : str, default: "list"
         The return type of the method. Either "str" or "list"
-    nlp_model : spacy.lang, default: None
-        NLP model.
 
     Returns
     -------
@@ -476,16 +477,16 @@ def extract_passages_from_events(
     for event in tqdm(events, desc="Events", total=len(events)):
         docs.append(
             extract_passages_from_event(
-                event,
-                keywords,
-                modifier_words,
-                sections,
-                context_window_sentence,
-                join_adjacent_sentences,
-                subsequent_paragraphs,
-                extract_answers,
-                return_type,
-                nlp_model,
+                event=event,
+                keywords=keywords,
+                nlp_model=nlp_model,
+                modifier_words=modifier_words,
+                sections=sections,
+                context_window_sentence=context_window_sentence,
+                join_adjacent_sentences=join_adjacent_sentences,
+                subsequent_paragraphs=subsequent_paragraphs,
+                extract_answers=extract_answers,
+                return_type=return_type,
             )
         )
     return docs
@@ -644,7 +645,8 @@ def extract_infos_from_events(events: list[dict]) -> pl.DataFrame:
 
 def events_to_corpus(
     events: list[dict],
-    keywords: list[str] | dict[str, int],
+    nlp_model,
+    keywords: list[str] | dict[str, int] = [],
     modifier_words: list[str] = constants.MODIFIER_WORDS,
     sections: str = "all",
     context_window_sentence: tuple[int, int] | int = 0,
@@ -652,7 +654,6 @@ def events_to_corpus(
     subsequent_paragraphs: int = 0,
     extract_answers: bool = False,
     return_type: str = "list",
-    nlp_model=None,
     lemmatize: bool = True,
     lowercase: bool = True,
     remove_stopwords: bool = True,
@@ -678,7 +679,10 @@ def events_to_corpus(
     ----------
     events : list[dict]
          Lists of dicts containing the events.
-    keywords : list[str] | dict[str, int]
+    nlp_model : spacy.lang, default: None
+        NLP model. lemmatize : bool, default: True If document should be
+        lemmatized.
+    keywords : list[str] | dict[str, int], default: []
         List of `keywords` to search for in the events and extract the
         corresponding passages. If `keywords` is a dictionary, the keys are the
         keywords.
@@ -707,9 +711,6 @@ def events_to_corpus(
         extracted.
     return_type : str, default: "list"
         The return type of the method. Either "str" or "list"
-    nlp_model : spacy.lang, default: None
-        NLP model. lemmatize : bool, default: True If document should be
-        lemmatized.
     lowercase : bool, default: True
         If document should be lowercased.
     remove_stopwords : bool, default: True
@@ -739,16 +740,16 @@ def events_to_corpus(
         paragraph - sentence, the original text and the processed text.
     """
     corpus_raw = extract_passages_from_events(
-        events,
-        keywords,
-        modifier_words,
-        sections,
-        context_window_sentence,
-        join_adjacent_sentences,
-        subsequent_paragraphs,
-        extract_answers,
-        return_type,
-        nlp_model,
+        events=events,
+        keywords=keywords,
+        nlp_model=nlp_model,
+        modifier_words=modifier_words,
+        sections=sections,
+        context_window_sentence=context_window_sentence,
+        join_adjacent_sentences=join_adjacent_sentences,
+        subsequent_paragraphs=subsequent_paragraphs,
+        extract_answers=extract_answers,
+        return_type=return_type,
     )
     corpus_df = corpus_list_to_dataframe(corpus_raw)
     corpus_raw_list = corpus_df["text"].to_list()
@@ -782,17 +783,17 @@ def events_to_corpus(
     assert len(remove_names_list) == len(corpus_df)
 
     docs = process_text.process_corpus(
-        corpus_raw_list,
-        nlp_model,
-        lemmatize,
-        lowercase,
-        remove_stopwords,
-        remove_punctuation,
-        remove_numeric,
-        remove_currency,
-        remove_space,
-        remove_additional_words_part,
-        remove_names_list,
+        corpus=corpus_raw_list,
+        nlp_model=nlp_model,
+        lemmatize=lemmatize,
+        lowercase=lowercase,
+        remove_stopwords=remove_stopwords,
+        remove_punctuation=remove_punctuation,
+        remove_numeric=remove_numeric,
+        remove_currency=remove_currency,
+        remove_space=remove_space,
+        remove_additional_words_part=remove_additional_words_part,
+        remove_specific_stopwords=remove_names_list,
     )
     docs_joined = [process_text.list_to_string(doc) for doc in docs]
 

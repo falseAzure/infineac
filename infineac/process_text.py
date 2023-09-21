@@ -125,12 +125,12 @@ def keyword_threshold_search_exclude_mod(
 
 def extract_keyword_sentences_window(  # noqa: C901
     text: str,
-    keywords: list[str] | dict[str, int] = [],
+    keywords: list[str] | dict[str, int],
+    nlp_model,
     modifier_words: list[str] = constants.MODIFIER_WORDS,
     context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
     return_type: str = "list",
-    nlp_model=None,
 ) -> str | list[str]:
     """
     Extracts sentences with specific `keywords` within a text as well as the
@@ -143,6 +143,8 @@ def extract_keyword_sentences_window(  # noqa: C901
     keywords : list[str] | dict[str, int], default: []
         List of `keywords` to be searched for in the text and to extract the
         sentences. If `keywords` is a dictionary, the keys are the keywords.
+    nlp_model : spacy.lang
+        NLP model.
     modifier_words : list[str], default: MODIFIER_WORDS
         List of `modifier_words`, which must not precede the keyword.
     context_window_sentence : tuple[int, int] | int, default: 0
@@ -161,8 +163,6 @@ def extract_keyword_sentences_window(  # noqa: C901
             to `True`.
     return_type : str, default: "list"
         The return type of the method. Either "str" or "list"
-    nlp_model : spacy.lang, default: None
-        NLP model.
 
     Returns
     -------
@@ -175,11 +175,7 @@ def extract_keyword_sentences_window(  # noqa: C901
     ValueError
         - If `context_window_sentence` is neither an integer nor a list of
           length 2.
-    ValueError
-        - If `nlp_model` is not a spaCy NLP model.
     """
-    if nlp_model is None:
-        raise ValueError("No spaCy NLP model provided.")
     if str == "":
         print("Empty text.")
         return ""
@@ -207,11 +203,11 @@ def extract_keyword_sentences_window(  # noqa: C901
         ):
             keyword_sent_idx.append(idx)
     keyword_sent_idx = add_context_integers(
-        keyword_sent_idx,
-        context_window_sentence[0],
-        context_window_sentence[1],
-        0,
-        len(sentences) - 1,
+        lst=keyword_sent_idx,
+        m=context_window_sentence[0],
+        n=context_window_sentence[1],
+        min_int=0,
+        max_int=len(sentences) - 1,
     )
     # print(keyword_sent_idx)
 
@@ -233,13 +229,13 @@ def extract_keyword_sentences_window(  # noqa: C901
 def extract_passages_from_paragraphs(  # noqa: C901
     paragraphs: list[str],
     keywords: list[str] | dict[str, int],
+    nlp_model,
     modifier_words: list[str] = constants.MODIFIER_WORDS,
     context_window_sentence: tuple[int, int] | int = 0,
     join_adjacent_sentences: bool = True,
     subsequent_paragraphs: int = 0,
     return_type: str = "list",
     keyword_n_paragraphs_above: int = -1,
-    nlp_model=None,
 ) -> str | list[list[str]]:
     """
     Loops through `paragraphs` and extracts the sentences that contain a
@@ -256,6 +252,8 @@ def extract_passages_from_paragraphs(  # noqa: C901
     keywords : list[str] | dict[str, int]
         List of `keywords` to search for in the paragraphs. If `keywords` is a
         dictionary, the keys are the keywords.
+    nlp_model : spacy.lang
+        NLP model.
     modifier_words : list[str], default: MODIFIER_WORDS
         List of `modifier_words`, which must not precede the keyword.
     context_window_sentence : tuple[int, int] | int, default: 0
@@ -280,8 +278,6 @@ def extract_passages_from_paragraphs(  # noqa: C901
     keyword_n_paragraphs_above : int, default: -1
         Number of paragraphs above the current paragraph where the keyword is
         found.
-    nlp_model : spacy.lang, default: None
-        NLP model.
 
     Returns
     -------
@@ -307,13 +303,13 @@ def extract_passages_from_paragraphs(  # noqa: C901
         if any(keyword in paragraph.lower() for keyword in keywords):
             keyword_n_paragraphs_above = 0
             passage = extract_keyword_sentences_window(
-                paragraph,
-                keywords,
-                modifier_words,
-                context_window_sentence,
-                join_adjacent_sentences,
-                return_type,
-                nlp_model,
+                text=paragraph,
+                keywords=keywords,
+                nlp_model=nlp_model,
+                modifier_words=modifier_words,
+                context_window_sentence=context_window_sentence,
+                join_adjacent_sentences=join_adjacent_sentences,
+                return_type=return_type,
             )
 
             if return_type == "list":
@@ -371,8 +367,8 @@ def keyword_threshold_search_include_mod(
 def extract_keyword_sentences_preceding_mod(
     text: str,
     keywords: list[str],
+    nlp_model,
     modifier_words: list[str] = constants.MODIFIER_WORDS,
-    nlp_model=None,
 ) -> str | list[str]:
     """
     Extracts sentences with specific `keywords` and a `modifier_word` preceding
@@ -387,23 +383,16 @@ def extract_keyword_sentences_preceding_mod(
     keywords : list[str], default: []
         List of `keywords` to be searched for in the text and to extract the
         sentences.
+    nlp_model : spacy.lang
+        NLP model.
     modifier_words : list[str], default: MODIFIER_WORDS
         List of `modifier_words` which must precede the keyword.
-    nlp_model : spacy.lang, default: None
-        NLP model.
 
     Returns
     -------
     str | list[str]
         The extracted sentences as a list of passages.
-
-    Raises
-    ------
-    ValueError
-        - If `nlp_model` is not a spaCy NLP model.
     """
-    if nlp_model is None:
-        raise ValueError("No spaCy NLP model provided.")
     if str == "":
         print("Empty text.")
         return ""
@@ -570,27 +559,20 @@ def process_text(
     -------
     list[str]:
         The processed document as a list of tokens.
-
-    Raises
-    ------
-    ValueError
-        If `nlp_model` is not a spaCy NLP model.
     """
-    if nlp_model is None:
-        raise ValueError("No spaCy NLP model provided.")
     text_nlp = nlp_model(text)
 
     return process_text_nlp(
-        text_nlp,
-        lemmatize,
-        lowercase,
-        remove_stopwords,
-        remove_punctuation,
-        remove_numeric,
-        remove_currency,
-        remove_space,
-        remove_additional_words_part,
-        remove_additional_words_whole,
+        text_nlp=text_nlp,
+        lemmatize=lemmatize,
+        lowercase=lowercase,
+        remove_stopwords=remove_stopwords,
+        remove_punctuation=remove_punctuation,
+        remove_numeric=remove_numeric,
+        remove_currency=remove_currency,
+        remove_space=remove_space,
+        remove_additional_words_part=remove_additional_words_part,
+        remove_additional_words_whole=remove_additional_words_whole,
     )
 
 
@@ -661,16 +643,16 @@ def process_corpus(
             remove_additional_words_whole = remove_specific_stopwords[idx_doc]
         docs.append(
             process_text_nlp(
-                doc,
-                lemmatize,
-                lowercase,
-                remove_stopwords,
-                remove_punctuation,
-                remove_numeric,
-                remove_currency,
-                remove_space,
-                remove_additional_words_part,
-                remove_additional_words_whole,
+                text_nlp=doc,
+                lemmatize=lemmatize,
+                lowercase=lowercase,
+                remove_stopwords=remove_stopwords,
+                remove_punctuation=remove_punctuation,
+                remove_numeric=remove_numeric,
+                remove_currency=remove_currency,
+                remove_space=remove_space,
+                remove_additional_words_part=remove_additional_words_part,
+                remove_additional_words_whole=remove_additional_words_whole,
             )
         )
     return docs
