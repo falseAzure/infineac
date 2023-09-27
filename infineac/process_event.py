@@ -554,7 +554,7 @@ def filter_events(
     return events_filtered
 
 
-def excluded_sentences_by_mod_words(events, keywords=["russia"], nlp_model=None):
+def excluded_sentences_by_mod_words(events, keywords, nlp_model):
     """Extracts the sentences that are excluded by the modifier words. Calls
     on :func:`infineac.process_text.extract_keyword_sentences_preceding_mod`."""
     excluded_sentences = []
@@ -572,7 +572,7 @@ def excluded_sentences_by_mod_words(events, keywords=["russia"], nlp_model=None)
 
 
 def test_positions(events: list[dict]):
-    """Checks if all positions of the speakers of the given events are valid."""
+    """Checks if all positions of the speakers of the given `events` are valid."""
     positions = []
     for i, event in enumerate(events):
         if event["qa"] is not None:
@@ -587,8 +587,8 @@ def test_positions(events: list[dict]):
 
 
 def create_participants_to_remove(event: dict) -> list[str]:
-    """Creates a list containing the names of the participants to be later
-    removed during the text processing."""
+    """Creates a list containing the names of the participants of an `event` to
+    be later removed during the text processing."""
     names = []
     for participant in event["corp_participants"] + event["conf_participants"]:
         names += participant["name"].split(" ")
@@ -596,7 +596,7 @@ def create_participants_to_remove(event: dict) -> list[str]:
 
 
 def corpus_list_to_dataframe(corpus: list[list[list[list[list[str]]]]]) -> pl.DataFrame:
-    """Converts a corpus (nested list of texts) to a polars DataFrame with
+    """Converts a `corpus` (nested list of texts) to a polars DataFrame with
     indices, indicating the position of the texts in the corpus: event -
     presentation or qa - part - paragraph - sentence."""
 
