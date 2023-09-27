@@ -138,7 +138,7 @@ def pipeline(
     if nlp_model is None:
         raise ValueError("nlp_model must be provided.")
 
-    if preload_corpus:
+    if preload_corpus is not False:
         preload_events = None
 
     if preload_events is False:
@@ -146,8 +146,10 @@ def pipeline(
         print(f"Found {len(files)} files\n")
         print(f"Loading files from {files[0]} to {files[len(files) - 1]}")
         events = file_loader.load_files_from_xml(files[0:500])
-    elif preload_events:
+    elif type(preload_events) == str:
         events = helper.load_data(preload_events)
+    elif type(preload_events) == list:
+        events = preload_events
 
     if preload_corpus is False:
         print(f"Filtering events by year {year} and keywords {keywords}")
@@ -180,8 +182,10 @@ def pipeline(
             remove_strategies=remove_strategies,
             remove_additional_stopwords=remove_additional_stopwords,
         )
-    else:
+    elif type(preload_corpus) == str:
         corpus_df = helper.load_data(preload_corpus)
+    elif type(preload_corpus) == pl.dataframe.frame.DataFrame:
+        corpus_df = preload_corpus
 
     corpus_df = process_text.get_strategies(dataframe=corpus_df)
 
