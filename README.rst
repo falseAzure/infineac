@@ -50,7 +50,7 @@ reflected in the package.
 
     pip install -e .
 
-All the requirements are specified in the ``projcet.toml`` file with the needed
+All the requirements are specified in the ``pyprojcet.toml`` file with the needed
 versions.
 
 .. end install
@@ -146,18 +146,22 @@ File structure
     ┃ ┗ 📜infineac.ipynb
     ┣ 📂infineac
     ┃ ┣ 📜__init__.py
+    ┃ ┣ 📜constants.py
     ┃ ┣ 📜file_loader.py
     ┃ ┣ 📜helper.py
+    ┃ ┣ 📜pipeline.py
     ┃ ┣ 📜process_event.py
     ┃ ┣ 📜process_text.py
     ┃ ┗ 📜topic_extractor.py
     ┣ 📂scripts
-    ┃ ┗ 📜extract_topics.py
+    ┃ ┣ 📜create_corpus.py
+    ┃ ┣ 📜extract_topics.py
+    ┃ ┗ 📜load_save_transcripts.py
     ┣ 📂tests
     ┃ ┗ 📜test.py
     ┣ 📜.gitignore
     ┣ 📜LICENSE
-    ┣ 📜project.toml
+    ┣ 📜pyproject.toml
     ┣ 📜README.rst
     ┗ 📜tox.ini
 
@@ -174,8 +178,11 @@ File structure
   of this folder is the following:
 
   * ``__init__.py``: Initializes the ``infineac`` package. 
+  * ``constants.py``: Contains the constants used throughout the project.
   * ``file_loader``: Contains the functions for loading and initially
-    preprocessing the earnings calls from the xml-files-
+    preprocessing the earnings calls from the xml-files.
+  * ``helper.py``: Contains the helper functions used throughout the project.
+  * ``pipeline.py``: Contains the functions for the entire pipeline of the project.
   * ``process_event.py``: Contains all the necessary functions for processing the
     earnings calls events.
   * ``process_text.py``: Contains all the necessary functions for the processing
@@ -183,10 +190,10 @@ File structure
   * ``topic_extractor.py``: Contains the functions for extracting the topics from
     the earnings calls.
 
-* ``scripts``: This folder contains the scripts that are used to extract the
-  topics of the earnings calls.
+* ``scripts``: This folder contains the scripts that are used to load the
+  transcripts, preprocess the corpus and extract the topics of the earnings calls.
 * ``tests``: Contains the unit tests for the code.
-* ``project.toml``: Contains all the information about the installation of this
+* ``pyproject.toml``: Contains all the information about the installation of this
   repository. You can use this file to install this repository as a package in
   your conda environment.
 
