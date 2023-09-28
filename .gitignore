@@ -165,6 +165,7 @@ orbis_overview_files/
 infineac_coref/neuralcoref/
 literature/
 docs/
+docs_source/_autosummary
 
 .DS_Store
 .Rproj.user
