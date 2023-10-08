@@ -756,9 +756,9 @@ def events_to_corpus(
 
     remove_additional_words_part = []
     if remove_keywords is True:
-        if type(keywords) == list:
+        if type(keywords) is list:
             remove_additional_words_part += keywords
-        if type(keywords) == dict:
+        if type(keywords) is dict:
             remove_additional_words_part += list(keywords.keys())
     if remove_additional_stopwords:
         if remove_additional_stopwords is True:

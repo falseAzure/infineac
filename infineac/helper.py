@@ -71,7 +71,7 @@ def add_context_integers(  # noqa: C901
         raise ValueError("n and m must be >= -1.")
     if not all(num >= 0 for num in lst):
         raise ValueError("All integers in lst must be positive.")
-    if type(n) != int or type(m) != int:
+    if type(n) is not int or type(m) is not int:
         raise TypeError("n and m must be integers.")
 
     if lst == []:

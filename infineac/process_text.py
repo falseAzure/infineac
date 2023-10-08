@@ -103,7 +103,7 @@ def keyword_threshold_search_exclude_mod(
         True if the text contains a keyword and does not contain a modifier
         word preceding it. False otherwise.
     """
-    if type(keywords) == list:
+    if type(keywords) is list:
         keywords_orig = keywords
         keywords = {}
         for keyword in keywords_orig:
@@ -182,11 +182,11 @@ def extract_keyword_sentences_window(  # noqa: C901
     if not any(keyword in text.lower() for keyword in keywords):
         print("No keyword found in text.")
         return ""
-    if type(keywords) == dict:
+    if type(keywords) is dict:
         keywords = list(keywords.keys())
-    if type(context_window_sentence) == int:
+    if type(context_window_sentence) is int:
         context_window_sentence = [context_window_sentence, context_window_sentence]
-    elif type(context_window_sentence) != list or len(context_window_sentence) != 2:
+    elif type(context_window_sentence) is not list or len(context_window_sentence) != 2:
         raise ValueError("Context window must be an integer or a list of length 2.")
     if context_window_sentence[0] > 0 or context_window_sentence[1] > 0:
         join_adjacent_sentences = True
@@ -673,7 +673,7 @@ def get_strategies(
     """Searches for the `strategy_keywords` in a list of strings or DataFrame
     and returns a boolean list or DataFrame with the results (for each strategy).
     """
-    if type(dataframe) == pl.dataframe.frame.DataFrame:
+    if type(dataframe) is pl.dataframe.frame.DataFrame:
         lst = list(dataframe["text"].to_list())
     strategies = {}
     for strategy in tqdm(
@@ -687,7 +687,7 @@ def get_strategies(
             )
         strategies[strategy] = list_strategy
 
-    if type(dataframe) == pl.dataframe.frame.DataFrame:
+    if type(dataframe) is pl.dataframe.frame.DataFrame:
         for strategy in strategies.keys():
             dataframe = dataframe.with_columns(
                 pl.Series(

@@ -71,7 +71,7 @@ def bert_advanced(
     seed_topic_list = None
     if predefined_topics is True:
         seed_topic_list = list(constants.TOPICS.values())
-    elif type(predefined_topics) == list:
+    elif type(predefined_topics) is list:
         seed_topic_list = predefined_topics
 
     if umap_model is None:

@@ -146,9 +146,9 @@ def pipeline(
         print(f"Found {len(files)} files\n")
         print(f"Loading files from {files[0]} to {files[len(files) - 1]}")
         events = file_loader.load_files_from_xml(files[0:500])
-    elif type(preload_events) == str:
+    elif type(preload_events) is str:
         events = helper.load_data(preload_events)
-    elif type(preload_events) == list:
+    elif type(preload_events) is list:
         events = preload_events
 
     if preload_corpus is False:
@@ -182,9 +182,9 @@ def pipeline(
             remove_strategies=remove_strategies,
             remove_additional_stopwords=remove_additional_stopwords,
         )
-    elif type(preload_corpus) == str:
+    elif type(preload_corpus) is str:
         corpus_df = helper.load_data(preload_corpus)
-    elif type(preload_corpus) == pl.dataframe.frame.DataFrame:
+    elif type(preload_corpus) is pl.dataframe.frame.DataFrame:
         corpus_df = preload_corpus
 
     corpus_df = process_text.get_strategies(dataframe=corpus_df)
