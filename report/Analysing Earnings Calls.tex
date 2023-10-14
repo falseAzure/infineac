@@ -1,0 +1,113 @@
+%% Document Type
+\documentclass[a4paper, 10pt, xcolor=dvipsnames]{article} % use option titlepage to get the title on a page of its own.
+\pagenumbering{gobble} % define page numbering. [gobble] omits any numbering.
+
+%% Packages
+% Document Layout
+\usepackage[left=2.5cm,right=2.5cm,top=1.5cm,bottom=2cm]{geometry}   % to change margins
+\usepackage{titling}             % Uncomment both to   
+\setlength{\droptitle}{-2cm}     % change title position 
+\date{\vspace{-9ex}} % delete date - comment to insert date
+
+% Language
+\usepackage[greek,french,ngerman, english]{babel} % Change language \selectlanguage{languageA}. Last listed language defines document
+
+
+% Different font and encoding
+% \usepackage[LGR,T1]{fontenc} % Extended Cork (EC) fonts in T1 encoding contains letters and punctuation characters for most of the European languages using Latin script. see: https://tex.stackexchange.com/questions/664/why-should-i-use-usepackaget1fontenc
+\usepackage{lmodern} % Different font: better for accents and ß
+\usepackage[utf8]{inputenc} % Manages the input. The utf8 encoding used by inputenc only defines the characters that are actually provided by the fonts used.
+% \usepackage{tgbonum} % More fonts
+
+
+% Graphics
+\usepackage{graphicx}
+\graphicspath{ {img/} } % set the folder of the images
+% \includegraphics[options]{overleaf-logo}
+\usepackage{subcaption} % group images > Support for sub-captions
+\usepackage{wrapfig} % Produces figures which text can flow around
+
+
+% Caption of Floats (images, tables etc)
+\usepackage{caption}
+\captionsetup{justification   = raggedright,
+              singlelinecheck = false}
+% control space before and after image/table
+\setlength{\belowcaptionskip}{-20pt}
+\captionsetup{belowskip=0pt}
+
+
+% Highlighting
+\usepackage[dvipsnames]{xcolor} % for colors see: https://www.namsu.de/Extra/pakete/Xcolor.html and https://en.wikibooks.org/wiki/LaTeX/Colors 
+% \textcolor{color}{text}, \colorbox{color}{text}
+
+
+% References
+\usepackage{hyperref}
+% e.g.: \href{}{}
+\usepackage{cleveref} % more complex package to manage references - only works with numbered items
+% e.g. \label{itm:d1} > \cref{itm:d1}
+\hypersetup{
+    colorlinks = false,
+    linkbordercolor = {OliveGreen}
+}
+
+
+% Complex and long tables
+% https://tex.stackexchange.com/questions/35293/p-m-and-b-columns-in-tables
+% https://de.wikibooks.org/wiki/LaTeX-W%C3%B6rterbuch:_tabular
+\usepackage{longtable} % tabular for tables across multiple pages
+\usepackage{tabularx} % tabulars with flexible column width
+\usepackage{multicol} % multicolumn environment
+\usepackage{booktabs} % better looking tables
+
+
+% Design trees and forests
+\usepackage{tikz-qtree, tikz-qtree-compat} % https://www.bu.edu/math/files/2013/08/tikzpgfmanual.pdf
+\usetikzlibrary{positioning}
+\usepackage{forest}
+\usepackage{mdframed} % framed environments that can split at page boundaries
+
+
+% Packages to represent Code 
+% for algorithms
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+
+% continuation indent patch for algorithms
+\newlength{\continueindent}
+\setlength{\continueindent}{2em}
+\usepackage{etoolbox}
+\makeatletter
+\newcommand*{\ALG@customparshape}{\parshape 2 \leftmargin \linewidth \dimexpr\ALG@tlm+\continueindent\relax \dimexpr\linewidth+\leftmargin-\ALG@tlm-\continueindent\relax}
+\apptocmd{\ALG@beginblock}{\ALG@customparshape}{}{\errmessage{failed to patch}}
+
+
+% another packages for algorithms
+\usepackage{listings}
+\lstset{
+  language=SQL,
+  tabsize=3,
+  basicstyle=\small,
+  breaklines=true
+}
+% e.g. \begin{lstlisting} Code \end{lstlisting}
+
+
+%% Metadata 
+\title{Analysing Earnings Calls
+% \vspace{0.25em}
+% \\ \large Subtitle
+}
+\author{Fabian Gabelberger}
+\date{\today}
+
+
+%% Document
+\begin{document}
+\maketitle
+\vspace{2em}
+
+Text
+\end{document}
