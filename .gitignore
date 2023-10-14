@@ -175,3 +175,8 @@ docs_source/_autosummary
 ideas.md
 *.lz4
 notebooks/playground.ipynb
+*.gz
+*.out
+*.fls
+*.fdb_latexmk
+*.aux
