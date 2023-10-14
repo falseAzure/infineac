@@ -18,7 +18,7 @@ Examples
                 nlp_model=nlp)
 >>> docs = process_text.remove_sentences_under_threshold(
                 corpus["processed_text"].tolist())
->>> topics, probs = topic_extractor.bert_advanced(docs)
+>>> topics, probabilities = topic_extractor.bert_advanced(docs)
 
 
 """
