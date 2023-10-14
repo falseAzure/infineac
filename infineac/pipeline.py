@@ -63,7 +63,7 @@ def pipeline(
     nlp_model : spacy.lang, default: None
         NLP model. lemmatize : bool, default: True If document should be
         lemmatized.
-    year : int, default: contants.BASE_YEAR
+    year : int, default: constants.BASE_YEAR
         Year to filter the events by.
     modifier_words : list[str], default: MODIFIER_WORDS
         List of `modifier_words`, which must not precede the keyword.
@@ -193,7 +193,7 @@ def pipeline(
         corpus_df["processed_text"].to_list(), threshold
     )
 
-    topic_model, topics, probs = topic_extractor.bert_advanced(
+    topic_model, topics, _ = topic_extractor.bert_advanced(
         corpus,
         representation_model,
         embedding_model,
