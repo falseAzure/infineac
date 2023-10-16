@@ -221,6 +221,7 @@ an indication about the focus of the earnings call and the respective company.
 Although these insights might be used for a plentitude of tasks, this project
 centers around the following question: **How are companies effected by the
 Russian invasion into the Ukraine?**
+Test
 
 
 
