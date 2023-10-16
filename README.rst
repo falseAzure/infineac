@@ -23,9 +23,10 @@ Overview
 .. start overview_wo
 
 InFineac is a Python package that extracts financial insights from earnings
-calls using NLP. Earnings calls are a rich source of information for investors,
-that are held quarterly by publicly traded companies. 
-It heavily uses the spaCy_ and BERTopic_ libraries for the NLP tasks.
+calls by categorizing them into a range of topics using NLP. Earnings calls are
+a rich source of information for investors, that are held quarterly by publicly
+traded companies. InFineac heavily uses the spaCy_ and BERTopic_ libraries for
+the NLP tasks.
 
 .. end overview
 
@@ -50,7 +51,7 @@ reflected in the package.
 
     pip install -e .
 
-All the requirements are specified in the ``pyprojcet.toml`` file with the needed
+All the requirements are specified in the ``pyproject.toml`` file with the needed
 versions.
 
 .. end install
@@ -205,7 +206,24 @@ File structure
 Detailed Description
 ********************
 
+
+
+
+
 .. start detailed_description_wo
+
+Research question
+=================
+
+InFineac is a Python package that extracts financial insights from earnings
+calls by categorizing them into a range of topics using NLP. These topics give
+an indication about the focus of the earnings call and the respective company.
+Although these insights might be used for a plentitude of tasks, this project
+centers around the following question: **How are companies effected by the
+Russian invasion into the Ukraine?**
+
+
+
 
 Earnings Calls
 ==============
@@ -230,28 +248,34 @@ prospects.
 Data
 ====
 
-The data used in this project stems from transcript of earnings calls provided
+The data used in this project stems from transcripts of earnings calls provided
 by Refinitiv_ The data is not publicly available and has to be purchased from
-`Refinitiv Events`_.
+`Refinitiv Events`_. 
 
 
 Structure
 ---------
 
-The data is provided in .xml format, with each xml-file containing the
-transcript of a single earnings call as well as some metadata, like the title,
-city, company name and date of the call. The transcript itself is structured
-into two three parts: 
+The transcripts are provided as xml-files, with each xml-file containing the
+entire transcript of a single earnings call as well as some metadata, covering
+an unique ID, the title of the earnings all, the company name and ticker, the
+name of the city, where the earnings call was held, the date and time of the
+call as well as some other technical information. The transcript itself is
+structured into two three parts: 
 
-* Participants (corporate and conference call participants)
+* List of participants, the company they are working for and their respective
+  position within that company. The list is divided into corporate and
+  conference call participants.
 * Presentation
 * Q&A
 
-Both the presentation and the Q&A session are structured into
-sections, which are comprised of the speaker and the corresponding text. The
-presentation is held by the corporate participants. In the Q&A session, the
-corporate participants answer questions from the conference call participants.
-An operator moderates the presentation as well as the Q&A session.
+Both the presentation and the Q&A session are structured into parts, which are
+comprised of the speaker (name, company and position) and the corresponding
+text. The presentation is held by the corporate participants. In the Q&A
+session, the corporate participants answer questions from the conference call
+participants. Most of the times an operator moderates the presentation as well
+as the Q&A session.
+
 
 .. end detailed_description
 
