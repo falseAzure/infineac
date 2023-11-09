@@ -37,11 +37,15 @@ def get_russia_and_sanction(string: str) -> str:
     """Evaluates a string if it contains the words "russia" and "sanction" and
     returns a string accordingly."""
     string_lower = string.lower()
-    if re.search(r"russia", string_lower):
+    if re.search(r"russia|ukraine", string_lower):
         if re.search(r"sanctions", string_lower):
-            return "russia & sanction"
-        else:
+            return "russia/ukraine & sanction"
+        elif re.search(r"russia", string_lower) and re.search(r"ukraine", string_lower):
+            return "russia & ukraine"
+        elif re.search(r"russia", string_lower):
             return "russia"
+        elif re.search(r"ukraine", string_lower):
+            return "ukraine"
     if re.search(r"sanction", string_lower):
         return "sanction"
     else:
@@ -373,8 +377,10 @@ def extract_keyword_sentences_preceding_mod(
     """
     Extracts sentences with specific `keywords` and a `modifier_word` preceding
     it. Used to obtain the sentences, that are filtered out by
-    :func:`keyword_search_exclude_threshold`,
-    :func:`extract_keyword_sentences_window` and all functions that use it.
+    :func:`keyword_search_exclude_threshold` and
+    :func:`extract_keyword_sentences_window` as well as all functions that use
+    one of them. Is called by
+    :func:`infineac.process_event.excluded_sentences_by_mod_words`
 
     Parameter
     ----------
@@ -393,10 +399,53 @@ def extract_keyword_sentences_preceding_mod(
     str | list[str]
         The extracted sentences as a list of passages.
     """
-    if str == "":
+    if text == "":
         print("Empty text.")
         return ""
     doc = nlp_model(text)
+    sentences = list(doc.sents)
+    keyword_sent_idx = []
+
+    for idx, sent in enumerate(sentences):
+        if keyword_threshold_search_include_mod(
+            sent.text.lower(), keywords, modifier_words
+        ):
+            keyword_sent_idx.append(idx)
+
+    sentences_str = [sentence.text for sentence in sentences]
+    matching_sentences = [sentences_str[i] for i in keyword_sent_idx]
+
+    return matching_sentences
+
+
+def extract_keyword_sentences_preceding_mod_nlp(
+    doc: str,
+    keywords: list[str],
+    modifier_words: list[str] = constants.MODIFIER_WORDS,
+) -> str | list[str]:
+    """
+    Extracts sentences with specific `keywords` and a `modifier_word` preceding
+    it. Used to obtain the sentences, that are filtered out by
+    :func:`keyword_search_exclude_threshold` and
+    :func:`extract_keyword_sentences_window` as well as all functions that use
+    one of them. Is called by
+    :func:`infineac.process_event.excluded_sentences_by_mod_words`
+
+    Parameter
+    ----------
+    doc : str
+        The spaCy document to be processed.
+    keywords : list[str], default: []
+        List of `keywords` to be searched for in the text and to extract the
+        sentences.
+    modifier_words : list[str], default: MODIFIER_WORDS
+        List of `modifier_words` which must precede the keyword.
+
+    Returns
+    -------
+    str | list[str]
+        The extracted sentences as a list of passages.
+    """
     sentences = list(doc.sents)
     keyword_sent_idx = []
 
