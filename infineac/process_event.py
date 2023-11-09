@@ -556,18 +556,24 @@ def filter_events(
 
 def excluded_sentences_by_mod_words(events, keywords, nlp_model):
     """Extracts the sentences that are excluded by the modifier words. Calls
-    on :func:`infineac.process_text.extract_keyword_sentences_preceding_mod`."""
+    :func:`infineac.process_text.extract_keyword_sentences_preceding_mod`."""
     excluded_sentences = []
-    for event in tqdm(events, desc="Events", total=len(events)):
-        excluded_qa = process_text.extract_keyword_sentences_preceding_mod(
-            text=event["qa_collapsed"], keywords=keywords, nlp_model=nlp_model
+    corpus = []
+    for event in events:
+        corpus.append(event["qa_collapsed"] + event["presentation_collapsed"])
+    for _, doc in enumerate(
+        tqdm(
+            nlp_model.pipe(corpus, batch_size=64, disable=["tokenize, lemma"]),
+            desc="Documents",
+            total=len(corpus),
         )
-        excluded_presentation = process_text.extract_keyword_sentences_preceding_mod(
-            text=event["presentation_collapsed"],
-            keywords=keywords,
-            nlp_model=nlp_model,
+    ):
+        excluded_sentences.append(
+            process_text.extract_keyword_sentences_preceding_mod_nlp(
+                doc=doc, keywords=keywords
+            )
         )
-        excluded_sentences.append(excluded_qa + excluded_presentation)
+
     return [sent for lst in excluded_sentences for sent in lst if lst != []]
 
 
