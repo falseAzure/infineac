@@ -13,6 +13,9 @@ import polars as pl
 
 
 def jaccard_similarity(list1: list[int], list2: list[int]) -> float:
+    """
+    Calculates the Jaccard Similarity between two lists.
+    """
     set1 = set(list1)
     set2 = set(list2)
     intersection = len(set1.intersection(set2))
@@ -23,6 +26,9 @@ def jaccard_similarity(list1: list[int], list2: list[int]) -> float:
 def jaccard_similarity_lists(
     list1: list[list[int]], list2: list[list[int]]
 ) -> list[float]:
+    """Calculates the Jaccard Similarity between two lists of lists.
+    Both lists need to have the same length.
+    """
     assert len(list1) == len(list2), "Both lists should have the same length"
     similarities = []
     for sublist1, sublist2 in zip(list1, list2):
@@ -36,6 +42,12 @@ def jaccard_similarity_lists(
 
 
 def jaccard_similarity_pairwise(names: list[str], df: pl.DataFrame) -> np.array:
+    """
+    Pairwise calculates the Jaccard Similarity between the columns (`names`) of a
+    given Polars DataFrame (`df`) and returns an np.array with the
+    corresponding means. The returned array has thus the same length as the
+    given `DataFrame`.
+    """
     similarities = []
     for i in range(len(names)):
         for j in range(i + 1, len(names)):
