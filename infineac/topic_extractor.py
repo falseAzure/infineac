@@ -70,7 +70,7 @@ def bert_advanced(
     """
     seed_topic_list = None
     if predefined_topics is True:
-        seed_topic_list = list(constants.TOPICS.values())
+        seed_topic_list = list(constants.CATEGORIES_TOPICS.values())
     elif type(predefined_topics) is list:
         seed_topic_list = predefined_topics
 
@@ -135,6 +135,11 @@ def get_topics_per_company(df: pl.DataFrame) -> pl.DataFrame:
         DataFrame containing the topics and the company names as well as the
         year and the three strategies.
 
+    Notes
+    -----
+    The topics -1 and -2 are mapped to the "standard" and "empty" categories.
+    The topics -1 and -2 are not included in the topics per company.
+
     Returns
     -------
     pl.DataFrame
@@ -157,9 +162,9 @@ def get_topics_per_company(df: pl.DataFrame) -> pl.DataFrame:
 
     category_comp = df_comp["category"].to_list()
     for i, categories in enumerate(category_comp):
-        category_ = list(set(categories))
-        category_ = [group for group in category_]
-        category_comp[i] = category_
+        categories_ = list(set(categories))
+        categories_ = [category for category in categories_]
+        category_comp[i] = categories_
 
     df_comp = df_comp.with_columns(pl.Series("category", category_comp))
     df_comp = df_comp.with_columns(pl.Series("topic", topics_comp))
@@ -190,14 +195,14 @@ def categorize_topics(keywords_topics: list[list[str]]) -> pl.DataFrame:
     """
     max_category_list = []
     for keywords in keywords_topics:
-        count_max_group = 0
+        count_max_category = 0
         max_topic = "misc"
-        for category, keywords_group in constants.TOPICS.items():
-            common_keywords = set(keywords_group) & set(keywords)
+        for category, keywords_category in constants.CATEGORIES_TOPICS.items():
+            common_keywords = set(keywords_category) & set(keywords)
             count = len(common_keywords)
-            if count > 0 and count > count_max_group:
+            if count > 0 and count > count_max_category:
                 max_topic = category
-                count_max_group = count
+                count_max_category = count
         max_category_list.append(max_topic)
 
     return pl.DataFrame(
@@ -213,7 +218,10 @@ def map_topics_to_categories(topics: list[int], mapping: pl.DataFrame) -> list[s
     """
     Maps a list of `topics` to the corresponding categories.
 
-    The -1 and -2 topics are mapped to the "standard" and "empty" categories.
+    Notes
+    -----
+    The topics -1 and -2 are mapped to the "standard" and "empty" categories.
+
 
     Parameters
     ----------
