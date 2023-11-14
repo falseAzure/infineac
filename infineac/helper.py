@@ -8,6 +8,42 @@ import re
 
 import dill as pickle
 import lz4.frame
+import numpy as np
+import polars as pl
+
+
+def jaccard_similarity(list1: list[int], list2: list[int]) -> float:
+    set1 = set(list1)
+    set2 = set(list2)
+    intersection = len(set1.intersection(set2))
+    union = len(set1) + len(set2) - intersection
+    return intersection / union if union != 0 else 0
+
+
+def jaccard_similarity_lists(
+    list1: list[list[int]], list2: list[list[int]]
+) -> list[float]:
+    assert len(list1) == len(list2), "Both lists should have the same length"
+    similarities = []
+    for sublist1, sublist2 in zip(list1, list2):
+        set1 = set(sublist1)
+        set2 = set(sublist2)
+        intersection = len(set1.intersection(set2))
+        union = len(set1) + len(set2) - intersection
+        similarity = intersection / union if union != 0 else 0
+        similarities.append(similarity)
+    return similarities
+
+
+def jaccard_similarity_pairwise(names: list[str], df: pl.DataFrame) -> np.array:
+    similarities = []
+    for i in range(len(names)):
+        for j in range(i + 1, len(names)):
+            list_1 = df.get_column(names[i]).to_list()
+            list_2 = df.get_column(names[j]).to_list()
+            similarity = jaccard_similarity_lists(list_1, list_2)
+            similarities.append(similarity)
+    return np.mean(np.array(similarities), axis=0)
 
 
 def add_context_integers(  # noqa: C901
