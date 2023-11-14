@@ -26,7 +26,8 @@ def jaccard_similarity(list1: list[int], list2: list[int]) -> float:
 def jaccard_similarity_lists(
     list1: list[list[int]], list2: list[list[int]]
 ) -> list[float]:
-    """Calculates the Jaccard Similarity between two lists of lists.
+    """
+    Calculates the Jaccard Similarity between two lists of lists.
     Both lists need to have the same length.
     """
     assert len(list1) == len(list2), "Both lists should have the same length"
