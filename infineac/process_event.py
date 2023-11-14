@@ -383,7 +383,6 @@ def extract_passages_from_event(
             subsequent_paragraphs=subsequent_paragraphs,
             return_type=return_type,
         )
-
         # for participant in event["corp_participants"] + event["conf_participants"]:
         #     if any(keyword in participant.lower() for keyword in keywords):
         #         presentation_extracted += participant + "\n"
@@ -558,9 +557,11 @@ def excluded_sentences_by_mod_words(
     events, keywords, nlp_model, modifier_words=constants.MODIFIER_WORDS
 ):
     """Extracts the sentences that are excluded by the modifier words. Calls
-    :func:`infineac.process_text.extract_keyword_sentences_preceding_mod`."""
+    :func:`keyword_threshold_search_include_mod``and
+    :func:`infineac.process_text.extract_keyword_sentences_preceding_mod_nlp`."""
     excluded_sentences = []
     corpus = []
+    # to fasten up calculations
     for event in events:
         text = event["qa_collapsed"] + event["presentation_collapsed"]
         if process_text.keyword_threshold_search_include_mod(
