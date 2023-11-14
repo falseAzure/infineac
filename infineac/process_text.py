@@ -24,6 +24,7 @@ Notes
 """
 
 
+import random
 import re
 
 import polars as pl
@@ -361,9 +362,6 @@ def keyword_threshold_search_include_mod(
     modifier_pattern = r"(?:" + "|".join(modifier_words) + r")"
     keyword_pattern = r"(?:" + "|".join(keywords) + r")"
 
-    if keyword_threshold_search_exclude_mod(string, keywords, modifier_words):
-        return False
-
     pattern = rf"{modifier_pattern} {keyword_pattern}"
     return bool(re.search(pattern, string, re.IGNORECASE))
 
@@ -408,7 +406,7 @@ def extract_keyword_sentences_preceding_mod(
 
     for idx, sent in enumerate(sentences):
         if keyword_threshold_search_include_mod(
-            sent.text.lower(), keywords, modifier_words
+            string=sent.text.lower(), keywords=keywords, modifier_words=modifier_words
         ):
             keyword_sent_idx.append(idx)
 
@@ -748,6 +746,21 @@ def get_strategies(
         return dataframe
 
     return strategies
+
+
+def sample_strategies(dataframe: pl.DataFrame, k=10) -> list[str]:
+    """Samples the strategies from the dataframe."""
+    exit_list = list(dataframe.filter(pl.col("exit_strategy").is_in(True))["text"])
+    stay_list = list(dataframe.filter(pl.col("stay_strategy").is_in(True))["text"])
+    adaptation_list = list(
+        dataframe.filter(pl.col("adaptation_strategy").is_in(True))["text"]
+    )
+
+    return (
+        random.sample(exit_list, k=min(k, len(exit_list)))
+        + random.sample(stay_list, k=min(k, len(stay_list)))
+        + random.sample(adaptation_list, k=min(k, len(adaptation_list)))
+    )
 
 
 def strategy_keywords_tolist(
