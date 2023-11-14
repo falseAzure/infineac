@@ -94,7 +94,7 @@ MODIFIER_WORDS_STRATEGY = ["can't", "cannot", "don't", "not"]
 STRATEGY_KEYWORDS = {
     "exit": [
         "cancel",
-        "close",
+        # "close",
         "discontinue",
         "divest",
         "exit",
@@ -103,8 +103,8 @@ STRATEGY_KEYWORDS = {
         "liquidate",
         "pull out",
         "retreat",
-        "sell",
-        "sold",
+        # "sell",
+        # "sold",
         "suspend",
         "terminate",
         "withdraw",
@@ -113,7 +113,7 @@ STRATEGY_KEYWORDS = {
     "adaptation": ["adapt", "relocate"],
 }
 
-TOPICS = {
+CATEGORIES_TOPICS = {
     "commodity": [
         "aftermarket",
         "agricultural",
