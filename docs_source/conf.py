@@ -35,8 +35,9 @@ extensions = [
     "sphinx.ext.autodoc",  # Documentation from docstrings
     "sphinx.ext.autosummary",  # Create neat summary tables
     "sphinx.ext.doctest",  # Test snippets in documentation
-    "sphinx.ext.todo",  # to-do syntax highlighting
     "sphinx.ext.ifconfig",  # Content based configuration
+    "sphinx.ext.pngmath",  # Render math via LaTeX
+    "sphinx.ext.todo",  # to-do syntax highlighting
     "sphinx.ext.viewcode",  # add link to source code
     "sphinx_toolbox.documentation_summary",  # Add a summary to each page
     "sphinx_copybutton",  # Add copy button to code blocks
