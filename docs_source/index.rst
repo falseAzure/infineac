@@ -33,6 +33,7 @@ Package
 
 .. autosummary:: 
 
+   infineac.compare_results
    infineac.constants
    infineac.file_loader
    infineac.helper
