@@ -47,7 +47,7 @@ def jaccard_similarity_pairwise(names: list[str], df: pl.DataFrame) -> np.array:
     Pairwise calculates the Jaccard Similarity between the columns (`names`) of a
     given Polars DataFrame (`df`) and returns an np.array with the
     corresponding means. The returned array has thus the same length as the
-    given `DataFrame`.
+    given `df`. Calls :func:`jaccard_similarity_lists`.
     """
     similarities = []
     for i in range(len(names)):

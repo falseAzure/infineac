@@ -128,6 +128,8 @@ def get_groups_from_hierarchy(
 def get_topics_per_company(df: pl.DataFrame) -> pl.DataFrame:
     """
     Returns the topics and categories per company.
+    The topics -1 and -2 are mapped to the "standard" and "empty" categories.
+    The topics -1 and -2 are not included in the topics per company.
 
     Parameters
     ----------
@@ -135,18 +137,13 @@ def get_topics_per_company(df: pl.DataFrame) -> pl.DataFrame:
         DataFrame containing the topics and the company names as well as the
         year and the three strategies.
 
-    Notes
-    -----
-    The topics -1 and -2 are mapped to the "standard" and "empty" categories.
-    The topics -1 and -2 are not included in the topics per company.
-
     Returns
     -------
     pl.DataFrame
         DataFrame containing the topics, categories and strategies per company.
     """
     df_comp = (
-        df.groupby("company_name", "year")
+        df.group_by("company_name", "year")
         .agg(
             pl.col("exit_strategy", "stay_strategy", "adaptation_strategy").sum(),
             pl.col("text", "processed_text", "topic", "category"),
@@ -177,8 +174,6 @@ def categorize_topics(keywords_topics: list[list[str]]) -> pl.DataFrame:
     :func:`infineac.constants.TOPICS` dictionary, that maps keywords to
     categories.
 
-    Notes
-    -----
     Categories are grouped topics. Each list in `keywords_topics` corresponds
     to a topic, that is a list of keywords. Each list in `keywords_topics` is
     mapped to a category, that is a list of as well keywords.
@@ -216,24 +211,20 @@ def categorize_topics(keywords_topics: list[list[str]]) -> pl.DataFrame:
 
 def map_topics_to_categories(topics: list[int], mapping: pl.DataFrame) -> list[str]:
     """
-    Maps a list of `topics` to the corresponding categories.
-
-    Notes
-    -----
+        Maps a list of `topics` to the corresponding categories.
     The topics -1 and -2 are mapped to the "standard" and "empty" categories.
 
+        Parameters
+        ----------
+        topics : list[int]
+            List of topics.
+        mapping : pl.DataFrame
+            DataFrame containing the mapping from topics to categories.
 
-    Parameters
-    ----------
-    topics : list[int]
-        List of topics.
-    mapping : pl.DataFrame
-        DataFrame containing the mapping from topics to categories.
-
-    Returns
-    -------
-    list[str]
-        List of categories.
+        Returns
+        -------
+        list[str]
+            List of categories.
     """
     topics_pl = pl.DataFrame({"topic": topics})
     topics_pl = topics_pl.join(mapping, left_on="topic", right_on="n", how="left")
@@ -251,7 +242,7 @@ def map_topics_to_categories(topics: list[int], mapping: pl.DataFrame) -> list[s
 
 
 def plot_category_distribution(
-    df: pl.DataFrame, aggregate: list[str] = []
+    df: pl.DataFrame, aggregate: list[str] = [], category_var: str = "category"
 ) -> pl.DataFrame:
     """
     Plots the category distribution for the given DataFrame `df` and the given
@@ -270,9 +261,9 @@ def plot_category_distribution(
         DataFrame containing the category distribution.
     """
     count_categories = (
-        df.groupby(["category"] + aggregate)
+        df.group_by([category_var] + aggregate)
         .agg(
-            count_category=pl.col("category").count(),
+            count_category=pl.col(category_var).count(),
             exit=pl.col("exit_strategy").filter(pl.col("exit_strategy") > 0).count(),
             adaptation=pl.col("adaptation_strategy")
             .filter(pl.col("adaptation_strategy") > 0)
@@ -283,9 +274,9 @@ def plot_category_distribution(
     )
     if len(aggregate) > 0:
         count_categories = (
-            count_categories.groupby(["category"])
+            count_categories.group_by([category_var])
             .agg(
-                count_category=pl.col("category").count(),
+                count_category=pl.col(category_var).count(),
                 exit=pl.col("exit").filter(pl.col("exit") > 0).count(),
                 adaptation=pl.col("adaptation")
                 .filter(pl.col("adaptation") > 0)
@@ -305,12 +296,12 @@ def plot_category_distribution(
     )
     melted_result = pd.melt(
         count_categories.to_pandas(),
-        id_vars="category",
+        id_vars=category_var,
         value_vars=["no strategy", "exit", "adaptation", "stay"],
         var_name="strategy",
     )
     plot_data = melted_result[
-        ~melted_result["category"].isin(["standard", "empty", "misc"])
+        ~melted_result[category_var].isin(["standard", "empty", "misc"])
     ]
 
     if len(aggregate) == 0:
@@ -320,7 +311,7 @@ def plot_category_distribution(
 
     ax = sns.histplot(
         plot_data,
-        x="category",
+        x=category_var,
         hue="strategy",
         weights="value",
         common_norm=True,
@@ -331,6 +322,5 @@ def plot_category_distribution(
     plt.ylabel("Count")
     ax.set_xticklabels(ax.get_xticklabels(), rotation=45, horizontalalignment="right")
     plt.title("Category and strategy distribution for " + title_add)
-    plt.show()
 
-    return count_categories
+    return count_categories, plt
