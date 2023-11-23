@@ -8,6 +8,7 @@ BERTopic libraries for NLP.
 """
 
 __all__ = [
+    "compare_results",
     "constants",
     "file_loader",
     "helper",
