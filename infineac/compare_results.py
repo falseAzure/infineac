@@ -79,10 +79,11 @@ def calculate_similarity(df: pl.DataFrame):
     Normally the Jaccard similarity is calculated pairwise, i.e. for each pair
     of categories or topics. But here the Jaccard similarity is calculated in
     two ways:
-        * pairwise: The Jaccard similarity is calculated pairwise and then the
-          mean is taken.
-        * combined: The Jaccard similarity is calculated for all categories or
-          topics (union and intersection of all categories or topics).
+    * pairwise: The Jaccard similarity is calculated pairwise and then the
+      mean is taken.
+    * combined: The Jaccard similarity is calculated for all categories or
+      topics (union and intersection of all categories or topics).
+
 
     References
     ----------
