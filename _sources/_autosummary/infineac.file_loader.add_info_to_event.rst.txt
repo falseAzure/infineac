@@ -1,0 +1,6 @@
+infineac.file\_loader.add\_info\_to\_event
+==========================================
+
+.. currentmodule:: infineac.file_loader
+
+.. autofunction:: add_info_to_event

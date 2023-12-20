@@ -1,0 +1,6 @@
+infineac.topic\_extractor.plot\_category\_distribution
+======================================================
+
+.. currentmodule:: infineac.topic_extractor
+
+.. autofunction:: plot_category_distribution

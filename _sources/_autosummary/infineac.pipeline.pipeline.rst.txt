@@ -1,0 +1,6 @@
+infineac.pipeline.pipeline
+==========================
+
+.. currentmodule:: infineac.pipeline
+
+.. autofunction:: pipeline

@@ -1,0 +1,6 @@
+infineac.compare\_results.create\_empty\_count\_df
+==================================================
+
+.. currentmodule:: infineac.compare_results
+
+.. autofunction:: create_empty_count_df

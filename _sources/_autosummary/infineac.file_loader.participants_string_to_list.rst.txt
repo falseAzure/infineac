@@ -1,0 +1,6 @@
+infineac.file\_loader.participants\_string\_to\_list
+====================================================
+
+.. currentmodule:: infineac.file_loader
+
+.. autofunction:: participants_string_to_list

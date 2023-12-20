@@ -1,0 +1,6 @@
+infineac.file\_loader.load\_files\_from\_xml
+============================================
+
+.. currentmodule:: infineac.file_loader
+
+.. autofunction:: load_files_from_xml

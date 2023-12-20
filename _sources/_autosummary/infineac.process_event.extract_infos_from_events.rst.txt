@@ -1,0 +1,6 @@
+infineac.process\_event.extract\_infos\_from\_events
+====================================================
+
+.. currentmodule:: infineac.process_event
+
+.. autofunction:: extract_infos_from_events

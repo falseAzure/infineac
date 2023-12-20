@@ -1,0 +1,6 @@
+infineac.compare\_results.get\_strategy\_list
+=============================================
+
+.. currentmodule:: infineac.compare_results
+
+.. autofunction:: get_strategy_list

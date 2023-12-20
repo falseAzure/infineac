@@ -1,0 +1,6 @@
+infineac.topic\_extractor.categorize\_topics
+============================================
+
+.. currentmodule:: infineac.topic_extractor
+
+.. autofunction:: categorize_topics

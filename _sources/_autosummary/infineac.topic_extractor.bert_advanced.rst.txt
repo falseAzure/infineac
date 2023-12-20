@@ -1,0 +1,6 @@
+infineac.topic\_extractor.bert\_advanced
+========================================
+
+.. currentmodule:: infineac.topic_extractor
+
+.. autofunction:: bert_advanced

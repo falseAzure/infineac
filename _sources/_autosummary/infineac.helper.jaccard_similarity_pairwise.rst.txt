@@ -1,0 +1,6 @@
+infineac.helper.jaccard\_similarity\_pairwise
+=============================================
+
+.. currentmodule:: infineac.helper
+
+.. autofunction:: jaccard_similarity_pairwise

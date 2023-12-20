@@ -1,0 +1,6 @@
+infineac.compare\_results.update\_count
+=======================================
+
+.. currentmodule:: infineac.compare_results
+
+.. autofunction:: update_count

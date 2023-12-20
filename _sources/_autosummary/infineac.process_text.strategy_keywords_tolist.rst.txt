@@ -1,0 +1,6 @@
+infineac.process\_text.strategy\_keywords\_tolist
+=================================================
+
+.. currentmodule:: infineac.process_text
+
+.. autofunction:: strategy_keywords_tolist

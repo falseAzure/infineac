@@ -1,0 +1,30 @@
+infineac.pipeline
+=================
+
+.. automodule:: infineac.pipeline
+  
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:                                          
+   
+      pipeline
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

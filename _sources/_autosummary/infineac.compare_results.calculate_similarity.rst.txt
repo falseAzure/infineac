@@ -1,0 +1,6 @@
+infineac.compare\_results.calculate\_similarity
+===============================================
+
+.. currentmodule:: infineac.compare_results
+
+.. autofunction:: calculate_similarity

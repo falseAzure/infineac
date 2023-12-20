@@ -1,0 +1,6 @@
+infineac.process\_text.process\_text\_nlp
+=========================================
+
+.. currentmodule:: infineac.process_text
+
+.. autofunction:: process_text_nlp

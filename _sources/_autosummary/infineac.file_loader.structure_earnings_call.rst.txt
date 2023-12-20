@@ -1,0 +1,6 @@
+infineac.file\_loader.structure\_earnings\_call
+===============================================
+
+.. currentmodule:: infineac.file_loader
+
+.. autofunction:: structure_earnings_call

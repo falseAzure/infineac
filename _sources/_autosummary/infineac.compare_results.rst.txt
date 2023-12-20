@@ -1,0 +1,35 @@
+infineac.compare\_results
+=========================
+
+.. automodule:: infineac.compare_results
+  
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:                                          
+   
+      aggregate_results
+      calculate_similarity
+      create_compare_df
+      create_empty_count_df
+      get_strategy_list
+      update_count
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

@@ -1,0 +1,1255 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>infineac.process_event &#8212; Infineac 0.1.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=e936e8a8"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/infineac/process_event';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">InFineac</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../detailed_description.html">
+                        Detailed Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/falseazure/infineac" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../detailed_description.html">
+                        Detailed Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/falseazure/infineac" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">infineac.process_event</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for infineac.process_event</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Contains functions to manipulate events and strings and extract the</span>
+<span class="sd">corresponding information for the infineac package. For text processing it uses</span>
+<span class="sd">the :mod:`infineac.process_text` module.</span>
+
+<span class="sd">Examples</span>
+<span class="sd">--------</span>
+<span class="sd">&gt;&gt;&gt; import infineac.process_event as process_event</span>
+<span class="sd">&gt;&gt;&gt; import infineac.file_loader as file_loader</span>
+<span class="sd">&gt;&gt;&gt; import spacy_stanza</span>
+<span class="sd">&gt;&gt;&gt; nlp = spacy_stanza.load_pipeline(&quot;en&quot;, processors=&quot;tokenize, lemma&quot;)</span>
+<span class="sd">&gt;&gt;&gt; nlp.add_pipe(&#39;sentencizer&#39;)</span>
+<span class="sd">&gt;&gt;&gt; PATH_DIR = &quot;data/transcripts/&quot;</span>
+<span class="sd">&gt;&gt;&gt; files = list(Path(PATH_DIR).rglob(&quot;*.xml&quot;))</span>
+<span class="sd">&gt;&gt;&gt; events = file_loader.load_files_from_xml(files)</span>
+<span class="sd">&gt;&gt;&gt; keywords = {&quot;russia&quot;: 1, &quot;ukraine&quot;: 1}</span>
+<span class="sd">&gt;&gt;&gt; process_event.events_to_corpus(events=events, keywords=keywords, nlp_model=nlp)</span>
+
+
+<span class="sd">Notes</span>
+<span class="sd">-----</span>
+<span class="sd">    An event is a dictionary with the following key-value pairs:</span>
+<span class="sd">        - &#39;file&#39;: str - the file name</span>
+<span class="sd">        - &#39;year_upload&#39;: integer - the year of the upload</span>
+<span class="sd">        - &#39;corp_participants&#39;: list[list[str]] - the corporate participants</span>
+<span class="sd">        - &#39;corp_participants_collapsed&#39;: list[str] - collapsed list</span>
+<span class="sd">        - &#39;conf_participants&#39;: list[list[str]] - the conference call participants</span>
+<span class="sd">        - &#39;conf_participants_collapsed&#39;: list[str] - collapsed list</span>
+<span class="sd">        - &#39;presentation&#39;: list[dict] - the presentation part</span>
+<span class="sd">        - &#39;presentation_collapsed&#39;: list[str] - collapsed list</span>
+<span class="sd">        - &#39;qa&#39;: list[dict] - the Q&amp;A part</span>
+<span class="sd">        - &#39;qa_collapsed&#39;: list[str] - collapsed list</span>
+<span class="sd">        - &#39;action&#39;: str - the action (e.g. publish)</span>
+<span class="sd">        - &#39;story_type&#39;: str - the story type (e.g. transcript)</span>
+<span class="sd">        - &#39;version&#39;: str - the version of the publication (e.g. final)</span>
+<span class="sd">        - &#39;title&#39;: str - the title of the earnings call</span>
+<span class="sd">        - &#39;city&#39;: str - the city of the earnings call</span>
+<span class="sd">        - &#39;company_name&#39;: str - the company of the earnings call</span>
+<span class="sd">        - &#39;company_ticker&#39;: str - the company ticker of the earnings call</span>
+<span class="sd">        - &#39;date&#39;: date - the date of the earnings call</span>
+<span class="sd">        - &#39;id&#39;: int - the id of the publication</span>
+<span class="sd">        - &#39;last_update&#39;: date - the last update of the publication</span>
+<span class="sd">        - &#39;event_type_id&#39;: int - the event type id</span>
+<span class="sd">        - &#39;event_type_name&#39;: str - the event type name</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+
+<span class="kn">import</span> <span class="nn">polars</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="kn">import</span> <span class="nn">infineac.constants</span> <span class="k">as</span> <span class="nn">constants</span>
+<span class="kn">import</span> <span class="nn">infineac.process_text</span> <span class="k">as</span> <span class="nn">process_text</span>
+
+
+<div class="viewcode-block" id="extract_passages_from_presentation"><a class="viewcode-back" href="../../_autosummary/infineac.process_event.extract_passages_from_presentation.html#infineac.process_event.extract_passages_from_presentation">[docs]</a><span class="k">def</span> <span class="nf">extract_passages_from_presentation</span><span class="p">(</span>
+    <span class="n">presentation</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">keywords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+    <span class="n">nlp_model</span><span class="p">,</span>
+    <span class="n">modifier_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">MODIFIER_WORDS</span><span class="p">,</span>
+    <span class="n">context_window_sentence</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">join_adjacent_sentences</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">subsequent_paragraphs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">return_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts important passages from the presentation section of an event.</span>
+
+<span class="sd">    Importance of a passage is determined by the presence of one of the</span>
+<span class="sd">    `keywords`. If a keyword occurs in a paragraph, the sentence containing it</span>
+<span class="sd">    and the context surrounding it (`context_window_sentence`) are extracted.</span>
+<span class="sd">    Additionally, `window_subsequent` paragraphs are extracted. (Like</span>
+<span class="sd">    :func:`extract_passages_from_qa` but for the presentation section of an</span>
+<span class="sd">    event.)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    presentation : list[dict[str, int | str]]</span>
+<span class="sd">        Presentation part of an event.</span>
+<span class="sd">    keywords : list[str] | dict[str, int]</span>
+<span class="sd">        List of `keywords` to search for in the presentation and extract the</span>
+<span class="sd">        corresponding passages. If `keywords` is a dictionary, the keys are the</span>
+<span class="sd">        keywords.</span>
+<span class="sd">    nlp_model : spacy.lang</span>
+<span class="sd">        NLP model.</span>
+<span class="sd">    modifier_words : list[str], default: MODIFIER_WORDS</span>
+<span class="sd">        List of `modifier_words`, which must not precede the keyword.</span>
+<span class="sd">    context_window_sentence : tuple[int, int] | int, default: 0</span>
+<span class="sd">        The context window of of the sentences to be extracted. Either an</span>
+<span class="sd">        integer or a tuple of length 2. The first element of the tuple indicates</span>
+<span class="sd">        the number of sentences to be extracted before the sentence the keyword</span>
+<span class="sd">        was found in, the second element indicates the number of sentences</span>
+<span class="sd">        after it. If only an integer is provided, the same number of sentences</span>
+<span class="sd">        are extracted before and after the keyword. If one of the elements is</span>
+<span class="sd">        -1, all sentences before or after the keyword are extracted. So -1 can</span>
+<span class="sd">        be used to extract all sentences before and after the keyword, e.g. the</span>
+<span class="sd">        entire paragraph.</span>
+<span class="sd">    join_adjacent_sentences : bool, default: True</span>
+<span class="sd">            Whether to join adjacent sentences or leave them as individual. If</span>
+<span class="sd">            `context_window_sentence` &gt; 0, this parameter is automatically set</span>
+<span class="sd">            to `True`.</span>
+<span class="sd">    subsequent_paragraphs : int, default: 0</span>
+<span class="sd">        Number of subsequent paragraphs to extract after the one containing a</span>
+<span class="sd">        keyword.</span>
+<span class="sd">    return_type : str, default: &quot;list&quot;</span>
+<span class="sd">        The return type of the method. Either &quot;str&quot; or &quot;list&quot;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str | list[list[list[str]]]</span>
+<span class="sd">        The extracted passages as a concatenated string or list of lists</span>
+<span class="sd">        (passages) of lists (paragraphs) of sentences.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;str&quot;</span><span class="p">:</span>
+        <span class="n">passages</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">elif</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
+        <span class="n">passages</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">presentation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">passages</span>
+
+    <span class="n">keyword_n_paragraphs_above</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">presentation</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">part</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;cooperation&quot;</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">paragraphs</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">part</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+            <span class="n">new_passages</span> <span class="o">=</span> <span class="n">process_text</span><span class="o">.</span><span class="n">extract_passages_from_paragraphs</span><span class="p">(</span>
+                <span class="n">paragraphs</span><span class="o">=</span><span class="n">paragraphs</span><span class="p">,</span>
+                <span class="n">keywords</span><span class="o">=</span><span class="n">keywords</span><span class="p">,</span>
+                <span class="n">nlp_model</span><span class="o">=</span><span class="n">nlp_model</span><span class="p">,</span>
+                <span class="n">modifier_words</span><span class="o">=</span><span class="n">modifier_words</span><span class="p">,</span>
+                <span class="n">context_window_sentence</span><span class="o">=</span><span class="n">context_window_sentence</span><span class="p">,</span>
+                <span class="n">join_adjacent_sentences</span><span class="o">=</span><span class="n">join_adjacent_sentences</span><span class="p">,</span>
+                <span class="n">subsequent_paragraphs</span><span class="o">=</span><span class="n">subsequent_paragraphs</span><span class="p">,</span>
+                <span class="n">return_type</span><span class="o">=</span><span class="n">return_type</span><span class="p">,</span>
+                <span class="n">keyword_n_paragraphs_above</span><span class="o">=</span><span class="n">keyword_n_paragraphs_above</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">new_passages</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
+                    <span class="n">passages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_passages</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;str&quot;</span><span class="p">:</span>
+                    <span class="n">passages</span> <span class="o">+=</span> <span class="n">new_passages</span>
+
+    <span class="k">return</span> <span class="n">passages</span></div>
+
+
+<div class="viewcode-block" id="extract_passages_from_qa"><a class="viewcode-back" href="../../_autosummary/infineac.process_event.extract_passages_from_qa.html#infineac.process_event.extract_passages_from_qa">[docs]</a><span class="k">def</span> <span class="nf">extract_passages_from_qa</span><span class="p">(</span>  <span class="c1"># noqa: C901</span>
+    <span class="n">qa</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]],</span>
+    <span class="n">keywords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+    <span class="n">nlp_model</span><span class="p">,</span>
+    <span class="n">modifier_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">MODIFIER_WORDS</span><span class="p">,</span>
+    <span class="n">context_window_sentence</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">join_adjacent_sentences</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">subsequent_paragraphs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">extract_answers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts important passages, like :func:`extract_passages_from_presentation`, but</span>
+<span class="sd">    for the Q&amp;A section of an event.</span>
+
+<span class="sd">    Importance of a passage is determined by the presence of one of the</span>
+<span class="sd">    `keywords`. If a keyword occurs in a paragraph of an answer, the sentence</span>
+<span class="sd">    containing it and the context surrounding it (`context_window_sentence`)</span>
+<span class="sd">    are extracted. Additionally, `window_subsequent` paragraphs are extracted.</span>
+<span class="sd">    If `extract_answers` is set to True, the entire answer is extracted, if the</span>
+<span class="sd">    prior question contains a keyword.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    qa : list[dict[str, int | str]]</span>
+<span class="sd">        Q&amp;A part of an event.</span>
+<span class="sd">    keywords : list[str] | dict[str, int]</span>
+<span class="sd">        List of `keywords` to search for in the Q&amp;A and extract the</span>
+<span class="sd">        corresponding passages. If `keywords` is a dictionary, the keys are the</span>
+<span class="sd">        keywords.</span>
+<span class="sd">    nlp_model : spacy.lang</span>
+<span class="sd">        NLP model.</span>
+<span class="sd">    modifier_words : list[str], default: MODIFIER_WORDS</span>
+<span class="sd">        List of `modifier_words`, which must not precede the keyword.</span>
+<span class="sd">    context_window_sentence : tuple[int, int] | int, default: 0</span>
+<span class="sd">        The context window of of the sentences to be extracted. Either an</span>
+<span class="sd">        integer or a tuple of length 2. The first element of the tuple indicates</span>
+<span class="sd">        the number of sentences to be extracted before the sentence the keyword</span>
+<span class="sd">        was found in, the second element indicates the number of sentences</span>
+<span class="sd">        after it. If only an integer is provided, the same number of sentences</span>
+<span class="sd">        are extracted before and after the keyword. If one of the elements is</span>
+<span class="sd">        -1, all sentences before or after the keyword are extracted. So -1 can</span>
+<span class="sd">        be used to extract all sentences before and after the keyword, e.g. the</span>
+<span class="sd">        entire paragraph.</span>
+<span class="sd">    join_adjacent_sentences : bool, default: True</span>
+<span class="sd">            Whether to join adjacent sentences or leave them as individual. If</span>
+<span class="sd">            `context_window_sentence` &gt; 0, this parameter is automatically set</span>
+<span class="sd">            to `True`.</span>
+<span class="sd">    subsequent_paragraphs : int, default: 0</span>
+<span class="sd">        Number of subsequent paragraphs to extract after the one containing a</span>
+<span class="sd">        keyword.</span>
+<span class="sd">    extract_answers : bool, default: False</span>
+<span class="sd">        If True, entire answers to questions that include a keyword are also</span>
+<span class="sd">        extracted.</span>
+<span class="sd">    return_type : str, default: &quot;list&quot;</span>
+<span class="sd">        The return type of the method. Either &quot;str&quot; or &quot;list&quot;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str | list[list[list[str]]]</span>
+<span class="sd">        The extracted passages as a concatenated string or list of lists (passages)</span>
+<span class="sd">        of lists (paragraphs) of sentences.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;str&quot;</span><span class="p">:</span>
+        <span class="n">passages</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">elif</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
+        <span class="n">passages</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">qa</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">passages</span>
+
+    <span class="n">previous_question_has_keyword</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">keyword_n_paragraphs_above</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">qa</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">part</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;operator&quot;</span><span class="p">,</span> <span class="s2">&quot;editor&quot;</span><span class="p">]:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># conference participants and others (unidentified, unknown</span>
+        <span class="c1"># etc.)</span>
+        <span class="k">if</span> <span class="n">part</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;cooperation&quot;</span><span class="p">:</span>
+            <span class="n">previous_question_has_keyword</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">keyword</span> <span class="ow">in</span> <span class="n">part</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">keyword</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">):</span>
+                <span class="n">previous_question_has_keyword</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">keyword_n_paragraphs_above</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># cooperation</span>
+        <span class="k">if</span> <span class="n">previous_question_has_keyword</span> <span class="ow">and</span> <span class="n">extract_answers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;str&quot;</span><span class="p">:</span>
+                <span class="n">passages</span> <span class="o">+=</span> <span class="n">part</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
+                <span class="n">passages</span><span class="o">.</span><span class="n">append</span><span class="p">([[</span><span class="n">part</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]]])</span>
+            <span class="k">continue</span>
+
+        <span class="n">paragraphs</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">part</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+        <span class="n">new_passages</span> <span class="o">=</span> <span class="n">process_text</span><span class="o">.</span><span class="n">extract_passages_from_paragraphs</span><span class="p">(</span>
+            <span class="n">paragraphs</span><span class="o">=</span><span class="n">paragraphs</span><span class="p">,</span>
+            <span class="n">keywords</span><span class="o">=</span><span class="n">keywords</span><span class="p">,</span>
+            <span class="n">nlp_model</span><span class="o">=</span><span class="n">nlp_model</span><span class="p">,</span>
+            <span class="n">modifier_words</span><span class="o">=</span><span class="n">modifier_words</span><span class="p">,</span>
+            <span class="n">context_window_sentence</span><span class="o">=</span><span class="n">context_window_sentence</span><span class="p">,</span>
+            <span class="n">join_adjacent_sentences</span><span class="o">=</span><span class="n">join_adjacent_sentences</span><span class="p">,</span>
+            <span class="n">subsequent_paragraphs</span><span class="o">=</span><span class="n">subsequent_paragraphs</span><span class="p">,</span>
+            <span class="n">return_type</span><span class="o">=</span><span class="n">return_type</span><span class="p">,</span>
+            <span class="n">keyword_n_paragraphs_above</span><span class="o">=</span><span class="n">keyword_n_paragraphs_above</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">new_passages</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
+                <span class="n">passages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_passages</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;str&quot;</span><span class="p">:</span>
+                <span class="n">passages</span> <span class="o">+=</span> <span class="n">new_passages</span>
+
+    <span class="k">return</span> <span class="n">passages</span></div>
+
+
+<div class="viewcode-block" id="check_if_keyword_align_qa"><a class="viewcode-back" href="../../_autosummary/infineac.process_event.check_if_keyword_align_qa.html#infineac.process_event.check_if_keyword_align_qa">[docs]</a><span class="k">def</span> <span class="nf">check_if_keyword_align_qa</span><span class="p">(</span>
+    <span class="n">qa</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]],</span> <span class="n">keywords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function to check if a keyword occurs in a question and the answer to that.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    qa : list[dict[str, int | str]]</span>
+<span class="sd">        Q&amp;A section of an event.</span>
+<span class="sd">    keywords : list[str]</span>
+<span class="sd">        Keywords to check for.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    int</span>
+<span class="sd">        Number of times a keyword occurs in a question and NOT in the answer to</span>
+<span class="sd">        that.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_only_qa_uses_keyword</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">qa</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">n_only_qa_uses_keyword</span>
+    <span class="n">previous_question_keyword</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">question_and_answer_use_keyword</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">qa</span><span class="p">:</span>
+        <span class="c1"># conference participants and others (operator, unidentified, unknown etc.)</span>
+        <span class="k">if</span> <span class="n">part</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;cooperation&quot;</span><span class="p">:</span>
+            <span class="c1"># previous_question = part[&quot;text&quot;]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">question_and_answer_use_keyword</span><span class="p">:</span>
+                <span class="c1"># print(previous_question)</span>
+                <span class="n">n_only_qa_uses_keyword</span> <span class="o">=</span> <span class="o">+</span><span class="mi">1</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">keyword</span> <span class="ow">in</span> <span class="n">part</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">keyword</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">):</span>
+                <span class="n">previous_question_keyword</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">question_and_answer_use_keyword</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># cooperation</span>
+        <span class="k">if</span> <span class="n">previous_question_keyword</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">keyword</span> <span class="ow">in</span> <span class="n">part</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">keyword</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">):</span>
+                <span class="n">question_and_answer_use_keyword</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="n">n_only_qa_uses_keyword</span></div>
+
+
+<div class="viewcode-block" id="extract_passages_from_event"><a class="viewcode-back" href="../../_autosummary/infineac.process_event.extract_passages_from_event.html#infineac.process_event.extract_passages_from_event">[docs]</a><span class="k">def</span> <span class="nf">extract_passages_from_event</span><span class="p">(</span>
+    <span class="n">event</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">keywords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+    <span class="n">nlp_model</span><span class="p">,</span>
+    <span class="n">modifier_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">MODIFIER_WORDS</span><span class="p">,</span>
+    <span class="n">sections</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+    <span class="n">context_window_sentence</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">join_adjacent_sentences</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">subsequent_paragraphs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">extract_answers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper function to extract important passages from an event: comprises of</span>
+<span class="sd">    :func:`extract_passages_from_presentation` and :func:`extract_passages_from_qa`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    event : dict</span>
+<span class="sd">        Event to extract the passages from.</span>
+<span class="sd">    keywords : list[str] | dict[str, int]</span>
+<span class="sd">        List of `keywords` to search for in the event and extract the</span>
+<span class="sd">        corresponding passages. If `keywords` is a dictionary, the keys are the</span>
+<span class="sd">        keywords.</span>
+<span class="sd">    nlp_model : spacy.lang</span>
+<span class="sd">        NLP model.</span>
+<span class="sd">    modifier_words : list[str], default: MODIFIER_WORDS</span>
+<span class="sd">        List of `modifier_words`, which must not precede the keyword.</span>
+<span class="sd">    sections : str, default: &quot;all&quot;</span>
+<span class="sd">        Section of the event to extract the passages from. Either &quot;all&quot;,</span>
+<span class="sd">        &quot;presentation&quot; or &quot;qa&quot;</span>
+<span class="sd">    context_window_sentence : tuple[int, int] | int, default: 0</span>
+<span class="sd">        The context window of of the sentences to be extracted. Either an</span>
+<span class="sd">        integer or a tuple of length 2. The first element of the tuple indicates</span>
+<span class="sd">        the number of sentences to be extracted before the sentence the keyword</span>
+<span class="sd">        was found in, the second element indicates the number of sentences</span>
+<span class="sd">        after it. If only an integer is provided, the same number of sentences</span>
+<span class="sd">        are extracted before and after the keyword. If one of the elements is</span>
+<span class="sd">        -1, all sentences before or after the keyword are extracted. So -1 can</span>
+<span class="sd">        be used to extract all sentences before and after the keyword, e.g. the</span>
+<span class="sd">        entire paragraph.</span>
+<span class="sd">    join_adjacent_sentences : bool, default: True</span>
+<span class="sd">            Whether to join adjacent sentences or leave them as individual. If</span>
+<span class="sd">            `context_window_sentence` &gt; 0, this parameter is automatically set</span>
+<span class="sd">            to `True`.</span>
+<span class="sd">    subsequent_paragraphs : int, default: 0</span>
+<span class="sd">        Number of subsequent paragraphs to extract after the one containing a</span>
+<span class="sd">        keyword.</span>
+<span class="sd">    extract_answers : bool, default: False</span>
+<span class="sd">        If True, entire answers to questions that include a keyword are also</span>
+<span class="sd">        extracted.</span>
+<span class="sd">    return_type : str, default: &quot;list&quot;</span>
+<span class="sd">        The return type of the method. Either &quot;str&quot; or &quot;list&quot;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str | list[list[list[list[str]]]]</span>
+<span class="sd">        The extracted passages as a concatenated string or a nested list with the</span>
+<span class="sd">        following hierarchy: presentation and qa - parts - paragraphs -</span>
+<span class="sd">        passages.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">sections</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;presentation&quot;</span><span class="p">]:</span>
+        <span class="n">presentation_extracted</span> <span class="o">=</span> <span class="n">extract_passages_from_presentation</span><span class="p">(</span>
+            <span class="n">presentation</span><span class="o">=</span><span class="n">event</span><span class="p">[</span><span class="s2">&quot;presentation&quot;</span><span class="p">],</span>
+            <span class="n">keywords</span><span class="o">=</span><span class="n">keywords</span><span class="p">,</span>
+            <span class="n">nlp_model</span><span class="o">=</span><span class="n">nlp_model</span><span class="p">,</span>
+            <span class="n">modifier_words</span><span class="o">=</span><span class="n">modifier_words</span><span class="p">,</span>
+            <span class="n">context_window_sentence</span><span class="o">=</span><span class="n">context_window_sentence</span><span class="p">,</span>
+            <span class="n">join_adjacent_sentences</span><span class="o">=</span><span class="n">join_adjacent_sentences</span><span class="p">,</span>
+            <span class="n">subsequent_paragraphs</span><span class="o">=</span><span class="n">subsequent_paragraphs</span><span class="p">,</span>
+            <span class="n">return_type</span><span class="o">=</span><span class="n">return_type</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># for participant in event[&quot;corp_participants&quot;] + event[&quot;conf_participants&quot;]:</span>
+        <span class="c1">#     if any(keyword in participant.lower() for keyword in keywords):</span>
+        <span class="c1">#         presentation_extracted += participant + &quot;\n&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">presentation_extracted</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">sections</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;qa&quot;</span><span class="p">]:</span>
+        <span class="n">qa_extracted</span> <span class="o">=</span> <span class="n">extract_passages_from_qa</span><span class="p">(</span>
+            <span class="n">qa</span><span class="o">=</span><span class="n">event</span><span class="p">[</span><span class="s2">&quot;qa&quot;</span><span class="p">],</span>
+            <span class="n">keywords</span><span class="o">=</span><span class="n">keywords</span><span class="p">,</span>
+            <span class="n">nlp_model</span><span class="o">=</span><span class="n">nlp_model</span><span class="p">,</span>
+            <span class="n">modifier_words</span><span class="o">=</span><span class="n">modifier_words</span><span class="p">,</span>
+            <span class="n">context_window_sentence</span><span class="o">=</span><span class="n">context_window_sentence</span><span class="p">,</span>
+            <span class="n">join_adjacent_sentences</span><span class="o">=</span><span class="n">join_adjacent_sentences</span><span class="p">,</span>
+            <span class="n">subsequent_paragraphs</span><span class="o">=</span><span class="n">subsequent_paragraphs</span><span class="p">,</span>
+            <span class="n">extract_answers</span><span class="o">=</span><span class="n">extract_answers</span><span class="p">,</span>
+            <span class="n">return_type</span><span class="o">=</span><span class="n">return_type</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">qa_extracted</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;str&quot;</span><span class="p">:</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">presentation_extracted</span> <span class="o">+</span> <span class="s2">&quot;/n&quot;</span> <span class="o">+</span> <span class="n">qa_extracted</span>
+    <span class="k">elif</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="p">[</span><span class="n">presentation_extracted</span><span class="p">,</span> <span class="n">qa_extracted</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">doc</span></div>
+
+
+<div class="viewcode-block" id="extract_passages_from_events"><a class="viewcode-back" href="../../_autosummary/infineac.process_event.extract_passages_from_events.html#infineac.process_event.extract_passages_from_events">[docs]</a><span class="k">def</span> <span class="nf">extract_passages_from_events</span><span class="p">(</span>
+    <span class="n">events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
+    <span class="n">keywords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+    <span class="n">nlp_model</span><span class="p">,</span>
+    <span class="n">modifier_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">MODIFIER_WORDS</span><span class="p">,</span>
+    <span class="n">sections</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+    <span class="n">context_window_sentence</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">join_adjacent_sentences</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">subsequent_paragraphs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">extract_answers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper function to extract important paragraphs from a list of events.</span>
+<span class="sd">    Loops over all events and calls :func:`extract_passages_from_event`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    events : list[dict]</span>
+<span class="sd">         Lists of dicts containing the events.</span>
+<span class="sd">    keywords : list[str] | dict[str, int]</span>
+<span class="sd">        List of `keywords` to search for in the events and extract the</span>
+<span class="sd">        corresponding passages. If `keywords` is a dictionary, the keys are the</span>
+<span class="sd">        keywords.</span>
+<span class="sd">    nlp_model : spacy.lang</span>
+<span class="sd">        NLP model.</span>
+<span class="sd">    modifier_words : list[str], default: MODIFIER_WORDS</span>
+<span class="sd">        List of `modifier_words`, which must not precede the keyword.</span>
+<span class="sd">    sections : str, default: &quot;all&quot;</span>
+<span class="sd">        Section of the event to extract the passages from. Either &quot;all&quot;,</span>
+<span class="sd">        &quot;presentation&quot; or &quot;qa&quot;.</span>
+<span class="sd">    context_window_sentence : tuple[int, int] | int, default: 0</span>
+<span class="sd">        The context window of of the sentences to be extracted. Either an</span>
+<span class="sd">        integer or a tuple of length 2. The first element of the tuple indicates</span>
+<span class="sd">        the number of sentences to be extracted before the sentence the keyword</span>
+<span class="sd">        was found in, the second element indicates the number of sentences</span>
+<span class="sd">        after it. If only an integer is provided, the same number of sentences</span>
+<span class="sd">        are extracted before and after the keyword. If one of the elements is</span>
+<span class="sd">        -1, all sentences before or after the keyword are extracted. So -1 can</span>
+<span class="sd">        be used to extract all sentences before and after the keyword, e.g. the</span>
+<span class="sd">        entire paragraph.</span>
+<span class="sd">    join_adjacent_sentences : bool, default: True</span>
+<span class="sd">            Whether to join adjacent sentences or leave them as individual. If</span>
+<span class="sd">            `context_window_sentence` &gt; 0, this parameter is automatically set</span>
+<span class="sd">            to `True`.</span>
+<span class="sd">    subsequent_paragraphs : int, default: 0</span>
+<span class="sd">        Number of subsequent paragraphs to extract after the one containing a</span>
+<span class="sd">        keyword.</span>
+<span class="sd">    extract_answers : bool, default: False</span>
+<span class="sd">        If True, entire answers to questions that include a keyword are also</span>
+<span class="sd">        extracted.</span>
+<span class="sd">    return_type : str, default: &quot;list&quot;</span>
+<span class="sd">        The return type of the method. Either &quot;str&quot; or &quot;list&quot;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str | list[list[list[list[list[str]]]]]</span>
+<span class="sd">        The extracted passages as a list of strings or a nested list with the</span>
+<span class="sd">        following hierarchy: event - presentation and qa - parts - paragraphs -</span>
+<span class="sd">        passages.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Extracting passages from events&quot;</span><span class="p">)</span>
+    <span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Events&quot;</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">events</span><span class="p">)):</span>
+        <span class="n">docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">extract_passages_from_event</span><span class="p">(</span>
+                <span class="n">event</span><span class="o">=</span><span class="n">event</span><span class="p">,</span>
+                <span class="n">keywords</span><span class="o">=</span><span class="n">keywords</span><span class="p">,</span>
+                <span class="n">nlp_model</span><span class="o">=</span><span class="n">nlp_model</span><span class="p">,</span>
+                <span class="n">modifier_words</span><span class="o">=</span><span class="n">modifier_words</span><span class="p">,</span>
+                <span class="n">sections</span><span class="o">=</span><span class="n">sections</span><span class="p">,</span>
+                <span class="n">context_window_sentence</span><span class="o">=</span><span class="n">context_window_sentence</span><span class="p">,</span>
+                <span class="n">join_adjacent_sentences</span><span class="o">=</span><span class="n">join_adjacent_sentences</span><span class="p">,</span>
+                <span class="n">subsequent_paragraphs</span><span class="o">=</span><span class="n">subsequent_paragraphs</span><span class="p">,</span>
+                <span class="n">extract_answers</span><span class="o">=</span><span class="n">extract_answers</span><span class="p">,</span>
+                <span class="n">return_type</span><span class="o">=</span><span class="n">return_type</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">docs</span></div>
+
+
+<div class="viewcode-block" id="check_keywords_in_event"><a class="viewcode-back" href="../../_autosummary/infineac.process_event.check_keywords_in_event.html#infineac.process_event.check_keywords_in_event">[docs]</a><span class="k">def</span> <span class="nf">check_keywords_in_event</span><span class="p">(</span>
+    <span class="n">event</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">keywords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="n">modifier_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">MODIFIER_WORDS</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function to check if keywords are present in the presentation or Q&amp;A part</span>
+<span class="sd">    of an event. Calls :func:`infineac.process_text.keyword_search_exclude_threshold`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">process_text</span><span class="o">.</span><span class="n">keyword_threshold_search_exclude_mod</span><span class="p">(</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="p">[</span><span class="s2">&quot;qa_collapsed&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;presentation_collapsed&quot;</span><span class="p">]),</span>
+        <span class="n">keywords</span><span class="p">,</span>
+        <span class="n">modifier_words</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="filter_events"><a class="viewcode-back" href="../../_autosummary/infineac.process_event.filter_events.html#infineac.process_event.filter_events">[docs]</a><span class="k">def</span> <span class="nf">filter_events</span><span class="p">(</span>
+    <span class="n">events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
+    <span class="n">year</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">BASE_YEAR</span><span class="p">,</span>
+    <span class="n">keywords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="n">modifier_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">MODIFIER_WORDS</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Filters events based on a given `year` and `keywords`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    events : list[dict]</span>
+<span class="sd">       Lists of dicts containing the events.</span>
+<span class="sd">    year : int, default: constants.BASE_YEAR</span>
+<span class="sd">        All events before the given year are filtered out.</span>
+<span class="sd">    keywords : list[str] | dict[str, int], default: []</span>
+<span class="sd">        Dictionary or list of `keywords`. If `keywords` is a dictionary, the key is</span>
+<span class="sd">        the keyword and the value is the minimum number of occurrences of the</span>
+<span class="sd">        keyword in the text.</span>
+<span class="sd">    modifier_words : list[str], default: MODIFIER_WORDS</span>
+<span class="sd">        List of `modifier_words`, which must not precede the keyword</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list[dict]</span>
+<span class="sd">        Filtered events.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Filtering events&quot;</span><span class="p">)</span>
+    <span class="n">events_filtered</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Events&quot;</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">events</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
+            <span class="s2">&quot;date&quot;</span> <span class="ow">in</span> <span class="n">event</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="ow">and</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">year</span> <span class="o">&gt;=</span> <span class="n">year</span>
+            <span class="ow">and</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;action&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;publish&quot;</span>
+            <span class="ow">and</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Final&quot;</span>
+        <span class="p">):</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">check_keywords_in_event</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">keywords</span><span class="p">,</span> <span class="n">modifier_words</span><span class="p">):</span>
+            <span class="k">continue</span>
+
+        <span class="n">events_filtered</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">events_filtered</span></div>
+
+
+<div class="viewcode-block" id="excluded_sentences_by_mod_words"><a class="viewcode-back" href="../../_autosummary/infineac.process_event.excluded_sentences_by_mod_words.html#infineac.process_event.excluded_sentences_by_mod_words">[docs]</a><span class="k">def</span> <span class="nf">excluded_sentences_by_mod_words</span><span class="p">(</span>
+    <span class="n">events</span><span class="p">,</span> <span class="n">keywords</span><span class="p">,</span> <span class="n">nlp_model</span><span class="p">,</span> <span class="n">modifier_words</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">MODIFIER_WORDS</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extracts the sentences that are excluded by the modifier words. Calls</span>
+<span class="sd">    :func:`keyword_threshold_search_include_mod``and</span>
+<span class="sd">    :func:`infineac.process_text.extract_keyword_sentences_preceding_mod_nlp`.&quot;&quot;&quot;</span>
+    <span class="n">excluded_sentences</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">corpus</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># to fasten up calculations</span>
+    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;qa_collapsed&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;presentation_collapsed&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">process_text</span><span class="o">.</span><span class="n">keyword_threshold_search_include_mod</span><span class="p">(</span>
+            <span class="n">string</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">keywords</span><span class="o">=</span><span class="n">keywords</span><span class="p">,</span> <span class="n">modifier_words</span><span class="o">=</span><span class="n">modifier_words</span>
+        <span class="p">):</span>
+            <span class="n">corpus</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+        <span class="n">tqdm</span><span class="p">(</span>
+            <span class="n">nlp_model</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">disable</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tokenize, lemma&quot;</span><span class="p">]),</span>
+            <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Documents&quot;</span><span class="p">,</span>
+            <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="p">):</span>
+        <span class="n">excluded_sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">process_text</span><span class="o">.</span><span class="n">extract_keyword_sentences_preceding_mod_nlp</span><span class="p">(</span>
+                <span class="n">doc</span><span class="o">=</span><span class="n">doc</span><span class="p">,</span> <span class="n">keywords</span><span class="o">=</span><span class="n">keywords</span><span class="p">,</span> <span class="n">modifier_words</span><span class="o">=</span><span class="n">modifier_words</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">sent</span> <span class="k">for</span> <span class="n">lst</span> <span class="ow">in</span> <span class="n">excluded_sentences</span> <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">lst</span> <span class="k">if</span> <span class="n">lst</span> <span class="o">!=</span> <span class="p">[]]</span></div>
+
+
+<div class="viewcode-block" id="test_positions"><a class="viewcode-back" href="../../_autosummary/infineac.process_event.test_positions.html#infineac.process_event.test_positions">[docs]</a><span class="k">def</span> <span class="nf">test_positions</span><span class="p">(</span><span class="n">events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if all positions of the speakers of the given `events` are valid.&quot;&quot;&quot;</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">event</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">events</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;qa&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">speaker</span> <span class="ow">in</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;qa&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">speaker</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
+                    <span class="s2">&quot;conference&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;cooperation&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;operator&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;unknown participant&quot;</span><span class="p">,</span>
+                <span class="p">]:</span>
+                    <span class="n">positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="n">speaker</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="create_participants_to_remove"><a class="viewcode-back" href="../../_autosummary/infineac.process_event.create_participants_to_remove.html#infineac.process_event.create_participants_to_remove">[docs]</a><span class="k">def</span> <span class="nf">create_participants_to_remove</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a list containing the names of the participants of an `event` to</span>
+<span class="sd">    be later removed during the text processing.&quot;&quot;&quot;</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">participant</span> <span class="ow">in</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;corp_participants&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">event</span><span class="p">[</span><span class="s2">&quot;conf_participants&quot;</span><span class="p">]:</span>
+        <span class="n">names</span> <span class="o">+=</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">names</span></div>
+
+
+<div class="viewcode-block" id="corpus_list_to_dataframe"><a class="viewcode-back" href="../../_autosummary/infineac.process_event.corpus_list_to_dataframe.html#infineac.process_event.corpus_list_to_dataframe">[docs]</a><span class="k">def</span> <span class="nf">corpus_list_to_dataframe</span><span class="p">(</span><span class="n">corpus</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]]])</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a `corpus` (nested list of texts) to a polars DataFrame with</span>
+<span class="sd">    indices, indicating the position of the texts in the corpus: event -</span>
+<span class="sd">    presentation or qa - part - paragraph - sentence.&quot;&quot;&quot;</span>
+
+    <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">event_idx</span><span class="p">,</span> <span class="n">event</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">corpus</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">presentation_and_qa_idx</span><span class="p">,</span> <span class="n">presentation_and_qa</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">part_idx</span><span class="p">,</span> <span class="n">part</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">presentation_and_qa</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">paragraph_idx</span><span class="p">,</span> <span class="n">paragraph</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">part</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">sentence_idx</span><span class="p">,</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">paragraph</span><span class="p">):</span>
+                        <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="p">{</span>
+                                <span class="s2">&quot;event_idx&quot;</span><span class="p">:</span> <span class="n">event_idx</span><span class="p">,</span>
+                                <span class="s2">&quot;presentation_and_qa_idx&quot;</span><span class="p">:</span> <span class="n">presentation_and_qa_idx</span><span class="p">,</span>
+                                <span class="s2">&quot;part_idx&quot;</span><span class="p">:</span> <span class="n">part_idx</span><span class="p">,</span>
+                                <span class="s2">&quot;paragraph_idx&quot;</span><span class="p">:</span> <span class="n">paragraph_idx</span><span class="p">,</span>
+                                <span class="s2">&quot;sentence_idx&quot;</span><span class="p">:</span> <span class="n">sentence_idx</span><span class="p">,</span>
+                                <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">sentence</span><span class="p">,</span>
+                            <span class="p">}</span>
+                        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="extract_infos_from_events"><a class="viewcode-back" href="../../_autosummary/infineac.process_event.extract_infos_from_events.html#infineac.process_event.extract_infos_from_events">[docs]</a><span class="k">def</span> <span class="nf">extract_infos_from_events</span><span class="p">(</span><span class="n">events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extracts the id, year, date and company name from a list of events.&quot;&quot;&quot;</span>
+    <span class="n">ids</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">years_upload</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">dates</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">company_names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">event_idx</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">event</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">events</span><span class="p">):</span>
+        <span class="n">event_idx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="n">ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">])</span>
+        <span class="n">years_upload</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">[</span><span class="s2">&quot;year_upload&quot;</span><span class="p">])</span>
+        <span class="n">dates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span>
+        <span class="n">company_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">[</span><span class="s2">&quot;company_name&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;event_idx&quot;</span><span class="p">:</span> <span class="n">event_idx</span><span class="p">,</span>
+            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">ids</span><span class="p">,</span>
+            <span class="s2">&quot;years_upload&quot;</span><span class="p">:</span> <span class="n">years_upload</span><span class="p">,</span>
+            <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">dates</span><span class="p">,</span>
+            <span class="s2">&quot;company_name&quot;</span><span class="p">:</span> <span class="n">company_names</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="events_to_corpus"><a class="viewcode-back" href="../../_autosummary/infineac.process_event.events_to_corpus.html#infineac.process_event.events_to_corpus">[docs]</a><span class="k">def</span> <span class="nf">events_to_corpus</span><span class="p">(</span>
+    <span class="n">events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
+    <span class="n">nlp_model</span><span class="p">,</span>
+    <span class="n">keywords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="n">modifier_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">MODIFIER_WORDS</span><span class="p">,</span>
+    <span class="n">sections</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+    <span class="n">context_window_sentence</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">join_adjacent_sentences</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">subsequent_paragraphs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">extract_answers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">return_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+    <span class="n">lemmatize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">lowercase</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_stopwords</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_punctuation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_numeric</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_currency</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_space</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_keywords</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_names</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_strategies</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_additional_stopwords</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a list of events to a corpus (list of texts).</span>
+
+<span class="sd">    This is a wrapper function that calls :func:`extract_passages_from_events`,</span>
+<span class="sd">    :func:`corpus_list_to_dataframe` and</span>
+<span class="sd">    :func:`infineac.process_text.process_corpus`. This function is used to</span>
+<span class="sd">    extract the corpus from the events and process it with the</span>
+<span class="sd">    :mod:`infineac.process_text` module according to the given parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    events : list[dict]</span>
+<span class="sd">         Lists of dicts containing the events.</span>
+<span class="sd">    nlp_model : spacy.lang, default: None</span>
+<span class="sd">        NLP model. lemmatize : bool, default: True If document should be</span>
+<span class="sd">        lemmatized.</span>
+<span class="sd">    keywords : list[str] | dict[str, int], default: []</span>
+<span class="sd">        List of `keywords` to search for in the events and extract the</span>
+<span class="sd">        corresponding passages. If `keywords` is a dictionary, the keys are the</span>
+<span class="sd">        keywords.</span>
+<span class="sd">    modifier_words : list[str], default: MODIFIER_WORDS</span>
+<span class="sd">        List of `modifier_words`, which must not precede the keyword.</span>
+<span class="sd">    sections : str, default: &quot;all&quot;</span>
+<span class="sd">        Section of the event to extract the passages from. Either &quot;all&quot;,</span>
+<span class="sd">        &quot;presentation&quot; or &quot;qa&quot;</span>
+<span class="sd">    context_window_sentence : tuple[int, int] | int, default: 0</span>
+<span class="sd">        The context window of of the sentences to be extracted. Either an</span>
+<span class="sd">        integer or a tuple of length 2. The first element of the tuple indicates</span>
+<span class="sd">        the number of sentences to be extracted before the sentence the keyword</span>
+<span class="sd">        was found in, the second element indicates the number of sentences</span>
+<span class="sd">        after it. If only an integer is provided, the same number of sentences</span>
+<span class="sd">        are extracted before and after the keyword. If one of the elements is</span>
+<span class="sd">        -1, all sentences before or after the keyword are extracted. So -1 can</span>
+<span class="sd">        be used to extract all sentences before and after the keyword, e.g. the</span>
+<span class="sd">        entire paragraph.</span>
+<span class="sd">    join_adjacent_sentences : bool, default: True</span>
+<span class="sd">        Whether to join adjacent sentences.</span>
+<span class="sd">    subsequent_paragraphs : int, default: 0</span>
+<span class="sd">        Number of subsequent paragraphs to extract after the one containing a</span>
+<span class="sd">        keyword.</span>
+<span class="sd">    extract_answers : bool, default: False</span>
+<span class="sd">        If True, entire answers to questions that include a keyword are also</span>
+<span class="sd">        extracted.</span>
+<span class="sd">    return_type : str, default: &quot;list&quot;</span>
+<span class="sd">        The return type of the method. Either &quot;str&quot; or &quot;list&quot;</span>
+<span class="sd">    lowercase : bool, default: True</span>
+<span class="sd">        If document should be lowercased.</span>
+<span class="sd">    remove_stopwords : bool, default: True</span>
+<span class="sd">        If stopwords should be removed from document.</span>
+<span class="sd">    remove_punctuation : bool, default: True</span>
+<span class="sd">        If punctuation should be removed from document.</span>
+<span class="sd">    remove_numeric : bool, default: False</span>
+<span class="sd">        If numerics should be removed from document.</span>
+<span class="sd">    remove_currency : bool, default: True</span>
+<span class="sd">        If currency symbols should be removed from document.</span>
+<span class="sd">    remove_space : bool, default: True</span>
+<span class="sd">        If spaces should be removed from document.</span>
+<span class="sd">    remove_keywords: bool, default: True</span>
+<span class="sd">        If keywords should be removed from document.</span>
+<span class="sd">    remove_names : bool, default: True</span>
+<span class="sd">        If participant names should be removed from document.</span>
+<span class="sd">    remove_strategies : bool | dict[str, list[str]], default: True</span>
+<span class="sd">        If the strategy keywords should be removed from document.</span>
+<span class="sd">    remove_additional_stopwords : bool | list[str], default: True</span>
+<span class="sd">        If additional stopwords should be removed from document.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pl.DataFrame</span>
+<span class="sd">        The corpus as a polars DataFrame with indices, indicating the position</span>
+<span class="sd">        of the texts in the corpus: event - presentation or qa - part -</span>
+<span class="sd">        paragraph - sentence, the original text and the processed text.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">corpus_raw</span> <span class="o">=</span> <span class="n">extract_passages_from_events</span><span class="p">(</span>
+        <span class="n">events</span><span class="o">=</span><span class="n">events</span><span class="p">,</span>
+        <span class="n">keywords</span><span class="o">=</span><span class="n">keywords</span><span class="p">,</span>
+        <span class="n">nlp_model</span><span class="o">=</span><span class="n">nlp_model</span><span class="p">,</span>
+        <span class="n">modifier_words</span><span class="o">=</span><span class="n">modifier_words</span><span class="p">,</span>
+        <span class="n">sections</span><span class="o">=</span><span class="n">sections</span><span class="p">,</span>
+        <span class="n">context_window_sentence</span><span class="o">=</span><span class="n">context_window_sentence</span><span class="p">,</span>
+        <span class="n">join_adjacent_sentences</span><span class="o">=</span><span class="n">join_adjacent_sentences</span><span class="p">,</span>
+        <span class="n">subsequent_paragraphs</span><span class="o">=</span><span class="n">subsequent_paragraphs</span><span class="p">,</span>
+        <span class="n">extract_answers</span><span class="o">=</span><span class="n">extract_answers</span><span class="p">,</span>
+        <span class="n">return_type</span><span class="o">=</span><span class="n">return_type</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">corpus_df</span> <span class="o">=</span> <span class="n">corpus_list_to_dataframe</span><span class="p">(</span><span class="n">corpus_raw</span><span class="p">)</span>
+    <span class="n">corpus_raw_list</span> <span class="o">=</span> <span class="n">corpus_df</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+
+    <span class="n">remove_additional_words_part</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">remove_keywords</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">remove_additional_words_part</span> <span class="o">+=</span> <span class="n">keywords</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+            <span class="n">remove_additional_words_part</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">keywords</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">remove_additional_stopwords</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">remove_additional_stopwords</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">remove_additional_words_part</span> <span class="o">+=</span> <span class="n">constants</span><span class="o">.</span><span class="n">ADDITIONAL_STOPWORDS</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">remove_additional_words_part</span> <span class="o">+=</span> <span class="n">remove_additional_stopwords</span>
+    <span class="k">if</span> <span class="n">remove_strategies</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">remove_strategies</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">remove_additional_words_part</span> <span class="o">+=</span> <span class="n">process_text</span><span class="o">.</span><span class="n">strategy_keywords_tolist</span><span class="p">(</span>
+                <span class="n">constants</span><span class="o">.</span><span class="n">STRATEGY_KEYWORDS</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">remove_additional_words_part</span> <span class="o">+=</span> <span class="n">process_text</span><span class="o">.</span><span class="n">strategy_keywords_tolist</span><span class="p">(</span>
+                <span class="n">remove_strategies</span>
+            <span class="p">)</span>
+
+    <span class="n">remove_names_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">remove_names</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">corpus_df</span><span class="p">[</span><span class="s2">&quot;event_idx&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">remove_names_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">create_participants_to_remove</span><span class="p">(</span><span class="n">events</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">remove_names_list</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">corpus_df</span><span class="p">)</span>
+
+    <span class="n">docs</span> <span class="o">=</span> <span class="n">process_text</span><span class="o">.</span><span class="n">process_corpus</span><span class="p">(</span>
+        <span class="n">corpus</span><span class="o">=</span><span class="n">corpus_raw_list</span><span class="p">,</span>
+        <span class="n">nlp_model</span><span class="o">=</span><span class="n">nlp_model</span><span class="p">,</span>
+        <span class="n">lemmatize</span><span class="o">=</span><span class="n">lemmatize</span><span class="p">,</span>
+        <span class="n">lowercase</span><span class="o">=</span><span class="n">lowercase</span><span class="p">,</span>
+        <span class="n">remove_stopwords</span><span class="o">=</span><span class="n">remove_stopwords</span><span class="p">,</span>
+        <span class="n">remove_punctuation</span><span class="o">=</span><span class="n">remove_punctuation</span><span class="p">,</span>
+        <span class="n">remove_numeric</span><span class="o">=</span><span class="n">remove_numeric</span><span class="p">,</span>
+        <span class="n">remove_currency</span><span class="o">=</span><span class="n">remove_currency</span><span class="p">,</span>
+        <span class="n">remove_space</span><span class="o">=</span><span class="n">remove_space</span><span class="p">,</span>
+        <span class="n">remove_additional_words_part</span><span class="o">=</span><span class="n">remove_additional_words_part</span><span class="p">,</span>
+        <span class="n">remove_specific_stopwords</span><span class="o">=</span><span class="n">remove_names_list</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">docs_joined</span> <span class="o">=</span> <span class="p">[</span><span class="n">process_text</span><span class="o">.</span><span class="n">list_to_string</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">]</span>
+
+    <span class="n">corpus_df</span> <span class="o">=</span> <span class="n">corpus_df</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="s2">&quot;processed_text&quot;</span><span class="p">,</span> <span class="n">docs_joined</span><span class="p">))</span>
+    <span class="n">info_df</span> <span class="o">=</span> <span class="n">extract_infos_from_events</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+
+    <span class="n">corpus_df</span> <span class="o">=</span> <span class="n">corpus_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">info_df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;event_idx&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">corpus_df</span></div>
+
+
+<div class="viewcode-block" id="create_samples"><a class="viewcode-back" href="../../_autosummary/infineac.process_event.create_samples.html#infineac.process_event.create_samples">[docs]</a><span class="k">def</span> <span class="nf">create_samples</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates 15 samples for keyword &#39;russia&#39;.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;russia&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;russia &amp; sanctions&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">sample_files_russia</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;russia&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;russia&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">8</span><span class="p">)[</span><span class="s2">&quot;file&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;russia&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;russia &amp; sanctions&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">7</span><span class="p">)[</span><span class="s2">&quot;file&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="n">folder</span> <span class="o">=</span> <span class="s2">&quot;../output/sample transcripts/russia/&quot;</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">folder</span> <span class="o">+</span> <span class="n">f</span><span class="p">)</span>
+    <span class="c1"># copy sample files to folder</span>
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">sample_files_russia</span><span class="p">:</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">folder</span><span class="p">)</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright Fabian Gabelberger.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

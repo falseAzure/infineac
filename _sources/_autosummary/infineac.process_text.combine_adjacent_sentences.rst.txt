@@ -1,0 +1,6 @@
+infineac.process\_text.combine\_adjacent\_sentences
+===================================================
+
+.. currentmodule:: infineac.process_text
+
+.. autofunction:: combine_adjacent_sentences

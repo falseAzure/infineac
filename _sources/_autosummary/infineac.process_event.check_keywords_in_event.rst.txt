@@ -1,0 +1,6 @@
+infineac.process\_event.check\_keywords\_in\_event
+==================================================
+
+.. currentmodule:: infineac.process_event
+
+.. autofunction:: check_keywords_in_event

@@ -1,0 +1,6 @@
+infineac.topic\_extractor.map\_topics\_to\_categories
+=====================================================
+
+.. currentmodule:: infineac.topic_extractor
+
+.. autofunction:: map_topics_to_categories

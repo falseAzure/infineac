@@ -1,0 +1,6 @@
+infineac.process\_event.events\_to\_corpus
+==========================================
+
+.. currentmodule:: infineac.process_event
+
+.. autofunction:: events_to_corpus

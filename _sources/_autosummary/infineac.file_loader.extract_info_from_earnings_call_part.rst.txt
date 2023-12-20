@@ -1,0 +1,6 @@
+infineac.file\_loader.extract\_info\_from\_earnings\_call\_part
+===============================================================
+
+.. currentmodule:: infineac.file_loader
+
+.. autofunction:: extract_info_from_earnings_call_part

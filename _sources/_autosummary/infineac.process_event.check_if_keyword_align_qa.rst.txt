@@ -1,0 +1,6 @@
+infineac.process\_event.check\_if\_keyword\_align\_qa
+=====================================================
+
+.. currentmodule:: infineac.process_event
+
+.. autofunction:: check_if_keyword_align_qa

@@ -1,0 +1,6 @@
+infineac.helper.jaccard\_similarity
+===================================
+
+.. currentmodule:: infineac.helper
+
+.. autofunction:: jaccard_similarity

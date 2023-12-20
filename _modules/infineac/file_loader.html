@@ -1,0 +1,1259 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>infineac.file_loader &#8212; Infineac 0.1.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=e936e8a8"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/infineac/file_loader';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">InFineac</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../detailed_description.html">
+                        Detailed Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/falseazure/infineac" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../detailed_description.html">
+                        Detailed Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/falseazure/infineac" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">infineac.file_loader</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for infineac.file_loader</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Imports and structures the earnings calls data from xml files.</span>
+
+<span class="sd">Examples</span>
+<span class="sd">--------</span>
+<span class="sd">&gt;&gt;&gt; import infineac.file_loader as file_loader</span>
+<span class="sd">&gt;&gt;&gt; import spacy_stanza</span>
+<span class="sd">&gt;&gt;&gt; nlp_stanza = spacy_stanza.load_pipeline(&quot;en&quot;, processors=&quot;tokenize, lemma&quot;)</span>
+<span class="sd">&gt;&gt;&gt; nlp_stanza.add_pipe(&#39;sentencizer&#39;)</span>
+<span class="sd">&gt;&gt;&gt; PATH_DIR = &quot;data/transcripts/&quot;</span>
+<span class="sd">&gt;&gt;&gt; files = list(Path(PATH_DIR).rglob(&quot;*.xml&quot;))</span>
+<span class="sd">&gt;&gt;&gt; events = file_loader.load_files_from_xml(files)</span>
+
+<span class="sd">Notes</span>
+<span class="sd">-----</span>
+<span class="sd">    The earnings calls are stored in xml files. :func:`load_files_from_xml` is</span>
+<span class="sd">    the main function of the module, that loads the xml files, extracts the</span>
+<span class="sd">    relevant information and stores it in a list of dictionaries.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">etree</span>
+<span class="kn">from</span> <span class="nn">rapidfuzz</span> <span class="kn">import</span> <span class="n">fuzz</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="c1"># main directory</span>
+<span class="n">main_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">logging_dir</span> <span class="o">=</span> <span class="n">main_dir</span> <span class="o">/</span> <span class="s2">&quot;logging&quot;</span>
+
+<span class="c1"># logging.basicConfig(</span>
+<span class="c1">#     filename=&quot;load_files_from_xml.log&quot;,</span>
+<span class="c1">#     level=logging.DEBUG,</span>
+<span class="c1">#     format=&quot;%(asctime)s - %(levelname)s - %(name)s - %(message)s&quot;,</span>
+<span class="c1"># )</span>
+
+<span class="n">load_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;load_files_from_xml&quot;</span><span class="p">)</span>
+<span class="n">load_warnings_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;load_files_from_xml_warnings&quot;</span><span class="p">)</span>
+
+<span class="c1"># Set the logging level (optional)</span>
+<span class="n">load_logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="n">load_warnings_logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+
+<span class="c1"># Create a file handler and set the logging level for the handler (optional)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">logging_dir</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+    <span class="n">logging_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">load_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">logging_dir</span> <span class="o">/</span> <span class="s2">&quot;load_files.log&quot;</span><span class="p">)</span>
+<span class="n">load_handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+
+<span class="n">load_warnings_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">logging_dir</span> <span class="o">/</span> <span class="s2">&quot;load_files_warnings.log&quot;</span><span class="p">)</span>
+<span class="n">load_warnings_handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+
+<span class="c1"># Create a formatter and add it to the handler (optional)</span>
+<span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2"> - </span><span class="si">%(levelname)s</span><span class="s2"> - </span><span class="si">%(name)s</span><span class="s2"> - </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">load_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+<span class="n">load_warnings_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+
+<span class="c1"># Add the handler to the logger</span>
+<span class="n">load_logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">load_handler</span><span class="p">)</span>
+<span class="n">load_warnings_logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">load_warnings_handler</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="structure_earnings_call"><a class="viewcode-back" href="../../_autosummary/infineac.file_loader.structure_earnings_call.html#infineac.file_loader.structure_earnings_call">[docs]</a><span class="k">def</span> <span class="nf">structure_earnings_call</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Separates and structures the earnings call into its parts and returns them</span>
+<span class="sd">    as a dictionary:</span>
+
+<span class="sd">        - Corporate Participants</span>
+<span class="sd">        - Conference Call Participants</span>
+<span class="sd">        - Presentation/Transcript</span>
+<span class="sd">        - Questions and Answers</span>
+
+<span class="sd">    If a part is not present, the corresponding string is empty. Each part</span>
+<span class="sd">    starts and ends with a specific string, that surrounds the part.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    string : str</span>
+<span class="sd">        The earnings call (body) as a string.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        A dictionary with the following key - value pairs:</span>
+
+<span class="sd">            - &#39;corp_participants&#39;: str - Corporate Participants</span>
+<span class="sd">            - &#39;conf_participants&#39;: str - Conference Call Participants</span>
+<span class="sd">            - &#39;presentation&#39;: str - Presentation/Transcript</span>
+<span class="sd">            - &#39;qa&#39;: str - Questions and Answers</span>
+
+<span class="sd">        The values are empty strings if the corresponding part is not present.</span>
+<span class="sd">        If a value represents multiple values (e.g. holds information about</span>
+<span class="sd">        multiple participants), these are separated by a specific string (e.g.</span>
+<span class="sd">        &#39;*&#39;).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">start_word_corp_participants</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;Corporate Participants</span><span class="se">\r\n</span><span class="s2">========================&quot;</span>
+        <span class="s2">&quot;========================================================</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">end_word_corp_participants</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;========================================&quot;</span>
+        <span class="s2">&quot;========================================&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">start_word_conf_participants</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;Conference Call Participants</span><span class="se">\r\n</span><span class="s2">===================&quot;</span>
+        <span class="s2">&quot;=============================================================</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">end_word_conf_participants</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;========================================&quot;</span>
+        <span class="s2">&quot;========================================&quot;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># es kann auch der Fall sein, dass anstatt von Presentation &quot;Transcript&quot; steht</span>
+    <span class="n">start_word_presentation</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;Presentation</span><span class="se">\r\n</span><span class="s2">------------------------&quot;</span>
+        <span class="s2">&quot;--------------------------------------------------------&quot;</span>
+    <span class="p">)</span>
+    <span class="n">end_word_presentation</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;========================================&quot;</span>
+        <span class="s2">&quot;========================================&quot;</span>
+    <span class="p">)</span>
+    <span class="n">start_word_transcript</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;Transcript</span><span class="se">\r\n</span><span class="s2">--------------------------&quot;</span>
+        <span class="s2">&quot;------------------------------------------------------&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">start_word_qa</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;Questions and Answers</span><span class="se">\r\n</span><span class="s2">---------------&quot;</span>
+        <span class="s2">&quot;-----------------------------------------------------------------&quot;</span>
+    <span class="p">)</span>
+    <span class="n">end_word_qa</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;========================================&quot;</span>
+        <span class="s2">&quot;========================================&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">string</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&amp;amp;&quot;</span><span class="p">,</span> <span class="s2">&quot;&amp;&quot;</span><span class="p">)</span>  <span class="c1"># replace html ampersand</span>
+
+    <span class="k">if</span> <span class="n">start_word_corp_participants</span> <span class="ow">in</span> <span class="n">string</span><span class="p">:</span>
+        <span class="n">start_index_corp_participants</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">start_word_corp_participants</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span>
+            <span class="n">start_word_corp_participants</span>
+        <span class="p">)</span>
+        <span class="n">end_index_corp_participants</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
+            <span class="n">end_word_corp_participants</span><span class="p">,</span> <span class="n">start_index_corp_participants</span>
+        <span class="p">)</span>
+        <span class="n">corp_participants</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span>
+            <span class="n">start_index_corp_participants</span><span class="p">:</span><span class="n">end_index_corp_participants</span>
+        <span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">corp_participants</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">start_word_conf_participants</span> <span class="ow">in</span> <span class="n">string</span><span class="p">:</span>
+        <span class="n">start_index_conf_participants</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">start_word_conf_participants</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span>
+            <span class="n">start_word_conf_participants</span>
+        <span class="p">)</span>
+        <span class="n">end_index_conf_participants</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
+            <span class="n">end_word_conf_participants</span><span class="p">,</span> <span class="n">start_index_conf_participants</span>
+        <span class="p">)</span>
+        <span class="n">conf_participants</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span>
+            <span class="n">start_index_conf_participants</span><span class="p">:</span><span class="n">end_index_conf_participants</span>
+        <span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">conf_participants</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">start_word_presentation</span> <span class="ow">in</span> <span class="n">string</span><span class="p">:</span>
+        <span class="n">start_index_presentation</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">start_word_presentation</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span>
+            <span class="n">start_word_presentation</span>
+        <span class="p">)</span>
+        <span class="n">end_index_presentation</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
+            <span class="n">end_word_presentation</span><span class="p">,</span> <span class="n">start_index_presentation</span>
+        <span class="p">)</span>
+        <span class="n">presentation</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="n">start_index_presentation</span><span class="p">:</span><span class="n">end_index_presentation</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">start_word_transcript</span> <span class="ow">in</span> <span class="n">string</span><span class="p">:</span>
+        <span class="n">start_index_presentation</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">start_word_transcript</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span>
+            <span class="n">start_word_transcript</span>
+        <span class="p">)</span>
+        <span class="n">end_index_presentation</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">find</span><span class="p">(</span>
+            <span class="n">end_word_presentation</span><span class="p">,</span> <span class="n">start_index_presentation</span>
+        <span class="p">)</span>
+        <span class="n">presentation</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="n">start_index_presentation</span><span class="p">:</span><span class="n">end_index_presentation</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">presentation</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">start_word_qa</span> <span class="ow">in</span> <span class="n">string</span><span class="p">:</span>
+        <span class="n">start_index_qa</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">start_word_qa</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">start_word_qa</span><span class="p">)</span>
+        <span class="n">end_index_qa</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">end_word_qa</span><span class="p">,</span> <span class="n">start_index_qa</span><span class="p">)</span>
+        <span class="n">qa</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="n">start_index_qa</span><span class="p">:</span><span class="n">end_index_qa</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">qa</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;corp_participants&quot;</span><span class="p">:</span> <span class="n">corp_participants</span><span class="p">,</span>
+        <span class="s2">&quot;conf_participants&quot;</span><span class="p">:</span> <span class="n">conf_participants</span><span class="p">,</span>
+        <span class="s2">&quot;presentation&quot;</span><span class="p">:</span> <span class="n">presentation</span><span class="p">,</span>
+        <span class="s2">&quot;qa&quot;</span><span class="p">:</span> <span class="n">qa</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="transform_unlisted_participants"><a class="viewcode-back" href="../../_autosummary/infineac.file_loader.transform_unlisted_participants.html#infineac.file_loader.transform_unlisted_participants">[docs]</a><span class="k">def</span> <span class="nf">transform_unlisted_participants</span><span class="p">(</span>
+    <span class="n">participant</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">],</span>
+    <span class="n">corp_participants</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">conf_participants</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform unlisted participants to be identified among the listed ones.</span>
+
+<span class="sd">    As some speakers are not listed among the corporate or conference call</span>
+<span class="sd">    participants, transforms these unlisted speakers names so that they can be</span>
+<span class="sd">    either identified among the listed participants (corp_participants or</span>
+<span class="sd">    conf_participants), the generic participants (operator, editor, moderator)</span>
+<span class="sd">    or be added as an unknown participant.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    participant : dict[str, str | int]</span>
+<span class="sd">        Participant to be transformed. Only uses the key &#39;name&#39;.</span>
+<span class="sd">    corp_participants : list[str]</span>
+<span class="sd">        List of corporate participants.</span>
+<span class="sd">    conf_participants : list[str]</span>
+<span class="sd">        List of conference call participants.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict[str, str | int]</span>
+<span class="sd">        The transformed participant.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># some participants are listed with a comma at the end</span>
+    <span class="k">if</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
+        <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># some participants are listed as &quot;unknown ...&quot;</span>
+    <span class="c1"># if participant[&quot;name&quot;].lower().startswith(&quot;unknown&quot;) or participant[</span>
+    <span class="c1">#     &quot;name&quot;</span>
+    <span class="c1"># ].lower().startswith(&quot;unidentified&quot;):</span>
+    <span class="c1">#     participant[&quot;name&quot;] = &quot;unknown participant&quot;</span>
+    <span class="c1">#     return participant</span>
+    <span class="c1"># some operators / moderators are listed as &quot;operator ...&quot;</span>
+    <span class="k">if</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;operator&quot;</span><span class="p">):</span>
+        <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Operator&quot;</span>
+        <span class="k">return</span> <span class="n">participant</span>
+    <span class="k">if</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;moderator&quot;</span><span class="p">):</span>
+        <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Moderator&quot;</span>
+        <span class="k">return</span> <span class="n">participant</span>
+    <span class="c1"># (ph) is added to some of the participants&#39; names</span>
+    <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s{2,}&quot;</span><span class="p">,</span> <span class="s2">&quot;  &quot;</span><span class="p">,</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+    <span class="c1"># check if a similar name is in the list of participants</span>
+    <span class="k">for</span> <span class="n">participant_</span> <span class="ow">in</span> <span class="n">corp_participants</span> <span class="o">+</span> <span class="n">conf_participants</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fuzz</span><span class="o">.</span><span class="n">ratio</span><span class="p">(</span><span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">participant_</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;(ph)&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="mi">80</span><span class="p">:</span>
+            <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">participant_</span>
+            <span class="k">return</span> <span class="n">participant</span>
+    <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^[^A-Za-z]*&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">participant</span></div>
+
+
+<div class="viewcode-block" id="get_participants_position"><a class="viewcode-back" href="../../_autosummary/infineac.file_loader.get_participants_position.html#infineac.file_loader.get_participants_position">[docs]</a><span class="k">def</span> <span class="nf">get_participants_position</span><span class="p">(</span>
+    <span class="n">participant</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">],</span>
+    <span class="n">corp_participants</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">conf_participants</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the position of the participant based on the lists of corporate and</span>
+<span class="sd">    conference call participants.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    participant : dict[str, str | int]</span>
+<span class="sd">        Participant to be transformed. Only uses the key &#39;name&#39;.</span>
+<span class="sd">    corp_participants : list[str]</span>
+<span class="sd">        List of corporate participants.</span>
+<span class="sd">    conf_participants : list[str]</span>
+<span class="sd">        List of conference call participants.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The position of the participant.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;operator&quot;</span>
+    <span class="k">if</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;editor&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;operator&quot;</span>
+    <span class="k">if</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;moderator&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;operator&quot;</span>
+    <span class="k">if</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">corp_participants</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;cooperation&quot;</span>
+    <span class="k">if</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">conf_participants</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;conference&quot;</span>
+    <span class="k">if</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;unidentified&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">participant</span><span class="p">[</span>
+        <span class="s2">&quot;name&quot;</span>
+    <span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;unknown&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;unknown participant&quot;</span>
+    <span class="k">if</span> <span class="n">corp_participants</span> <span class="o">!=</span> <span class="p">[]</span> <span class="ow">and</span> <span class="n">conf_participants</span> <span class="o">!=</span> <span class="p">[]:</span>
+        <span class="k">return</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="s2">&quot;unknown participant&quot;</span></div>
+
+
+<div class="viewcode-block" id="extract_info_from_earnings_call_part"><a class="viewcode-back" href="../../_autosummary/infineac.file_loader.extract_info_from_earnings_call_part.html#infineac.file_loader.extract_info_from_earnings_call_part">[docs]</a><span class="k">def</span> <span class="nf">extract_info_from_earnings_call_part</span><span class="p">(</span>
+    <span class="n">part</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">corp_participants</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+    <span class="n">conf_participants</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;presentation&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts information from an earnings call `part`.</span>
+
+<span class="sd">    This `part` is either the presentation/transcript or Q&amp;A. The extracted</span>
+<span class="sd">    information contains the participant&#39;s number of appearance, the the name</span>
+<span class="sd">    of the participant, the participant&#39;s position and the participant&#39;s text.</span>
+<span class="sd">    The position of the participant can be either &#39;corporate&#39;, &#39;conference&#39;,</span>
+<span class="sd">    &#39;operator&#39;, &#39;editor&#39;, &#39;moderator&#39; or &#39;unknown&#39;. The information is returned</span>
+<span class="sd">    as a list of dictionaries, where each dictionary holds the information of</span>
+<span class="sd">    the individual participants and their corresponding texts.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    part : str</span>
+<span class="sd">        Either the presentation/transcript or Q&amp;A as a string.</span>
+<span class="sd">    corp_participants : list</span>
+<span class="sd">        List of corporate participants.</span>
+<span class="sd">    conf_participants : list</span>
+<span class="sd">        List of conference call participants.</span>
+<span class="sd">    type : str, default: &quot;presentation&quot;</span>
+<span class="sd">        Either &#39;presentation&#39; or &#39;qa&#39;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list[dict]</span>
+<span class="sd">        List of dictionaries, where each dictionary holds the information of</span>
+<span class="sd">        the individual participants and their corresponding texts within the given</span>
+<span class="sd">        given part of the earnings call.</span>
+<span class="sd">        The dictionary key-value pairs are:</span>
+
+<span class="sd">            - &#39;n&#39;: int - the participant&#39;s appearance number</span>
+<span class="sd">            - &#39;name&#39;: str - the participant&#39;s name</span>
+<span class="sd">            - &#39;position&#39;: str - The participant&#39;s position</span>
+<span class="sd">            - &#39;text&#39;: str - the participant&#39;s text</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Split presentation into slides</span>
+    <span class="n">split_symbol</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;------------------------------------&quot;</span>
+        <span class="s2">&quot;--------------------------------------------</span><span class="se">\r\n</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parts_split</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">split_symbol</span><span class="p">)</span>
+    <span class="n">parts_split</span> <span class="o">=</span> <span class="p">[</span><span class="n">part</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts_split</span><span class="p">]</span>
+    <span class="c1"># removes the double spaces between participant and his position</span>
+    <span class="c1"># presentation=[re.sub(&#39; +&#39;, &#39; &#39;, el.strip()) for el in presentation if el.strip()]</span>
+
+    <span class="c1"># Split part into participants and texts</span>
+    <span class="c1"># alternating</span>
+    <span class="c1"># participants = []</span>
+    <span class="c1"># texts = []</span>
+    <span class="c1"># for index, item in enumerate(parts_split):</span>
+    <span class="c1">#     if index % 2 == 0:</span>
+    <span class="c1">#         participants.append(item)</span>
+    <span class="c1">#     else:</span>
+    <span class="c1">#         texts.append(item)</span>
+
+    <span class="c1"># with regex</span>
+    <span class="n">participants</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">part</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts_split</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(.|\n)+  \[\d+\]&quot;</span><span class="p">,</span> <span class="n">part</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\[\d+\]&quot;</span><span class="p">,</span> <span class="n">part</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">part</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">part</span> <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts_split</span> <span class="k">if</span> <span class="n">part</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">participants</span><span class="p">]</span>
+
+    <span class="n">n_participants</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">participants</span><span class="p">)</span>
+    <span class="n">n_texts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+
+    <span class="c1"># Note: if no participant or text is found, the presentation is not included</span>
+    <span class="k">if</span> <span class="n">n_participants</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">warning_message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;No participants present at </span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">load_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">warning_message</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warning_message</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">n_texts</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">warning_message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;No texts present at </span><span class="si">{</span><span class="nb">type</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">load_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">warning_message</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warning_message</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">regex_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;(.*)\s{2,}\[(\d+)\]$&quot;</span>
+    <span class="n">participants_ordered</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex_pattern</span><span class="p">,</span> <span class="n">participant</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex_pattern</span><span class="p">,</span> <span class="n">participant</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;\[\d+\]&quot;</span><span class="p">,</span> <span class="n">participant</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">{</span>
+            <span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\[(\d+)\]&quot;</span><span class="p">,</span> <span class="n">participant</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;unknown participant&quot;</span><span class="p">,</span>
+        <span class="p">}</span>  <span class="c1"># if the participant is not mentioned</span>
+        <span class="k">for</span> <span class="n">participant</span> <span class="ow">in</span> <span class="n">participants</span>
+    <span class="p">]</span>
+
+    <span class="n">participants_not_listed</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">participant</span>
+        <span class="k">for</span> <span class="n">participant</span> <span class="ow">in</span> <span class="n">participants_ordered</span>
+        <span class="k">if</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+        <span class="ow">not</span> <span class="ow">in</span> <span class="n">corp_participants</span>
+        <span class="o">+</span> <span class="n">conf_participants</span>
+        <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;editor&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">,</span> <span class="s2">&quot;moderator&quot;</span><span class="p">]</span>
+        <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;Editor&quot;</span><span class="p">,</span> <span class="s2">&quot;Operator&quot;</span><span class="p">,</span> <span class="s2">&quot;Moderator&quot;</span><span class="p">]</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;unidentified&quot;</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="c1"># transforms participants_ordered as well</span>
+    <span class="k">for</span> <span class="n">participant</span> <span class="ow">in</span> <span class="n">participants_not_listed</span><span class="p">:</span>
+        <span class="n">participant</span> <span class="o">=</span> <span class="n">transform_unlisted_participants</span><span class="p">(</span>
+            <span class="n">participant</span><span class="p">,</span> <span class="n">corp_participants</span><span class="p">,</span> <span class="n">conf_participants</span>
+        <span class="p">)</span>
+
+    <span class="n">participants_ordered</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">get_participants_position</span><span class="p">(</span>
+                <span class="n">participant</span><span class="p">,</span> <span class="n">corp_participants</span><span class="p">,</span> <span class="n">conf_participants</span>
+            <span class="p">),</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">participant</span> <span class="ow">in</span> <span class="n">participants_ordered</span>
+    <span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">participants</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">):</span>
+        <span class="n">warning_message</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;presentation_participants (</span><span class="si">{</span><span class="n">n_participants</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="s2">&quot;and presentation_texts (</span><span class="si">{n_texts}</span><span class="s2">) have different lengths&quot;</span>
+        <span class="p">)</span>
+        <span class="n">load_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">warning_message</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warning_message</span><span class="p">)</span>
+
+        <span class="c1"># Extend the shorter list with empty strings</span>
+        <span class="k">if</span> <span class="n">n_participants</span> <span class="o">&gt;</span> <span class="n">n_texts</span><span class="p">:</span>
+            <span class="n">missing</span> <span class="o">=</span> <span class="n">n_participants</span> <span class="o">-</span> <span class="n">n_texts</span>
+            <span class="n">texts</span> <span class="o">=</span> <span class="n">texts</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">missing</span>
+            <span class="n">warning_message</span> <span class="o">=</span> <span class="s2">&quot;presentation_texts was extended with empty strings&quot;</span>
+            <span class="n">load_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">warning_message</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warning_message</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_participants</span> <span class="o">&lt;</span> <span class="n">n_texts</span><span class="p">:</span>
+            <span class="n">missing</span> <span class="o">=</span> <span class="n">n_texts</span> <span class="o">-</span> <span class="n">n_participants</span>
+            <span class="n">last_participant</span> <span class="o">=</span> <span class="n">participants_ordered</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;n&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">missing</span><span class="p">):</span>
+                <span class="n">participants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">last_participant</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;unknown participant&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown participant&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="n">warning_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;presentation_participants was extended with unknown participants&quot;</span>
+            <span class="p">)</span>
+            <span class="n">load_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">warning_message</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">warning_message</span><span class="p">)</span>
+
+    <span class="n">part_ordered</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="n">participants_ordered</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;n&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">participants_ordered</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">participants_ordered</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;position&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">texts</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">participants</span><span class="p">))</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="n">part_ordered</span></div>
+
+
+<div class="viewcode-block" id="participants_string_to_list"><a class="viewcode-back" href="../../_autosummary/infineac.file_loader.participants_string_to_list.html#infineac.file_loader.participants_string_to_list">[docs]</a><span class="k">def</span> <span class="nf">participants_string_to_list</span><span class="p">(</span><span class="n">participants</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Split the participants string into a list of participants.&quot;&quot;&quot;</span>
+    <span class="n">participants_list</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;\s{1,}</span><span class="se">\\</span><span class="s2">*&quot;</span><span class="p">,</span> <span class="n">participants</span><span class="p">)</span>
+
+    <span class="n">participants_list</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="n">el</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">pair</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">el</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+        <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">participants_list</span>
+        <span class="k">if</span> <span class="n">pair</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">participants_list</span></div>
+
+
+<div class="viewcode-block" id="participants_list_collapsed"><a class="viewcode-back" href="../../_autosummary/infineac.file_loader.participants_list_collapsed.html#infineac.file_loader.participants_list_collapsed">[docs]</a><span class="k">def</span> <span class="nf">participants_list_collapsed</span><span class="p">(</span><span class="n">participants_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Collapse the participants list into a list of strings.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;,  &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">participants_list</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="extract_info_from_earnings_call_structured"><a class="viewcode-back" href="../../_autosummary/infineac.file_loader.extract_info_from_earnings_call_structured.html#infineac.file_loader.extract_info_from_earnings_call_structured">[docs]</a><span class="k">def</span> <span class="nf">extract_info_from_earnings_call_structured</span><span class="p">(</span>
+    <span class="n">conference_call_structured_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts information from an already structured earnings call.</span>
+<span class="sd">    This information includes:</span>
+
+<span class="sd">        - corporate participants (name and position)</span>
+<span class="sd">        - conference call participants (name)</span>
+<span class="sd">        - Presentation part of the earnings call</span>
+<span class="sd">        - Q&amp;A part of the earnings call</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    conference_call_structured_dict : dict[str, str]</span>
+<span class="sd">        Dictionary containing the structured earnings call returned by</span>
+<span class="sd">        :func:`structure_earnings_call`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Dictionary containing the extracted information from the earnings call.</span>
+<span class="sd">        The key-value pairs are:</span>
+
+<span class="sd">            - &#39;corp_participants&#39;: list[dict] - List of corporate</span>
+<span class="sd">              participants. Each participant consists of a dictionary with the</span>
+<span class="sd">              keys &#39;name&#39; and &#39;position&#39;.</span>
+<span class="sd">            - &#39;corp_participants_collapsed&#39;: list[str] - As a above, but name</span>
+<span class="sd">              and position of each participant are collapsed into a single</span>
+<span class="sd">              string.</span>
+<span class="sd">            - &#39;conf_participants&#39;: list[dict] - Conference call</span>
+<span class="sd">              participants. Same format as above.</span>
+<span class="sd">            - &#39;conf_participants_collapsed&#39;: list[str] - Conference call</span>
+<span class="sd">              participants with collapsed name and position.</span>
+<span class="sd">            - &#39;presentation&#39;: list[dict] - Presentation part of the earnings</span>
+<span class="sd">              call as returned by :func:`extract_info_from_earnings_call_part`.</span>
+<span class="sd">            - &#39;qa&#39;: list[dict] - Q&amp;A part of the earnings call as returned by</span>
+<span class="sd">              :func:`extract_info_from_earnings_call_part`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Participants</span>
+    <span class="c1"># is listed with a &#39;  *&#39; at the beginning of each participant</span>
+    <span class="c1"># Corporation Participants</span>
+    <span class="n">corp_participants</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
+        <span class="s2">&quot;\s{1,}</span><span class="se">\\</span><span class="s2">*&quot;</span><span class="p">,</span> <span class="n">conference_call_structured_dict</span><span class="p">[</span><span class="s2">&quot;corp_participants&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">corp_participants</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">participant</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+            <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">participant</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">participant</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span>
+            <span class="k">else</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">participant</span> <span class="ow">in</span> <span class="n">corp_participants</span>
+        <span class="k">if</span> <span class="n">participant</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="p">]</span>
+    <span class="n">corp_participants_collapsed</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;,  &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]])</span>
+        <span class="k">for</span> <span class="n">participant</span> <span class="ow">in</span> <span class="n">corp_participants</span>
+    <span class="p">]</span>
+
+    <span class="c1"># corp_participants = [</span>
+    <span class="c1">#     [el.strip() for el in pair.split(&quot;\r\n&quot;) if el.strip()]</span>
+    <span class="c1">#     for pair in corp_participants</span>
+    <span class="c1">#     if pair.strip()</span>
+    <span class="c1"># ]</span>
+    <span class="c1"># corp_participants_collapsed = [&quot;,  &quot;.join(pair) for pair in corp_participants]</span>
+
+    <span class="c1"># Conference Call Participants</span>
+    <span class="n">conf_participants</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
+        <span class="s2">&quot;\s{1,}</span><span class="se">\\</span><span class="s2">*&quot;</span><span class="p">,</span> <span class="n">conference_call_structured_dict</span><span class="p">[</span><span class="s2">&quot;conf_participants&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">conf_participants</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">participant</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+            <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">participant</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">participant</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span>
+            <span class="k">else</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="n">participant</span> <span class="ow">in</span> <span class="n">conf_participants</span>
+        <span class="k">if</span> <span class="n">participant</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="p">]</span>
+    <span class="n">conf_participants_collapsed</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;,  &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">participant</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">participant</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]])</span>
+        <span class="k">for</span> <span class="n">participant</span> <span class="ow">in</span> <span class="n">conf_participants</span>
+    <span class="p">]</span>
+
+    <span class="c1"># conf_participants = [</span>
+    <span class="c1">#     [el.strip() for el in pair.split(&quot;\r\n&quot;) if el.strip()]</span>
+    <span class="c1">#     for pair in conf_participants</span>
+    <span class="c1">#     if pair.strip()</span>
+    <span class="c1"># ]</span>
+    <span class="c1"># conf_participants_collapsed = [&quot;,  &quot;.join(pair) for pair in conf_participants]</span>
+
+    <span class="c1"># Presentation</span>
+    <span class="n">presentation</span> <span class="o">=</span> <span class="n">extract_info_from_earnings_call_part</span><span class="p">(</span>
+        <span class="n">conference_call_structured_dict</span><span class="p">[</span><span class="s2">&quot;presentation&quot;</span><span class="p">],</span>
+        <span class="n">corp_participants_collapsed</span><span class="p">,</span>
+        <span class="n">conf_participants_collapsed</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;presentation&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># Q&amp;A</span>
+    <span class="n">qa</span> <span class="o">=</span> <span class="n">extract_info_from_earnings_call_part</span><span class="p">(</span>
+        <span class="n">conference_call_structured_dict</span><span class="p">[</span><span class="s2">&quot;qa&quot;</span><span class="p">],</span>
+        <span class="n">corp_participants_collapsed</span><span class="p">,</span>
+        <span class="n">conf_participants_collapsed</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;qa&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;corp_participants&quot;</span><span class="p">:</span> <span class="n">corp_participants</span><span class="p">,</span>
+        <span class="s2">&quot;corp_participants_collapsed&quot;</span><span class="p">:</span> <span class="n">corp_participants_collapsed</span><span class="p">,</span>
+        <span class="s2">&quot;conf_participants&quot;</span><span class="p">:</span> <span class="n">conf_participants</span><span class="p">,</span>
+        <span class="s2">&quot;conf_participants_collapsed&quot;</span><span class="p">:</span> <span class="n">conf_participants_collapsed</span><span class="p">,</span>
+        <span class="s2">&quot;presentation&quot;</span><span class="p">:</span> <span class="n">presentation</span><span class="p">,</span>
+        <span class="s2">&quot;qa&quot;</span><span class="p">:</span> <span class="n">qa</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="extract_info_from_earnings_call_body"><a class="viewcode-back" href="../../_autosummary/infineac.file_loader.extract_info_from_earnings_call_body.html#infineac.file_loader.extract_info_from_earnings_call_body">[docs]</a><span class="k">def</span> <span class="nf">extract_info_from_earnings_call_body</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts information from the `body` of a conference call.</span>
+<span class="sd">    This information includes:</span>
+
+<span class="sd">        - corporate participants (name and position)</span>
+<span class="sd">        - conference call participants (name)</span>
+<span class="sd">        - Presentation part of the earnings call</span>
+<span class="sd">        - Q&amp;A part of the earnings call</span>
+
+<span class="sd">    This function is a wrapper for the function :func:`structure_earnings_call`</span>
+<span class="sd">    and :func:`extract_info_from_earnings_call_structured`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    body: str</span>
+<span class="sd">        The earnings call (body) as a string.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Dictionary containing the extracted information from the earnings call.</span>
+<span class="sd">        The key-value pairs are:</span>
+
+<span class="sd">            - &#39;corp_participants&#39;: list[dict] - List of corporate</span>
+<span class="sd">              participants. Each participant consists of a dictionary with the</span>
+<span class="sd">              keys &#39;name&#39; and &#39;position&#39;.</span>
+<span class="sd">            - &#39;corp_participants_collapsed&#39;: list[str] - As a above, but name</span>
+<span class="sd">              and position of each participant are collapsed into a single</span>
+<span class="sd">              string.</span>
+<span class="sd">            - &#39;conf_participants&#39;: list[dict] - Conference call</span>
+<span class="sd">              participants. Same format as above.</span>
+<span class="sd">            - &#39;conf_participants_collapsed&#39;: list[str] - Conference call</span>
+<span class="sd">              participants with collapsed name and position.</span>
+<span class="sd">            - &#39;presentation&#39;: list[dict] - Presentation part of the earnings</span>
+<span class="sd">              call as returned by :func:`extract_info_from_earnings_call_part`.</span>
+<span class="sd">            - &#39;qa&#39;: list[dict] - Q&amp;A part of the earnings call as returned by</span>
+<span class="sd">              :func:`extract_info_from_earnings_call_part`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conference_call_structured_raw</span> <span class="o">=</span> <span class="n">structure_earnings_call</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">extract_info_from_earnings_call_structured</span><span class="p">(</span><span class="n">conference_call_structured_raw</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="create_blank_event"><a class="viewcode-back" href="../../_autosummary/infineac.file_loader.create_blank_event.html#infineac.file_loader.create_blank_event">[docs]</a><span class="k">def</span> <span class="nf">create_blank_event</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a blank event with the keys that are expected in the final output.</span>
+<span class="sd">    A list of these keys can be found in the documentation of</span>
+<span class="sd">    :func:`load_files_from_xml`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Dictionary containing the blank event.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">event</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;year_upload&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="c1"># event[&quot;body_orig&quot;] = &quot;&quot;</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;corp_participants&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;corp_participants_collapsed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;conf_participants&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;conf_participants_collapsed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;presentation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;presentation_collapsed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;qa&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;qa_collapsed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;action&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;story_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;city&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;company_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;company_ticker&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">1900</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;last_update&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">1900</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;event_type_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">event</span><span class="p">[</span><span class="s2">&quot;event_type_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+
+    <span class="k">return</span> <span class="n">event</span></div>
+
+
+<div class="viewcode-block" id="add_info_to_event"><a class="viewcode-back" href="../../_autosummary/infineac.file_loader.add_info_to_event.html#infineac.file_loader.add_info_to_event">[docs]</a><span class="k">def</span> <span class="nf">add_info_to_event</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>  <span class="c1"># noqa: C901</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Adds information to given `event` based on the `element` of an xml file.</span>
+<span class="sd">    Used by :func:`load_files_from_xml`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    event : dict</span>
+<span class="sd">        Event to which the information should be added.</span>
+<span class="sd">    element : lxml.etree.Element</span>
+<span class="sd">        Element of an xml file.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Dictionary containing the event with the added information.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span>
+    <span class="k">if</span> <span class="n">tag</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">event</span>
+
+    <span class="n">text</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">text</span>
+    <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;Body&quot;</span><span class="p">:</span>
+        <span class="c1"># event[&quot;body_orig&quot;] = text</span>
+
+        <span class="n">body</span> <span class="o">=</span> <span class="n">extract_info_from_earnings_call_body</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;corp_participants&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;corp_participants&quot;</span><span class="p">]</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;corp_participants_collapsed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;corp_participants_collapsed&quot;</span><span class="p">]</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;conf_participants&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;conf_participants&quot;</span><span class="p">]</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;conf_participants_collapsed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;conf_participants_collapsed&quot;</span><span class="p">]</span>
+
+        <span class="n">presentation</span> <span class="o">=</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;presentation&quot;</span><span class="p">]</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;presentation&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">presentation</span>
+        <span class="k">if</span> <span class="n">presentation</span><span class="p">:</span>
+            <span class="n">event</span><span class="p">[</span><span class="s2">&quot;presentation_collapsed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">el</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">presentation</span> <span class="k">if</span> <span class="n">el</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;cooperation&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">event</span><span class="p">[</span><span class="s2">&quot;presentation_collapsed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="n">qa</span> <span class="o">=</span> <span class="n">body</span><span class="p">[</span><span class="s2">&quot;qa&quot;</span><span class="p">]</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;qa&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">qa</span>
+        <span class="k">if</span> <span class="n">qa</span><span class="p">:</span>
+            <span class="n">event</span><span class="p">[</span><span class="s2">&quot;qa_collapsed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">el</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">qa</span> <span class="k">if</span> <span class="n">el</span><span class="p">[</span><span class="s2">&quot;position&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;cooperation&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">event</span><span class="p">[</span><span class="s2">&quot;qa_collapsed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;EventStory&quot;</span><span class="p">:</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;action&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;action&quot;</span><span class="p">]</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;story_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;storyType&quot;</span><span class="p">]</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;eventTitle&quot;</span><span class="p">:</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">text</span>
+    <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;city&quot;</span><span class="p">:</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;city&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">text</span>
+    <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;companyName&quot;</span><span class="p">:</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;company_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">text</span>
+    <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;companyTicker&quot;</span><span class="p">:</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;company_ticker&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">text</span>
+    <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;startDate&quot;</span><span class="p">:</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">-%b-%y %I:%M%p %Z&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;Event&quot;</span><span class="p">:</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;Id&quot;</span><span class="p">])</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;last_update&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+            <span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;lastUpdate&quot;</span><span class="p">],</span> <span class="s2">&quot;%A, %B </span><span class="si">%d</span><span class="s2">, %Y at %I:%M:%S%p %Z&quot;</span>
+        <span class="p">)</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;event_type_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;eventTypeId&quot;</span><span class="p">])</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;event_type_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;eventTypeName&quot;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">event</span></div>
+
+
+<div class="viewcode-block" id="load_files_from_xml"><a class="viewcode-back" href="../../_autosummary/infineac.file_loader.load_files_from_xml.html#infineac.file_loader.load_files_from_xml">[docs]</a><span class="k">def</span> <span class="nf">load_files_from_xml</span><span class="p">(</span><span class="n">files</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parses the xml files and extracts the information from the earnings calls.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    files : list</span>
+<span class="sd">        List of xml `files`, to be parsed.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list[dict]</span>
+<span class="sd">        List of dictionaries containing the extracted information from</span>
+<span class="sd">        the earnings calls. For each file the information is extracted into a</span>
+<span class="sd">        dictionary, that contains the following key-value pairs:</span>
+
+<span class="sd">            - &#39;file&#39;: str - the file name</span>
+<span class="sd">            - &#39;year_upload&#39;: integer - the year of the upload</span>
+<span class="sd">            - &#39;corp_participants&#39;: list[dict] - the corporate participants</span>
+<span class="sd">            - &#39;corp_participants_collapsed&#39;: list[str] - collapsed list</span>
+<span class="sd">            - &#39;conf_participants&#39;: list[dict] - the conference call participants</span>
+<span class="sd">            - &#39;conf_participants_collapsed&#39;: list[str] - collapsed list</span>
+<span class="sd">            - &#39;presentation&#39;: list[dict] - the presentation part</span>
+<span class="sd">            - &#39;presentation_collapsed&#39;: list[str] - collapsed list</span>
+<span class="sd">            - &#39;qa&#39;: list[dict] - the Q&amp;A part</span>
+<span class="sd">            - &#39;qa_collapsed&#39;: list[str] - collapsed list</span>
+<span class="sd">            - &#39;action&#39;: str - the action (e.g. publish)</span>
+<span class="sd">            - &#39;story_type&#39;: str - the story type (e.g. transcript)</span>
+<span class="sd">            - &#39;version&#39;: str - the version of the publication (e.g. final)</span>
+<span class="sd">            - &#39;title&#39;: str - the title of the earnings call</span>
+<span class="sd">            - &#39;city&#39;: str - the city of the earnings call</span>
+<span class="sd">            - &#39;company_name&#39;: str - the company of the earnings call</span>
+<span class="sd">            - &#39;company_ticker&#39;: str - the company ticker of the earnings call</span>
+<span class="sd">            - &#39;date&#39;: date - the date of the earnings call</span>
+<span class="sd">            - &#39;id&#39;: int - the id of the publication</span>
+<span class="sd">            - &#39;last_update&#39;: date - the last update of the publication</span>
+<span class="sd">            - &#39;event_type_id&#39;: int - the event type id</span>
+<span class="sd">            - &#39;event_type_name&#39;: str - the event type name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">load_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Start loading files from xml&quot;</span><span class="p">)</span>
+    <span class="n">load_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Number of files: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)))</span>
+    <span class="n">load_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Start processing files&quot;</span><span class="p">)</span>
+
+    <span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Files&quot;</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)):</span>
+        <span class="n">load_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Processing file: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="c1"># print(i, &quot;/&quot;, len(files), &quot; - Processing file: &quot;, file, end=&quot;\r&quot;)</span>
+        <span class="n">event</span> <span class="o">=</span> <span class="n">create_blank_event</span><span class="p">()</span>
+        <span class="c1"># event[&quot;file&quot;] = Path(file).stem</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">file</span>
+        <span class="n">event</span><span class="p">[</span><span class="s2">&quot;year_upload&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">file</span><span class="p">)))</span>
+
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">etree</span><span class="o">.</span><span class="n">iterparse</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">caught_warnings</span><span class="p">:</span>
+                <span class="n">event</span> <span class="o">=</span> <span class="n">add_info_to_event</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">elem</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">caught_warnings</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">warning</span> <span class="ow">in</span> <span class="n">caught_warnings</span><span class="p">:</span>
+                    <span class="n">warning_message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">warning</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="n">load_warnings_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">warning_message</span><span class="p">)</span>
+                    <span class="c1"># print(f&quot;Warning occurred in {file}: {warning.message}&quot;, end=&quot;\n&quot;)</span>
+
+        <span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">events</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright Fabian Gabelberger.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+infineac.compare\_results.create\_compare\_df
+=============================================
+
+.. currentmodule:: infineac.compare_results
+
+.. autofunction:: create_compare_df

@@ -1,0 +1,618 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>infineac.file_loader.extract_info_from_earnings_call_part &#8212; Infineac 0.1.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=e936e8a8"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_autosummary/infineac.file_loader.extract_info_from_earnings_call_part';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="infineac.file_loader.extract_info_from_earnings_call_structured" href="infineac.file_loader.extract_info_from_earnings_call_structured.html" />
+    <link rel="prev" title="infineac.file_loader.extract_info_from_earnings_call_body" href="infineac.file_loader.extract_info_from_earnings_call_body.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">InFineac</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../detailed_description.html">
+                        Detailed Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../modules.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/falseazure/infineac" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../user_guide.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../detailed_description.html">
+                        Detailed Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../modules.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/falseazure/infineac" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="infineac.html">infineac</a><input checked class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="infineac.compare_results.html">infineac.compare_results</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="infineac.compare_results.aggregate_results.html">infineac.compare_results.aggregate_results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.compare_results.calculate_similarity.html">infineac.compare_results.calculate_similarity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.compare_results.create_compare_df.html">infineac.compare_results.create_compare_df</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.compare_results.create_empty_count_df.html">infineac.compare_results.create_empty_count_df</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.compare_results.get_strategy_list.html">infineac.compare_results.get_strategy_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.compare_results.update_count.html">infineac.compare_results.update_count</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="infineac.constants.html">infineac.constants</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="infineac.file_loader.html">infineac.file_loader</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="infineac.file_loader.add_info_to_event.html">infineac.file_loader.add_info_to_event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.file_loader.create_blank_event.html">infineac.file_loader.create_blank_event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.file_loader.extract_info_from_earnings_call_body.html">infineac.file_loader.extract_info_from_earnings_call_body</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">infineac.file_loader.extract_info_from_earnings_call_part</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.file_loader.extract_info_from_earnings_call_structured.html">infineac.file_loader.extract_info_from_earnings_call_structured</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.file_loader.get_participants_position.html">infineac.file_loader.get_participants_position</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.file_loader.load_files_from_xml.html">infineac.file_loader.load_files_from_xml</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.file_loader.participants_list_collapsed.html">infineac.file_loader.participants_list_collapsed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.file_loader.participants_string_to_list.html">infineac.file_loader.participants_string_to_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.file_loader.structure_earnings_call.html">infineac.file_loader.structure_earnings_call</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.file_loader.transform_unlisted_participants.html">infineac.file_loader.transform_unlisted_participants</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="infineac.helper.html">infineac.helper</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="infineac.helper.add_context_integers.html">infineac.helper.add_context_integers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.helper.fill_list.html">infineac.helper.fill_list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.helper.fill_list_from_mapping.html">infineac.helper.fill_list_from_mapping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.helper.jaccard_similarity.html">infineac.helper.jaccard_similarity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.helper.jaccard_similarity_lists.html">infineac.helper.jaccard_similarity_lists</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.helper.jaccard_similarity_pairwise.html">infineac.helper.jaccard_similarity_pairwise</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.helper.load_data.html">infineac.helper.load_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.helper.save_data.html">infineac.helper.save_data</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="infineac.pipeline.html">infineac.pipeline</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="infineac.pipeline.pipeline.html">infineac.pipeline.pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="infineac.process_event.html">infineac.process_event</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_event.check_if_keyword_align_qa.html">infineac.process_event.check_if_keyword_align_qa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_event.check_keywords_in_event.html">infineac.process_event.check_keywords_in_event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_event.corpus_list_to_dataframe.html">infineac.process_event.corpus_list_to_dataframe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_event.create_participants_to_remove.html">infineac.process_event.create_participants_to_remove</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_event.create_samples.html">infineac.process_event.create_samples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_event.events_to_corpus.html">infineac.process_event.events_to_corpus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_event.excluded_sentences_by_mod_words.html">infineac.process_event.excluded_sentences_by_mod_words</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_event.extract_infos_from_events.html">infineac.process_event.extract_infos_from_events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_event.extract_passages_from_event.html">infineac.process_event.extract_passages_from_event</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_event.extract_passages_from_events.html">infineac.process_event.extract_passages_from_events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_event.extract_passages_from_presentation.html">infineac.process_event.extract_passages_from_presentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_event.extract_passages_from_qa.html">infineac.process_event.extract_passages_from_qa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_event.filter_events.html">infineac.process_event.filter_events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_event.test_positions.html">infineac.process_event.test_positions</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="infineac.process_text.html">infineac.process_text</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.combine_adjacent_sentences.html">infineac.process_text.combine_adjacent_sentences</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.contains_stopword.html">infineac.process_text.contains_stopword</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.extract_keyword_sentences_preceding_mod.html">infineac.process_text.extract_keyword_sentences_preceding_mod</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.extract_keyword_sentences_preceding_mod_nlp.html">infineac.process_text.extract_keyword_sentences_preceding_mod_nlp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.extract_keyword_sentences_window.html">infineac.process_text.extract_keyword_sentences_window</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.extract_passages_from_paragraphs.html">infineac.process_text.extract_passages_from_paragraphs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.get_elections.html">infineac.process_text.get_elections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.get_russia_and_sanction.html">infineac.process_text.get_russia_and_sanction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.get_strategies.html">infineac.process_text.get_strategies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.keyword_threshold_search_exclude_mod.html">infineac.process_text.keyword_threshold_search_exclude_mod</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.keyword_threshold_search_include_mod.html">infineac.process_text.keyword_threshold_search_include_mod</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.list_to_string.html">infineac.process_text.list_to_string</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.process_corpus.html">infineac.process_text.process_corpus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.process_text.html">infineac.process_text.process_text</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.process_text_nlp.html">infineac.process_text.process_text_nlp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.remove_sentences_under_threshold.html">infineac.process_text.remove_sentences_under_threshold</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.sample_strategies.html">infineac.process_text.sample_strategies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.starts_with_additional_word.html">infineac.process_text.starts_with_additional_word</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.process_text.strategy_keywords_tolist.html">infineac.process_text.strategy_keywords_tolist</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="infineac.topic_extractor.html">infineac.topic_extractor</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="infineac.topic_extractor.bert_advanced.html">infineac.topic_extractor.bert_advanced</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.topic_extractor.categorize_topics.html">infineac.topic_extractor.categorize_topics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.topic_extractor.get_groups_from_hierarchy.html">infineac.topic_extractor.get_groups_from_hierarchy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.topic_extractor.get_topics_per_company.html">infineac.topic_extractor.get_topics_per_company</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.topic_extractor.map_topics_to_categories.html">infineac.topic_extractor.map_topics_to_categories</a></li>
+<li class="toctree-l3"><a class="reference internal" href="infineac.topic_extractor.plot_category_distribution.html">infineac.topic_extractor.plot_category_distribution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../modules.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="infineac.file_loader.html" class="nav-link">infineac.file_loader</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">infineac.file_loader.extract_info_from_earnings_call_part</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="infineac-file-loader-extract-info-from-earnings-call-part">
+<h1>infineac.file_loader.extract_info_from_earnings_call_part<a class="headerlink" href="#infineac-file-loader-extract-info-from-earnings-call-part" title="Permalink to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="infineac.file_loader.extract_info_from_earnings_call_part">
+<span class="sig-prename descclassname"><span class="pre">infineac.file_loader.</span></span><span class="sig-name descname"><span class="pre">extract_info_from_earnings_call_part</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">part</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corp_participants</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conf_participants</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'presentation'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/infineac/file_loader.html#extract_info_from_earnings_call_part"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#infineac.file_loader.extract_info_from_earnings_call_part" title="Permalink to this definition">#</a></dt>
+<dd><p>Extracts information from an earnings call <cite>part</cite>.</p>
+<p>This <cite>part</cite> is either the presentation/transcript or Q&amp;A. The extracted
+information contains the participant’s number of appearance, the the name
+of the participant, the participant’s position and the participant’s text.
+The position of the participant can be either ‘corporate’, ‘conference’,
+‘operator’, ‘editor’, ‘moderator’ or ‘unknown’. The information is returned
+as a list of dictionaries, where each dictionary holds the information of
+the individual participants and their corresponding texts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>part</strong> (<em>str</em>) – Either the presentation/transcript or Q&amp;A as a string.</p></li>
+<li><p><strong>corp_participants</strong> (<em>list</em>) – List of corporate participants.</p></li>
+<li><p><strong>conf_participants</strong> (<em>list</em>) – List of conference call participants.</p></li>
+<li><p><strong>type</strong> (<em>str</em><em>, </em><em>default: &quot;presentation&quot;</em>) – Either ‘presentation’ or ‘qa’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>List of dictionaries, where each dictionary holds the information of
+the individual participants and their corresponding texts within the given
+given part of the earnings call.
+The dictionary key-value pairs are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>’n’: int - the participant’s appearance number</p></li>
+<li><p>’name’: str - the participant’s name</p></li>
+<li><p>’position’: str - The participant’s position</p></li>
+<li><p>’text’: str - the participant’s text</p></li>
+</ul>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="infineac.file_loader.extract_info_from_earnings_call_body.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">infineac.file_loader.extract_info_from_earnings_call_body</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="infineac.file_loader.extract_info_from_earnings_call_structured.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">infineac.file_loader.extract_info_from_earnings_call_structured</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#infineac.file_loader.extract_info_from_earnings_call_part"><code class="docutils literal notranslate"><span class="pre">extract_info_from_earnings_call_part()</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/_autosummary/infineac.file_loader.extract_info_from_earnings_call_part.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright Fabian Gabelberger.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

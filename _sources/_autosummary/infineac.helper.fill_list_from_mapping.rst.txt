@@ -1,0 +1,6 @@
+infineac.helper.fill\_list\_from\_mapping
+=========================================
+
+.. currentmodule:: infineac.helper
+
+.. autofunction:: fill_list_from_mapping

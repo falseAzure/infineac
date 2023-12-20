@@ -1,0 +1,6 @@
+infineac.topic\_extractor.get\_topics\_per\_company
+===================================================
+
+.. currentmodule:: infineac.topic_extractor
+
+.. autofunction:: get_topics_per_company

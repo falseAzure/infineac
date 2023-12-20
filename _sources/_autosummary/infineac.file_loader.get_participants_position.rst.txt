@@ -1,0 +1,6 @@
+infineac.file\_loader.get\_participants\_position
+=================================================
+
+.. currentmodule:: infineac.file_loader
+
+.. autofunction:: get_participants_position

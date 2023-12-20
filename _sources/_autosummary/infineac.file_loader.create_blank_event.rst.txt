@@ -1,0 +1,6 @@
+infineac.file\_loader.create\_blank\_event
+==========================================
+
+.. currentmodule:: infineac.file_loader
+
+.. autofunction:: create_blank_event

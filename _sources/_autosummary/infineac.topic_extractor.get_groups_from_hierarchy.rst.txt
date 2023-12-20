@@ -1,0 +1,6 @@
+infineac.topic\_extractor.get\_groups\_from\_hierarchy
+======================================================
+
+.. currentmodule:: infineac.topic_extractor
+
+.. autofunction:: get_groups_from_hierarchy

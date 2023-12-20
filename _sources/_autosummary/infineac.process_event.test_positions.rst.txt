@@ -1,0 +1,6 @@
+infineac.process\_event.test\_positions
+=======================================
+
+.. currentmodule:: infineac.process_event
+
+.. autofunction:: test_positions

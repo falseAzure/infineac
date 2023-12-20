@@ -1,0 +1,6 @@
+infineac.process\_event.extract\_passages\_from\_events
+=======================================================
+
+.. currentmodule:: infineac.process_event
+
+.. autofunction:: extract_passages_from_events

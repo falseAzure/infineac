@@ -1,0 +1,6 @@
+infineac.compare\_results.aggregate\_results
+============================================
+
+.. currentmodule:: infineac.compare_results
+
+.. autofunction:: aggregate_results

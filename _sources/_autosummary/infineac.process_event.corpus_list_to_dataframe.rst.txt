@@ -1,0 +1,6 @@
+infineac.process\_event.corpus\_list\_to\_dataframe
+===================================================
+
+.. currentmodule:: infineac.process_event
+
+.. autofunction:: corpus_list_to_dataframe

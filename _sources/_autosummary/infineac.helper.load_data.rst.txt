@@ -1,0 +1,6 @@
+infineac.helper.load\_data
+==========================
+
+.. currentmodule:: infineac.helper
+
+.. autofunction:: load_data

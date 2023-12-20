@@ -1,0 +1,6 @@
+infineac.process\_event.create\_participants\_to\_remove
+========================================================
+
+.. currentmodule:: infineac.process_event
+
+.. autofunction:: create_participants_to_remove

@@ -1,0 +1,39 @@
+﻿infineac
+========
+
+.. automodule:: infineac
+  
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :template: custom-module-template.rst                 
+   :recursive:
+
+   infineac.compare_results
+   infineac.constants
+   infineac.file_loader
+   infineac.helper
+   infineac.pipeline
+   infineac.process_event
+   infineac.process_text
+   infineac.topic_extractor
+

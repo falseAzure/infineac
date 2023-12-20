@@ -1,0 +1,6 @@
+infineac.process\_event.create\_samples
+=======================================
+
+.. currentmodule:: infineac.process_event
+
+.. autofunction:: create_samples

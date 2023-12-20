@@ -1,0 +1,1213 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>infineac.process_text &#8212; Infineac 0.1.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=e936e8a8"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/infineac/process_text';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">InFineac</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../detailed_description.html">
+                        Detailed Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/falseazure/infineac" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../detailed_description.html">
+                        Detailed Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../modules.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/falseazure/infineac" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-github"></i></span>
+            <label class="sr-only">GitHub</label></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">infineac.process_text</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for infineac.process_text</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Contains methods to process text data. The methods are used to extract passages</span>
+<span class="sd">from text data, e.g. earnings calls, that contain specific keywords.</span>
+
+<span class="sd">Examples</span>
+<span class="sd">--------</span>
+<span class="sd">&gt;&gt;&gt; import infineac.process_text as process_text</span>
+<span class="sd">&gt;&gt;&gt; import spacy_stanza</span>
+<span class="sd">&gt;&gt;&gt; nlp = spacy_stanza.load_pipeline(&quot;en&quot;, processors=&quot;tokenize, lemma&quot;)</span>
+<span class="sd">&gt;&gt;&gt; nlp_stanza.add_pipe(&#39;sentencizer&#39;)</span>
+<span class="sd">&gt;&gt;&gt; nlp = &quot;data/transcripts/&quot;</span>
+<span class="sd">&gt;&gt;&gt; files = list(Path(PATH_DIR).rglob(&quot;*.xml&quot;))</span>
+<span class="sd">&gt;&gt;&gt; events = file_loader.load_files_from_xml(files)</span>
+<span class="sd">&gt;&gt;&gt; keywords = {&quot;russia&quot;: 1, &quot;ukraine&quot;: 1}</span>
+<span class="sd">&gt;&gt;&gt; process_text.extract_passages_from_events(</span>
+<span class="sd">    events=events,</span>
+<span class="sd">    keywords=keywords,</span>
+<span class="sd">    nlp_model=nlp)</span>
+
+<span class="sd">Notes</span>
+<span class="sd">-----</span>
+<span class="sd">    It is mainly used by the :mod:`infineac.process_event` module to process</span>
+<span class="sd">    the text data of the events, e.g. earnings calls.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">import</span> <span class="nn">polars</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="kn">import</span> <span class="nn">infineac.constants</span> <span class="k">as</span> <span class="nn">constants</span>
+<span class="kn">from</span> <span class="nn">infineac.helper</span> <span class="kn">import</span> <span class="n">add_context_integers</span>
+
+
+<div class="viewcode-block" id="get_russia_and_sanction"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.get_russia_and_sanction.html#infineac.process_text.get_russia_and_sanction">[docs]</a><span class="k">def</span> <span class="nf">get_russia_and_sanction</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluates a string if it contains the words &quot;russia&quot; and &quot;sanction&quot; and</span>
+<span class="sd">    returns a string accordingly.&quot;&quot;&quot;</span>
+    <span class="n">string_lower</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;russia|ukraine&quot;</span><span class="p">,</span> <span class="n">string_lower</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;sanctions&quot;</span><span class="p">,</span> <span class="n">string_lower</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;russia/ukraine &amp; sanction&quot;</span>
+        <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;russia&quot;</span><span class="p">,</span> <span class="n">string_lower</span><span class="p">)</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;ukraine&quot;</span><span class="p">,</span> <span class="n">string_lower</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;russia &amp; ukraine&quot;</span>
+        <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;russia&quot;</span><span class="p">,</span> <span class="n">string_lower</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;russia&quot;</span>
+        <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;ukraine&quot;</span><span class="p">,</span> <span class="n">string_lower</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;ukraine&quot;</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;sanction&quot;</span><span class="p">,</span> <span class="n">string_lower</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;sanction&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;none&quot;</span></div>
+
+
+<div class="viewcode-block" id="get_elections"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.get_elections.html#infineac.process_text.get_elections">[docs]</a><span class="k">def</span> <span class="nf">get_elections</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluates a string if it contains the words &quot;election&quot; and &quot;presidential</span>
+<span class="sd">    election&quot; and returns a string accordingly.&quot;&quot;&quot;</span>
+    <span class="n">string_lower</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;presidential election&quot;</span><span class="p">,</span> <span class="n">string_lower</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;presidential election&quot;</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot; election&quot;</span><span class="p">,</span> <span class="n">string_lower</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;election&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;none&quot;</span></div>
+
+
+<div class="viewcode-block" id="combine_adjacent_sentences"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.combine_adjacent_sentences.html#infineac.process_text.combine_adjacent_sentences">[docs]</a><span class="k">def</span> <span class="nf">combine_adjacent_sentences</span><span class="p">(</span>
+    <span class="n">sentence_ids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">sentences</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Joins `sentences` that are adjacent based on their `sentence_ids`.&quot;&quot;&quot;</span>
+    <span class="n">joined_sentences</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">current_sentence</span> <span class="o">=</span> <span class="n">sentences</span><span class="p">[</span><span class="n">sentence_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentence_ids</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">sentence_ids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">sentence_ids</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">current_sentence</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">sentences</span><span class="p">[</span><span class="n">sentence_ids</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">joined_sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_sentence</span><span class="p">)</span>
+            <span class="n">current_sentence</span> <span class="o">=</span> <span class="n">sentences</span><span class="p">[</span><span class="n">sentence_ids</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+
+    <span class="n">joined_sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_sentence</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">joined_sentences</span></div>
+
+
+<div class="viewcode-block" id="keyword_threshold_search_exclude_mod"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.keyword_threshold_search_exclude_mod.html#infineac.process_text.keyword_threshold_search_exclude_mod">[docs]</a><span class="k">def</span> <span class="nf">keyword_threshold_search_exclude_mod</span><span class="p">(</span>
+    <span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">keywords</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="n">modifier_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">MODIFIER_WORDS</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks if a string contains one of the `keywords` and does not</span>
+<span class="sd">    contain a `modifier_word` preceding the keyword.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    string : str</span>
+<span class="sd">        The string to be searched.</span>
+<span class="sd">    keywords : dict[str, int] | list[str], default: {}</span>
+<span class="sd">        Dictionary or list of `keywords`. If `keywords` is a dictionary, the key is</span>
+<span class="sd">        the keyword and the value is the minimum number of occurrences of the</span>
+<span class="sd">        keyword in the text.</span>
+<span class="sd">    modifier_words : list[str], default: MODIFIER_WORDS</span>
+<span class="sd">        List of `modifier_words`, which must not precede the keyword.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        True if the text contains a keyword and does not contain a modifier</span>
+<span class="sd">        word preceding it. False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="n">keywords_orig</span> <span class="o">=</span> <span class="n">keywords</span>
+        <span class="n">keywords</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">keyword</span> <span class="ow">in</span> <span class="n">keywords_orig</span><span class="p">:</span>
+            <span class="n">keywords</span><span class="p">[</span><span class="n">keyword</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="n">negative_lookbehind</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">r</span><span class="s2">&quot;\b(?&lt;!&quot;</span> <span class="o">+</span> <span class="n">word</span> <span class="o">+</span> <span class="s2">&quot;\s)&quot;</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">modifier_words</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">keywords</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">keyword_pattern</span> <span class="o">=</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">modifier_words</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">combined_pattern</span> <span class="o">=</span> <span class="n">negative_lookbehind</span> <span class="o">+</span> <span class="n">keyword_pattern</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">combined_pattern</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">keyword_pattern</span>
+        <span class="n">found</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">combined_pattern</span><span class="p">,</span> <span class="n">string</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">found</span> <span class="o">&gt;=</span> <span class="n">value</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="extract_keyword_sentences_window"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.extract_keyword_sentences_window.html#infineac.process_text.extract_keyword_sentences_window">[docs]</a><span class="k">def</span> <span class="nf">extract_keyword_sentences_window</span><span class="p">(</span>  <span class="c1"># noqa: C901</span>
+    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">keywords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+    <span class="n">nlp_model</span><span class="p">,</span>
+    <span class="n">modifier_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">MODIFIER_WORDS</span><span class="p">,</span>
+    <span class="n">context_window_sentence</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">join_adjacent_sentences</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">return_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts sentences with specific `keywords` within a text as well as the</span>
+<span class="sd">    context surrounding this sentence.</span>
+
+<span class="sd">    Parameter`</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text : str</span>
+<span class="sd">        The text to extract the sentences from.</span>
+<span class="sd">    keywords : list[str] | dict[str, int], default: []</span>
+<span class="sd">        List of `keywords` to be searched for in the text and to extract the</span>
+<span class="sd">        sentences. If `keywords` is a dictionary, the keys are the keywords.</span>
+<span class="sd">    nlp_model : spacy.lang</span>
+<span class="sd">        NLP model.</span>
+<span class="sd">    modifier_words : list[str], default: MODIFIER_WORDS</span>
+<span class="sd">        List of `modifier_words`, which must not precede the keyword.</span>
+<span class="sd">    context_window_sentence : tuple[int, int] | int, default: 0</span>
+<span class="sd">        The context window of of the sentences to be extracted. Either an</span>
+<span class="sd">        integer or a tuple of length 2. The first element of the tuple indicates</span>
+<span class="sd">        the number of sentences to be extracted before the sentence the keyword</span>
+<span class="sd">        was found in, the second element indicates the number of sentences</span>
+<span class="sd">        after it. If only an integer is provided, the same number of sentences</span>
+<span class="sd">        are extracted before and after the keyword. If one of the elements is</span>
+<span class="sd">        -1, all sentences before or after the keyword are extracted. So -1 can</span>
+<span class="sd">        be used to extract all sentences before and after the keyword, e.g. the</span>
+<span class="sd">        entire paragraph.</span>
+<span class="sd">    join_adjacent_sentences : bool, default: True</span>
+<span class="sd">            Whether to join adjacent sentences or leave them as individual. If</span>
+<span class="sd">            `context_window_sentence` &gt; 0, this parameter is automatically set</span>
+<span class="sd">            to `True`.</span>
+<span class="sd">    return_type : str, default: &quot;list&quot;</span>
+<span class="sd">        The return type of the method. Either &quot;str&quot; or &quot;list&quot;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str | list[str]</span>
+<span class="sd">        The extracted sentences as a concatenated string or list of passages</span>
+<span class="sd">        (defined by `return_type`).</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        - If `context_window_sentence` is neither an integer nor a list of</span>
+<span class="sd">          length 2.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">str</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Empty text.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">keyword</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">keyword</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No keyword found in text.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">keywords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">keywords</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">context_window_sentence</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">context_window_sentence</span> <span class="o">=</span> <span class="p">[</span><span class="n">context_window_sentence</span><span class="p">,</span> <span class="n">context_window_sentence</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">context_window_sentence</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">context_window_sentence</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Context window must be an integer or a list of length 2.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">context_window_sentence</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">context_window_sentence</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">join_adjacent_sentences</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp_model</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="n">sentences</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">sents</span><span class="p">)</span>
+    <span class="c1"># print(sentences)</span>
+    <span class="n">keyword_sent_idx</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># print(len(sentences))</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">sent</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sentences</span><span class="p">):</span>
+        <span class="c1"># if any(keyword in sent.text.lower() for keyword in keywords):</span>
+        <span class="k">if</span> <span class="n">keyword_threshold_search_exclude_mod</span><span class="p">(</span>
+            <span class="n">sent</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">keywords</span><span class="p">,</span> <span class="n">modifier_words</span>
+        <span class="p">):</span>
+            <span class="n">keyword_sent_idx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+    <span class="n">keyword_sent_idx</span> <span class="o">=</span> <span class="n">add_context_integers</span><span class="p">(</span>
+        <span class="n">lst</span><span class="o">=</span><span class="n">keyword_sent_idx</span><span class="p">,</span>
+        <span class="n">m</span><span class="o">=</span><span class="n">context_window_sentence</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">n</span><span class="o">=</span><span class="n">context_window_sentence</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">min_int</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">max_int</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># print(keyword_sent_idx)</span>
+
+    <span class="n">sentences_str</span> <span class="o">=</span> <span class="p">[</span><span class="n">sentence</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">join_adjacent_sentences</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">keyword_sent_idx</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">matching_sentences</span> <span class="o">=</span> <span class="n">combine_adjacent_sentences</span><span class="p">(</span><span class="n">keyword_sent_idx</span><span class="p">,</span> <span class="n">sentences_str</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">matching_sentences</span> <span class="o">=</span> <span class="p">[</span><span class="n">sentences_str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">keyword_sent_idx</span><span class="p">]</span>
+
+    <span class="c1"># print(matching_sentences, &quot;\n&quot;)</span>
+
+    <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;str&quot;</span><span class="p">:</span>
+        <span class="n">matching_sentences</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">sentence</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="n">matching_sentences</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">matching_sentences</span></div>
+
+
+<div class="viewcode-block" id="extract_passages_from_paragraphs"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.extract_passages_from_paragraphs.html#infineac.process_text.extract_passages_from_paragraphs">[docs]</a><span class="k">def</span> <span class="nf">extract_passages_from_paragraphs</span><span class="p">(</span>  <span class="c1"># noqa: C901</span>
+    <span class="n">paragraphs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">keywords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+    <span class="n">nlp_model</span><span class="p">,</span>
+    <span class="n">modifier_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">MODIFIER_WORDS</span><span class="p">,</span>
+    <span class="n">context_window_sentence</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">join_adjacent_sentences</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">subsequent_paragraphs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">return_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;list&quot;</span><span class="p">,</span>
+    <span class="n">keyword_n_paragraphs_above</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Loops through `paragraphs` and extracts the sentences that contain a</span>
+<span class="sd">    keyword.</span>
+
+<span class="sd">    If a keyword occurs in a paragraph, the sentence containing it and the</span>
+<span class="sd">    context surrounding it are extracted as well (`context_window_sentence`).</span>
+<span class="sd">    Additionally, `window_subsequent` paragraphs are extracted.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    paragraphs : list[str]</span>
+<span class="sd">        List of `paragraphs` to loop through.</span>
+<span class="sd">    keywords : list[str] | dict[str, int]</span>
+<span class="sd">        List of `keywords` to search for in the paragraphs. If `keywords` is a</span>
+<span class="sd">        dictionary, the keys are the keywords.</span>
+<span class="sd">    nlp_model : spacy.lang</span>
+<span class="sd">        NLP model.</span>
+<span class="sd">    modifier_words : list[str], default: MODIFIER_WORDS</span>
+<span class="sd">        List of `modifier_words`, which must not precede the keyword.</span>
+<span class="sd">    context_window_sentence : tuple[int, int] | int, default: 0</span>
+<span class="sd">        The context window of of the sentences to be extracted. Either an</span>
+<span class="sd">        integer or a tuple of length 2. The first element of the tuple indicates</span>
+<span class="sd">        the number of sentences to be extracted before the sentence the keyword</span>
+<span class="sd">        was found in, the second element indicates the number of sentences</span>
+<span class="sd">        after it. If only an integer is provided, the same number of sentences</span>
+<span class="sd">        are extracted before and after the keyword. If one of the elements is</span>
+<span class="sd">        -1, all sentences before or after the keyword are extracted. So -1 can</span>
+<span class="sd">        be used to extract all sentences before and after the keyword, e.g. the</span>
+<span class="sd">        entire paragraph.</span>
+<span class="sd">    join_adjacent_sentences : bool, default: True</span>
+<span class="sd">            Whether to join adjacent sentences or leave them as individual. If</span>
+<span class="sd">            `context_window_sentence` &gt; 0, this parameter is automatically set</span>
+<span class="sd">            to `True`.</span>
+<span class="sd">    subsequent_paragraphs : int, default: 0</span>
+<span class="sd">        Number of subsequent paragraphs to extract after the one containing a</span>
+<span class="sd">        keyword.</span>
+<span class="sd">    return_type : str, default: &quot;list&quot;</span>
+<span class="sd">        The return type of the method. Either &quot;str&quot; or &quot;list&quot;</span>
+<span class="sd">    keyword_n_paragraphs_above : int, default: -1</span>
+<span class="sd">        Number of paragraphs above the current paragraph where the keyword is</span>
+<span class="sd">        found.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str | list[list[str]]</span>
+<span class="sd">        The extracted passages as a concatenated string or list of paragraphs</span>
+<span class="sd">        (lists) of passages (str). (defined by `return_type`).</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If `return_type` is not &quot;str&quot; or &quot;list&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">return_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;str&quot;</span><span class="p">,</span> <span class="s2">&quot;list&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;output_type must be either str or list&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;str&quot;</span><span class="p">:</span>
+        <span class="n">passages_out</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">elif</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
+        <span class="n">passages_out</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">paragraph</span> <span class="ow">in</span> <span class="n">paragraphs</span><span class="p">:</span>
+        <span class="c1"># if process_text.search_keywords_in_string_exclude():</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">keyword</span> <span class="ow">in</span> <span class="n">paragraph</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">keyword</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">):</span>
+            <span class="n">keyword_n_paragraphs_above</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">passage</span> <span class="o">=</span> <span class="n">extract_keyword_sentences_window</span><span class="p">(</span>
+                <span class="n">text</span><span class="o">=</span><span class="n">paragraph</span><span class="p">,</span>
+                <span class="n">keywords</span><span class="o">=</span><span class="n">keywords</span><span class="p">,</span>
+                <span class="n">nlp_model</span><span class="o">=</span><span class="n">nlp_model</span><span class="p">,</span>
+                <span class="n">modifier_words</span><span class="o">=</span><span class="n">modifier_words</span><span class="p">,</span>
+                <span class="n">context_window_sentence</span><span class="o">=</span><span class="n">context_window_sentence</span><span class="p">,</span>
+                <span class="n">join_adjacent_sentences</span><span class="o">=</span><span class="n">join_adjacent_sentences</span><span class="p">,</span>
+                <span class="n">return_type</span><span class="o">=</span><span class="n">return_type</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
+                <span class="n">passages_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">passage</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;str&quot;</span><span class="p">:</span>
+                <span class="n">passages_out</span> <span class="o">+=</span> <span class="n">passage</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">elif</span> <span class="p">(</span>
+            <span class="n">keyword_n_paragraphs_above</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="ow">and</span> <span class="n">keyword_n_paragraphs_above</span> <span class="o">&lt;=</span> <span class="n">subsequent_paragraphs</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
+                <span class="n">passages_out</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">paragraph</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">return_type</span> <span class="o">==</span> <span class="s2">&quot;str&quot;</span><span class="p">:</span>
+                <span class="n">passages_out</span> <span class="o">+=</span> <span class="n">paragraph</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">keyword_n_paragraphs_above</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">keyword_n_paragraphs_above</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">passages_out</span></div>
+
+
+<div class="viewcode-block" id="keyword_threshold_search_include_mod"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.keyword_threshold_search_include_mod.html#infineac.process_text.keyword_threshold_search_include_mod">[docs]</a><span class="k">def</span> <span class="nf">keyword_threshold_search_include_mod</span><span class="p">(</span>
+    <span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">keywords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="n">modifier_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">MODIFIER_WORDS</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks if a string contains one of the `keywords` and contains a `modifier_word`</span>
+<span class="sd">    preceding the keyword. Used to obtain the sentences, that are filtered out</span>
+<span class="sd">    by :func:`keyword_search_exclude_threshold`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    string : str</span>
+<span class="sd">        The string to be searched.</span>
+<span class="sd">    keywords : list[str], default: []</span>
+<span class="sd">        List of `keywords` to be searched for in the text and to extract the</span>
+<span class="sd">    modifier_words : list[str], default: MODIFIER_WORDS</span>
+<span class="sd">        List of `modifier_words`, which must precede the keyword.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        True if the text contains a keyword and a modifier word preceding it.</span>
+<span class="sd">        False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">modifier_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;(?:&quot;</span> <span class="o">+</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">modifier_words</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;)&quot;</span>
+    <span class="n">keyword_pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;(?:&quot;</span> <span class="o">+</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;)&quot;</span>
+
+    <span class="n">pattern</span> <span class="o">=</span> <span class="sa">rf</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">modifier_pattern</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">keyword_pattern</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="extract_keyword_sentences_preceding_mod"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.extract_keyword_sentences_preceding_mod.html#infineac.process_text.extract_keyword_sentences_preceding_mod">[docs]</a><span class="k">def</span> <span class="nf">extract_keyword_sentences_preceding_mod</span><span class="p">(</span>
+    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">keywords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">nlp_model</span><span class="p">,</span>
+    <span class="n">modifier_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">MODIFIER_WORDS</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts sentences with specific `keywords` and a `modifier_word` preceding</span>
+<span class="sd">    it. Used to obtain the sentences, that are filtered out by</span>
+<span class="sd">    :func:`keyword_search_exclude_threshold` and</span>
+<span class="sd">    :func:`extract_keyword_sentences_window` as well as all functions that use</span>
+<span class="sd">    one of them. Is called by</span>
+<span class="sd">    :func:`infineac.process_event.excluded_sentences_by_mod_words`</span>
+
+<span class="sd">    Parameter</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text : str</span>
+<span class="sd">        The text to extract the sentences from.</span>
+<span class="sd">    keywords : list[str], default: []</span>
+<span class="sd">        List of `keywords` to be searched for in the text and to extract the</span>
+<span class="sd">        sentences.</span>
+<span class="sd">    nlp_model : spacy.lang</span>
+<span class="sd">        NLP model.</span>
+<span class="sd">    modifier_words : list[str], default: MODIFIER_WORDS</span>
+<span class="sd">        List of `modifier_words` which must precede the keyword.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str | list[str]</span>
+<span class="sd">        The extracted sentences as a list of passages.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Empty text.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp_model</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">sentences</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">sents</span><span class="p">)</span>
+    <span class="n">keyword_sent_idx</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">sent</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sentences</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">keyword_threshold_search_include_mod</span><span class="p">(</span>
+            <span class="n">string</span><span class="o">=</span><span class="n">sent</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">keywords</span><span class="o">=</span><span class="n">keywords</span><span class="p">,</span> <span class="n">modifier_words</span><span class="o">=</span><span class="n">modifier_words</span>
+        <span class="p">):</span>
+            <span class="n">keyword_sent_idx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+
+    <span class="n">sentences_str</span> <span class="o">=</span> <span class="p">[</span><span class="n">sentence</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">]</span>
+    <span class="n">matching_sentences</span> <span class="o">=</span> <span class="p">[</span><span class="n">sentences_str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">keyword_sent_idx</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">matching_sentences</span></div>
+
+
+<div class="viewcode-block" id="extract_keyword_sentences_preceding_mod_nlp"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.extract_keyword_sentences_preceding_mod_nlp.html#infineac.process_text.extract_keyword_sentences_preceding_mod_nlp">[docs]</a><span class="k">def</span> <span class="nf">extract_keyword_sentences_preceding_mod_nlp</span><span class="p">(</span>
+    <span class="n">doc</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">keywords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">modifier_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">MODIFIER_WORDS</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts sentences with specific `keywords` and a `modifier_word` preceding</span>
+<span class="sd">    it. Used to obtain the sentences, that are filtered out by</span>
+<span class="sd">    :func:`keyword_search_exclude_threshold` and</span>
+<span class="sd">    :func:`extract_keyword_sentences_window` as well as all functions that use</span>
+<span class="sd">    one of them. Is called by</span>
+<span class="sd">    :func:`infineac.process_event.excluded_sentences_by_mod_words`</span>
+
+<span class="sd">    Parameter</span>
+<span class="sd">    ----------</span>
+<span class="sd">    doc : str</span>
+<span class="sd">        The spaCy document to be processed.</span>
+<span class="sd">    keywords : list[str], default: []</span>
+<span class="sd">        List of `keywords` to be searched for in the text and to extract the</span>
+<span class="sd">        sentences.</span>
+<span class="sd">    modifier_words : list[str], default: MODIFIER_WORDS</span>
+<span class="sd">        List of `modifier_words` which must precede the keyword.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str | list[str]</span>
+<span class="sd">        The extracted sentences as a list of passages.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sentences</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">sents</span><span class="p">)</span>
+    <span class="n">keyword_sent_idx</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">sent</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sentences</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">keyword_threshold_search_include_mod</span><span class="p">(</span>
+            <span class="n">sent</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">keywords</span><span class="p">,</span> <span class="n">modifier_words</span>
+        <span class="p">):</span>
+            <span class="n">keyword_sent_idx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+
+    <span class="n">sentences_str</span> <span class="o">=</span> <span class="p">[</span><span class="n">sentence</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">]</span>
+    <span class="n">matching_sentences</span> <span class="o">=</span> <span class="p">[</span><span class="n">sentences_str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">keyword_sent_idx</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">matching_sentences</span></div>
+
+
+<div class="viewcode-block" id="process_text_nlp"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.process_text_nlp.html#infineac.process_text.process_text_nlp">[docs]</a><span class="k">def</span> <span class="nf">process_text_nlp</span><span class="p">(</span>  <span class="c1"># noqa: C901</span>
+    <span class="n">text_nlp</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">lemmatize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">lowercase</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_stopwords</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_punctuation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_numeric</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_currency</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_space</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_additional_words_part</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="n">remove_additional_words_whole</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Processes a spaCy document.</span>
+
+<span class="sd">    According to the parameters, the document is `lemmatized`, `lowercased` and</span>
+<span class="sd">    `stopwords`, `additional_words`, `punctuation`, `numeric`, `currency` and</span>
+<span class="sd">    `space` tokens as well as `additional_words_part` and</span>
+<span class="sd">    `additional_words_whole` are removed from the document.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text_nlp : str</span>
+<span class="sd">        The spaCy document to be processed.</span>
+<span class="sd">    lemmatize : bool, default: True</span>
+<span class="sd">        If document should be lemmatized.</span>
+<span class="sd">    lowercase : bool, default: True</span>
+<span class="sd">        If document should be lowercased.</span>
+<span class="sd">    remove_stopwords : bool, default: True</span>
+<span class="sd">        If stopwords should be removed from document.</span>
+<span class="sd">    remove_punctuation : bool, default: True</span>
+<span class="sd">        If punctuation should be removed from document.</span>
+<span class="sd">    remove_numeric : bool, default: False</span>
+<span class="sd">        If numerics should be removed from document.</span>
+<span class="sd">    remove_currency : bool, default: True</span>
+<span class="sd">        If currency symbols should be removed from document.</span>
+<span class="sd">    remove_space : bool, default: True</span>
+<span class="sd">        If spaces should be removed from document.</span>
+<span class="sd">    remove_additional_words_part : list[str], default: []</span>
+<span class="sd">        List of additional words to be removed from the document. These words</span>
+<span class="sd">        can be part of a another word.</span>
+<span class="sd">    remove_additional_words_whole : list[str], default: []</span>
+<span class="sd">        List of additional words to be removed from the document. These words</span>
+<span class="sd">        must be a whole, individual word.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list[str]</span>
+<span class="sd">        The processed document as a list of tokens.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text_nlp</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">remove_stopwords</span> <span class="ow">and</span> <span class="n">word</span><span class="o">.</span><span class="n">is_stop</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">remove_punctuation</span> <span class="ow">and</span> <span class="n">word</span><span class="o">.</span><span class="n">is_punct</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">remove_numeric</span> <span class="ow">and</span> <span class="n">word</span><span class="o">.</span><span class="n">is_digit</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">remove_currency</span> <span class="ow">and</span> <span class="n">word</span><span class="o">.</span><span class="n">is_currency</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">remove_space</span> <span class="ow">and</span> <span class="n">word</span><span class="o">.</span><span class="n">is_space</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">contains_stopword</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">lemma_</span><span class="p">,</span> <span class="n">remove_additional_words_part</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">word</span><span class="o">.</span><span class="n">text</span> <span class="ow">in</span> <span class="n">remove_additional_words_whole</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">lemmatize</span><span class="p">:</span>
+            <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">lemma_</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">if</span> <span class="n">lowercase</span><span class="p">:</span>
+            <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">doc</span></div>
+
+
+<div class="viewcode-block" id="starts_with_additional_word"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.starts_with_additional_word.html#infineac.process_text.starts_with_additional_word">[docs]</a><span class="k">def</span> <span class="nf">starts_with_additional_word</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">additional_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if a word starts with an `additional_word`.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">additional_word</span> <span class="ow">in</span> <span class="n">additional_words</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">word</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">additional_word</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="contains_stopword"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.contains_stopword.html#infineac.process_text.contains_stopword">[docs]</a><span class="k">def</span> <span class="nf">contains_stopword</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">stopwords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">only_start</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if a word contains a `stopword`.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">stopwords</span> <span class="o">==</span> <span class="p">[]:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;(?:&quot;</span> <span class="o">+</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stopwords</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;)&quot;</span>  <span class="c1"># \b would be word boundary</span>
+    <span class="k">if</span> <span class="n">only_start</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\b&quot;</span> <span class="o">+</span> <span class="n">pattern</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">word</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="process_text"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.process_text.html#infineac.process_text.process_text">[docs]</a><span class="k">def</span> <span class="nf">process_text</span><span class="p">(</span>
+    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">nlp_model</span><span class="p">,</span>
+    <span class="n">lemmatize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">lowercase</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_stopwords</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_punctuation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_numeric</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_currency</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_space</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_additional_words_part</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="n">remove_additional_words_whole</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Processes a text with spaCy and an NLP model.</span>
+
+<span class="sd">    According to the parameters, the document is `lemmatized`, `lowercased` and</span>
+<span class="sd">    `stopwords`, `additional_words`, `punctuation`, `numeric`, `currency` and</span>
+<span class="sd">    `space` tokens as well as `additional_words_part` and</span>
+<span class="sd">    `additional_words_whole` are removed from the document.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    text_nlp : str</span>
+<span class="sd">        The text document to be processed.</span>
+<span class="sd">    nlp_model : spacy.lang</span>
+<span class="sd">        The spaCy NLP model.</span>
+<span class="sd">    lemmatize : bool, default: True</span>
+<span class="sd">        If document should be lemmatized.</span>
+<span class="sd">    lowercase : bool, default: True</span>
+<span class="sd">        If document should be lowercased.</span>
+<span class="sd">    remove_stopwords : bool, default: True</span>
+<span class="sd">        If stopwords should be removed from document.</span>
+<span class="sd">    remove_punctuation : bool, default: True</span>
+<span class="sd">        If punctuation should be removed from document.</span>
+<span class="sd">    remove_numeric : bool, default: False</span>
+<span class="sd">        If numerics should be removed from document.</span>
+<span class="sd">    remove_currency : bool, default: True</span>
+<span class="sd">        If currency symbols should be removed from document.</span>
+<span class="sd">    remove_space : bool, default: True</span>
+<span class="sd">        If spaces should be removed from document.</span>
+<span class="sd">    remove_additional_words_part : list[str], default: []</span>
+<span class="sd">        List of additional words to be removed from the document. These words</span>
+<span class="sd">        can be part of a another word.</span>
+<span class="sd">    remove_additional_words_whole : list[str], default: []</span>
+<span class="sd">        List of additional words to be removed from the document. These words</span>
+<span class="sd">        must be a whole, individual word.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list[str]:</span>
+<span class="sd">        The processed document as a list of tokens.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">text_nlp</span> <span class="o">=</span> <span class="n">nlp_model</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">process_text_nlp</span><span class="p">(</span>
+        <span class="n">text_nlp</span><span class="o">=</span><span class="n">text_nlp</span><span class="p">,</span>
+        <span class="n">lemmatize</span><span class="o">=</span><span class="n">lemmatize</span><span class="p">,</span>
+        <span class="n">lowercase</span><span class="o">=</span><span class="n">lowercase</span><span class="p">,</span>
+        <span class="n">remove_stopwords</span><span class="o">=</span><span class="n">remove_stopwords</span><span class="p">,</span>
+        <span class="n">remove_punctuation</span><span class="o">=</span><span class="n">remove_punctuation</span><span class="p">,</span>
+        <span class="n">remove_numeric</span><span class="o">=</span><span class="n">remove_numeric</span><span class="p">,</span>
+        <span class="n">remove_currency</span><span class="o">=</span><span class="n">remove_currency</span><span class="p">,</span>
+        <span class="n">remove_space</span><span class="o">=</span><span class="n">remove_space</span><span class="p">,</span>
+        <span class="n">remove_additional_words_part</span><span class="o">=</span><span class="n">remove_additional_words_part</span><span class="p">,</span>
+        <span class="n">remove_additional_words_whole</span><span class="o">=</span><span class="n">remove_additional_words_whole</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="process_corpus"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.process_corpus.html#infineac.process_text.process_corpus">[docs]</a><span class="k">def</span> <span class="nf">process_corpus</span><span class="p">(</span>
+    <span class="n">corpus</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">nlp_model</span><span class="p">,</span>
+    <span class="n">lemmatize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">lowercase</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_stopwords</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_punctuation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_numeric</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_currency</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_space</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">remove_additional_words_part</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="n">remove_specific_stopwords</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Processes a corpus (list of documents/texts) with spaCy and an NLP</span>
+<span class="sd">    model.</span>
+
+<span class="sd">    According to the parameters, the document is `lemmatized`, `lowercased` and</span>
+<span class="sd">    `stopwords`, `additional_words`, `punctuation`, `numeric`, `currency` and</span>
+<span class="sd">    `space` tokens as well as `names`, `strategies` and</span>
+<span class="sd">    `additional_words_whole` are removed from the corpus.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    corpus : list[str]:</span>
+<span class="sd">        List of texts to be processed.</span>
+<span class="sd">    nlp_model : spacy.lang</span>
+<span class="sd">        The spaCy NLP model.</span>
+<span class="sd">    lemmatize : bool, default: True</span>
+<span class="sd">        If document should be lemmatized.</span>
+<span class="sd">    lowercase : bool, default: True</span>
+<span class="sd">        If document should be lowercased.</span>
+<span class="sd">    remove_stopwords : bool, default: True</span>
+<span class="sd">        If stopwords should be removed from document.</span>
+<span class="sd">    remove_punctuation : bool, default: True</span>
+<span class="sd">        If punctuation should be removed from document.</span>
+<span class="sd">    remove_numeric : bool, default: False</span>
+<span class="sd">        If numerics should be removed from document.</span>
+<span class="sd">    remove_currency : bool, default: True</span>
+<span class="sd">        If currency symbols should be removed from document.</span>
+<span class="sd">    remove_space : bool, default: True</span>
+<span class="sd">        If spaces should be removed from document.</span>
+<span class="sd">    remove_additional_words : list[str], default: True</span>
+<span class="sd">        List of additional words to be removed from the document. These words</span>
+<span class="sd">        can be part of a another word.</span>
+<span class="sd">    remove_specific_stopwords : list[list[str]], default: []</span>
+<span class="sd">        List of lists of stopwords to be removed from the document. Each list</span>
+<span class="sd">        of stopwords corresponds to a document in the corpus.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list[list[str]]:</span>
+<span class="sd">        The processed corpus as a list of lists (texts) of tokens.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Processing corpus with spaCy-pipeline&quot;</span><span class="p">)</span>
+    <span class="c1"># corpus_nlp = list(nlp.pipe(corpus, batch_size=128))</span>
+    <span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">idx_doc</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+        <span class="n">tqdm</span><span class="p">(</span>
+            <span class="n">nlp_model</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Documents&quot;</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">remove_specific_stopwords</span><span class="p">:</span>
+            <span class="n">remove_additional_words_whole</span> <span class="o">=</span> <span class="n">remove_specific_stopwords</span><span class="p">[</span><span class="n">idx_doc</span><span class="p">]</span>
+        <span class="n">docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">process_text_nlp</span><span class="p">(</span>
+                <span class="n">text_nlp</span><span class="o">=</span><span class="n">doc</span><span class="p">,</span>
+                <span class="n">lemmatize</span><span class="o">=</span><span class="n">lemmatize</span><span class="p">,</span>
+                <span class="n">lowercase</span><span class="o">=</span><span class="n">lowercase</span><span class="p">,</span>
+                <span class="n">remove_stopwords</span><span class="o">=</span><span class="n">remove_stopwords</span><span class="p">,</span>
+                <span class="n">remove_punctuation</span><span class="o">=</span><span class="n">remove_punctuation</span><span class="p">,</span>
+                <span class="n">remove_numeric</span><span class="o">=</span><span class="n">remove_numeric</span><span class="p">,</span>
+                <span class="n">remove_currency</span><span class="o">=</span><span class="n">remove_currency</span><span class="p">,</span>
+                <span class="n">remove_space</span><span class="o">=</span><span class="n">remove_space</span><span class="p">,</span>
+                <span class="n">remove_additional_words_part</span><span class="o">=</span><span class="n">remove_additional_words_part</span><span class="p">,</span>
+                <span class="n">remove_additional_words_whole</span><span class="o">=</span><span class="n">remove_additional_words_whole</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">docs</span></div>
+
+
+<div class="viewcode-block" id="list_to_string"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.list_to_string.html#infineac.process_text.list_to_string">[docs]</a><span class="k">def</span> <span class="nf">list_to_string</span><span class="p">(</span><span class="nb">list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">separator</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts a list of strings to a string with a separator. Is used to</span>
+<span class="sd">    convert the list of tokens from :func:`process_corpus` back to a string.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">separator</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_strategies"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.get_strategies.html#infineac.process_text.get_strategies">[docs]</a><span class="k">def</span> <span class="nf">get_strategies</span><span class="p">(</span>
+    <span class="n">lst</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="n">strategy_keywords</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">STRATEGY_KEYWORDS</span><span class="p">,</span>
+    <span class="n">modifier_words</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">MODIFIER_WORDS_STRATEGY</span><span class="p">,</span>
+    <span class="n">dataframe</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]]</span> <span class="o">|</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Searches for the `strategy_keywords` in a list of strings or DataFrame</span>
+<span class="sd">    and returns a boolean list or DataFrame with the results (for each strategy).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span> <span class="ow">is</span> <span class="n">pl</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="n">lst</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">())</span>
+    <span class="n">strategies</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">strategy</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span>
+        <span class="n">strategy_keywords</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Strategies&quot;</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">strategy_keywords</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="p">):</span>
+        <span class="n">keywords</span> <span class="o">=</span> <span class="n">strategy_keywords</span><span class="p">[</span><span class="n">strategy</span><span class="p">]</span>
+        <span class="n">list_strategy</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">:</span>
+            <span class="n">list_strategy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">keyword_threshold_search_exclude_mod</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">keywords</span><span class="p">,</span> <span class="n">modifier_words</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">strategies</span><span class="p">[</span><span class="n">strategy</span><span class="p">]</span> <span class="o">=</span> <span class="n">list_strategy</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span> <span class="ow">is</span> <span class="n">pl</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">strategy</span> <span class="ow">in</span> <span class="n">strategies</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">dataframe</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
+                <span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">strategy</span> <span class="o">+</span> <span class="s2">&quot;_strategy&quot;</span><span class="p">,</span>
+                    <span class="n">values</span><span class="o">=</span><span class="n">strategies</span><span class="p">[</span><span class="n">strategy</span><span class="p">],</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="c1"># dataframe[strategy] = pl.Series(strategies[strategy])</span>
+        <span class="k">return</span> <span class="n">dataframe</span>
+
+    <span class="k">return</span> <span class="n">strategies</span></div>
+
+
+<div class="viewcode-block" id="sample_strategies"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.sample_strategies.html#infineac.process_text.sample_strategies">[docs]</a><span class="k">def</span> <span class="nf">sample_strategies</span><span class="p">(</span><span class="n">dataframe</span><span class="p">:</span> <span class="n">pl</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Samples the strategies from the dataframe.&quot;&quot;&quot;</span>
+    <span class="n">exit_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dataframe</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;exit_strategy&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">is_in</span><span class="p">(</span><span class="kc">True</span><span class="p">))[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+    <span class="n">stay_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dataframe</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;stay_strategy&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">is_in</span><span class="p">(</span><span class="kc">True</span><span class="p">))[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+    <span class="n">adaptation_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;adaptation_strategy&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">is_in</span><span class="p">(</span><span class="kc">True</span><span class="p">))[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">exit_list</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">exit_list</span><span class="p">)))</span>
+        <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">stay_list</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">stay_list</span><span class="p">)))</span>
+        <span class="o">+</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">adaptation_list</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">adaptation_list</span><span class="p">)))</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="strategy_keywords_tolist"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.strategy_keywords_tolist.html#infineac.process_text.strategy_keywords_tolist">[docs]</a><span class="k">def</span> <span class="nf">strategy_keywords_tolist</span><span class="p">(</span>
+    <span class="n">strategy_keywords</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">STRATEGY_KEYWORDS</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Converts the dictionary of `strategy_keywords` to a list of keywords.&quot;&quot;&quot;</span>
+    <span class="n">keywords</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">strategy</span> <span class="ow">in</span> <span class="n">strategy_keywords</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">keywords</span> <span class="o">+=</span> <span class="n">strategy_keywords</span><span class="p">[</span><span class="n">strategy</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">keywords</span></div>
+
+
+<div class="viewcode-block" id="remove_sentences_under_threshold"><a class="viewcode-back" href="../../_autosummary/infineac.process_text.remove_sentences_under_threshold.html#infineac.process_text.remove_sentences_under_threshold">[docs]</a><span class="k">def</span> <span class="nf">remove_sentences_under_threshold</span><span class="p">(</span>
+    <span class="n">corpus</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Removes sentences from a `corpus` that only contain `threshold` words or</span>
+<span class="sd">    less. Returns a transformed corpus as well as a list of indices that</span>
+<span class="sd">    indicate the original position of the sentences in the corpus.&quot;&quot;&quot;</span>
+    <span class="n">corpus_cleaned</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">mapping</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">corpus</span><span class="p">:</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">length</span> <span class="o">&lt;=</span> <span class="n">threshold</span><span class="p">:</span>
+            <span class="n">mapping</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">corpus_cleaned</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
+            <span class="n">mapping</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">corpus_cleaned</span><span class="p">,</span> <span class="n">mapping</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright Fabian Gabelberger.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

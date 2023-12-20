@@ -1,0 +1,6 @@
+infineac.process\_event.excluded\_sentences\_by\_mod\_words
+===========================================================
+
+.. currentmodule:: infineac.process_event
+
+.. autofunction:: excluded_sentences_by_mod_words

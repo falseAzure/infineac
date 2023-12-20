@@ -1,0 +1,6 @@
+infineac.process\_event.filter\_events
+======================================
+
+.. currentmodule:: infineac.process_event
+
+.. autofunction:: filter_events

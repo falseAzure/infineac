@@ -1,0 +1,6 @@
+infineac.file\_loader.transform\_unlisted\_participants
+=======================================================
+
+.. currentmodule:: infineac.file_loader
+
+.. autofunction:: transform_unlisted_participants

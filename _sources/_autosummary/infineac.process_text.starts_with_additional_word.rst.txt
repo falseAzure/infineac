@@ -1,0 +1,6 @@
+infineac.process\_text.starts\_with\_additional\_word
+=====================================================
+
+.. currentmodule:: infineac.process_text
+
+.. autofunction:: starts_with_additional_word

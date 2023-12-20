@@ -1,0 +1,6 @@
+infineac.file\_loader.participants\_list\_collapsed
+===================================================
+
+.. currentmodule:: infineac.file_loader
+
+.. autofunction:: participants_list_collapsed
