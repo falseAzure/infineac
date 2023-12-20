@@ -1,7 +1,4 @@
-.. infineac documentation master file, created by
-   sphinx-quickstart on Sat Aug  5 13:17:24 2023.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. start-after and end-before are used to include only the relevant parts of the README.rst file in the documentation.
 
 InFineac
 ========
